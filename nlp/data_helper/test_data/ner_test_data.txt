@@ -1,0 +1,19 @@
+美	B-LOC
+国	I-LOC
+的	O
+华	B-PER
+莱	I-PER
+士	I-PER
+
+1
+9
+9
+3
+年
+，
+我
+出
+生
+在
+北	B-LOC
+京	I-LOC
