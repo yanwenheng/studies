@@ -1,0 +1,22 @@
+# 文件夹
+.idea/
+.pytest_cache/
+.ipynb_checkpoints/
+pkgs/
+
+# 临时文件
+*.iml
+*.DS_Store
+*.pyc
+-*
+_test.sh
+_test.py
+
+# 指定文件
+nohup.out
+mt_*
+# git_push.sh
+# git_pull.sh
+
+# 排除文件
+!placeholder
