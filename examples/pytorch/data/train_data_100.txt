@@ -1,0 +1,684 @@
+汇	B-CORE
+林	I-CORE
+家	O
+政	O
+
+啄	B-CORE
+木	I-CORE
+鸟	I-CORE
+家	O
+庭	O
+维	O
+修	O
+
+佰	B-CORE
+妙	I-CORE
+e	I-CORE
+家	I-CORE
+保	O
+洁	O
+家	O
+电	O
+清	O
+洗	O
+
+洗	B-CORE
+衣	I-CORE
+郎	I-CORE
+
+清	B-CORE
+阁	I-CORE
+雅	I-CORE
+家	O
+政	O
+保	O
+洁	O
+
+皇	B-CORE
+家	I-CORE
+圣	I-CORE
+雪	I-CORE
+洗	O
+衣	O
+生	O
+活	O
+馆	O
+
+维	B-CORE
+修	I-CORE
+帮	I-CORE
+家	O
+电	O
+维	O
+修	O
+
+宅	B-CORE
+速	I-CORE
+净	I-CORE
+家	O
+政	O
+
+双	B-CORE
+喜	I-CORE
+搬	O
+家	O
+
+电	B-CORE
+通	I-CORE
+王	I-CORE
+
+万	B-CORE
+家	I-CORE
+和	I-CORE
+家	O
+政	O
+
+凤	B-CORE
+兰	I-CORE
+家	O
+政	O
+
+u	B-CORE
+c	I-CORE
+c	I-CORE
+国	I-CORE
+际	I-CORE
+洗	O
+衣	O
+
+家	B-CORE
+喜	I-CORE
+搬	O
+家	O
+
+爱	B-CORE
+洁	I-CORE
+干	O
+洗	O
+
+美	B-CORE
+家	I-CORE
+美	I-CORE
+邦	I-CORE
+家	O
+政	O
+服	O
+务	O
+中	O
+心	O
+
+惠	B-CORE
+顺	I-CORE
+搬	O
+家	O
+
+鸿	B-CORE
+程	I-CORE
+家	O
+政	O
+
+极	B-CORE
+客	I-CORE
+修	I-CORE
+
+轻	B-CORE
+氧	I-CORE
+洗	O
+衣	O
+
+米	B-CORE
+吉	I-CORE
+搬	O
+家	O
+
+洁	B-CORE
+邦	I-CORE
+家	O
+政	O
+
+威	B-CORE
+特	I-CORE
+斯	I-CORE
+国	O
+际	O
+洗	O
+衣	O
+
+鼎	B-CORE
+力	I-CORE
+家	O
+政	O
+
+干	B-CORE
+洗	I-CORE
+到	I-CORE
+家	I-CORE
+
+轻	B-CORE
+喜	I-CORE
+到	O
+家	O
+
+伊	B-CORE
+尚	I-CORE
+洗	O
+衣	O
+
+家	O
+电	O
+快	B-CORE
+易	I-CORE
+修	I-CORE
+
+一	B-CORE
+号	I-CORE
+家	I-CORE
+电	I-CORE
+维	O
+修	O
+清	O
+洗	O
+
+福	B-CORE
+奈	I-CORE
+特	I-CORE
+洗	O
+衣	O
+
+快	B-CORE
+益	I-CORE
+修	I-CORE
+
+喜	B-CORE
+顺	I-CORE
+搬	O
+家	O
+
+鑫	B-CORE
+城	I-CORE
+管	O
+道	O
+疏	O
+通	O
+公	O
+司	O
+
+翠	B-CORE
+阁	I-CORE
+保	O
+洁	O
+
+青	B-CORE
+柚	I-CORE
+家	O
+政	O
+
+家	B-CORE
+悦	I-CORE
+家	O
+政	O
+
+力	B-CORE
+业	I-CORE
+家	O
+政	O
+
+金	B-CORE
+钥	I-CORE
+匙	I-CORE
+开	O
+锁	O
+
+智	B-CORE
+慧	I-CORE
+家	I-CORE
+庭	I-CORE
+陶	I-CORE
+博	I-CORE
+家	O
+政	O
+
+美	B-CORE
+新	I-CORE
+家	I-CORE
+保	O
+洁	O
+家	O
+电	O
+清	O
+洗	O
+
+顺	B-CORE
+民	I-CORE
+家	O
+电	O
+维	O
+修	O
+
+为	B-CORE
+客	I-CORE
+家	O
+政	O
+
+极	B-CORE
+速	I-CORE
+到	I-CORE
+家	I-CORE
+家	O
+庭	O
+维	O
+修	O
+
+e	B-CORE
+家	I-CORE
+政	I-CORE
+保	O
+洁	O
+家	O
+电	O
+清	O
+洗	O
+
+乐	B-CORE
+嘉	I-CORE
+姐	I-CORE
+姐	I-CORE
+家	O
+政	O
+月	O
+嫂	O
+
+百	B-CORE
+信	I-CORE
+管	O
+道	O
+疏	O
+通	O
+
+澳	B-CORE
+洁	I-CORE
+干	O
+洗	O
+
+正	B-CORE
+润	I-CORE
+家	O
+政	O
+服	O
+务	O
+公	O
+司	O
+
+金	B-CORE
+马	I-CORE
+杨	I-CORE
+家	O
+电	O
+维	O
+修	O
+
+洗	B-CORE
+尚	I-CORE
+洗	O
+衣	O
+生	O
+活	O
+馆	O
+
+达	B-CORE
+达	I-CORE
+鞋	O
+衣	O
+皮	O
+具	O
+护	O
+理	O
+中	O
+心	O
+
+天	B-CORE
+府	I-CORE
+大	I-CORE
+源	I-CORE
+锁	O
+业	O
+
+鑫	B-CORE
+宇	I-CORE
+货	O
+运	O
+搬	O
+家	O
+
+翼	B-CORE
+畅	I-CORE
+保	O
+洁	O
+
+捷	B-CORE
+龙	I-CORE
+家	O
+政	O
+
+福	B-CORE
+临	I-CORE
+门	I-CORE
+搬	O
+家	O
+
+奥	B-CORE
+特	I-CORE
+洗	I-CORE
+福	I-CORE
+莱	I-CORE
+洗	O
+衣	O
+会	O
+所	O
+
+四	B-CORE
+通	I-CORE
+搬	O
+家	O
+
+及	B-CORE
+时	I-CORE
+通	I-CORE
+管	O
+道	O
+疏	O
+通	O
+
+布	B-CORE
+瑞	I-CORE
+琳	I-CORE
+洗	O
+衣	O
+
+香	B-CORE
+桉	I-CORE
+家	O
+政	O
+大	O
+师	O
+
+哒	B-CORE
+哒	I-CORE
+快	O
+修	O
+
+上	O
+门	O
+手	O
+机	O
+维	O
+修	O
+服	O
+务	O
+中	O
+心	O
+
+速	B-CORE
+达	I-CORE
+到	I-CORE
+家	I-CORE
+家	O
+电	O
+维	O
+修	O
+
+金	B-CORE
+禧	I-CORE
+搬	O
+家	O
+
+洗	B-CORE
+吧	I-CORE
+干	O
+洗	O
+
+马	B-CORE
+乙	I-CORE
+搬	O
+家	O
+
+天	B-CORE
+使	I-CORE
+到	I-CORE
+家	I-CORE
+家	O
+政	O
+保	O
+洁	O
+家	O
+电	O
+保	O
+姆	O
+
+清	B-CORE
+洁	I-CORE
+时	I-CORE
+间	I-CORE
+家	O
+政	O
+
+万	B-CORE
+佳	I-CORE
+开	O
+锁	O
+换	O
+锁	O
+
+良	B-CORE
+信	I-CORE
+专	O
+业	O
+空	O
+调	O
+维	O
+修	O
+销	O
+售	O
+
+茂	B-CORE
+洁	I-CORE
+家	O
+政	O
+
+宇	B-CORE
+杭	I-CORE
+到	O
+家	O
+
+邻	B-CORE
+家	I-CORE
+维	O
+修	O
+
+家	B-CORE
+兴	I-CORE
+家	O
+庭	O
+维	O
+修	O
+
+洁	B-CORE
+雅	I-CORE
+兴	I-CORE
+合	I-CORE
+家	O
+政	O
+
+极	B-CORE
+优	I-CORE
+客	I-CORE
+手	O
+机	O
+维	O
+修	O
+
+庆	B-CORE
+开	I-CORE
+特	I-CORE
+易	I-CORE
+安	O
+装	O
+维	O
+修	O
+
+启	B-CORE
+辰	I-CORE
+生	I-CORE
+活	I-CORE
+小	O
+管	O
+家	O
+
+鑫	B-CORE
+久	I-CORE
+福	I-CORE
+管	O
+道	O
+疏	O
+通	O
+
+洁	B-CORE
+净	I-CORE
+美	I-CORE
+家	I-CORE
+家	O
+政	O
+
+润	B-CORE
+达	I-CORE
+电	O
+脑	O
+维	O
+修	O
+
+叁	B-CORE
+愿	I-CORE
+球	O
+鞋	O
+护	O
+理	O
+
+信	B-CORE
+益	I-CORE
+管	O
+道	O
+疏	O
+通	O
+
+兴	B-CORE
+蕾	I-CORE
+家	O
+政	O
+
+迁	B-CORE
+喜	I-CORE
+搬	O
+家	O
+
+创	B-CORE
+美	I-CORE
+电	O
+脑	O
+维	O
+修	O
+
+家	B-CORE
+苑	I-CORE
+家	O
+政	O
+
+优	B-CORE
+依	I-CORE
+派	I-CORE
+干	O
+洗	O
+洗	O
+衣	O
+馆	O
+
+直	B-CORE
+约	I-CORE
+大	I-CORE
+扫	I-CORE
+除	I-CORE
+家	O
+政	O
+保	O
+洁	O
+清	O
+洗	O
+
+佰	B-CORE
+佳	I-CORE
+家	O
+修	O
+
+都	B-CORE
+市	I-CORE
+管	I-CORE
+家	I-CORE
+家	O
+政	O
+
+洁	B-CORE
+达	I-CORE
+家	O
+政	O
+
+卡	B-CORE
+萨	I-CORE
+帕	I-CORE
+国	O
+际	O
+洗	O
+衣	O
+连	O
+锁	O
+
+洁	B-CORE
+无	I-CORE
+忧	I-CORE
+家	O
+政	O
+
+和	B-CORE
+家	I-CORE
+欢	I-CORE
+家	O
+电	O
+维	O
+修	O
+
+捷	B-CORE
+吉	I-CORE
+电	O
+脑	O
+
+善	B-CORE
+美	I-CORE
+家	O
+政	O
+
+爱	B-CORE
+享	I-CORE
+家	I-CORE
+保	O
+洁	O
+家	O
+电	O
+清	O
+洗	O
+
+锁	B-CORE
+事	I-CORE
+帮	I-CORE
+开	O
+锁	O
+换	O
+锁	O
+
