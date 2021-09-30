@@ -8,13 +8,13 @@ Author: huayang
 Subject: 递归对指定模块（指定文件夹下的所有模块）进行文档测试
 
 Examples:
-    >>> doctest_modules(r'../my')
+    >>> doctest_modules(r'../my/pytorch')
     0
-    >>> doctest_modules([r'../my/python', r'../my/python/custom_dict.py'])
+    >>> doctest_modules([r'../my/python', r'../my/nlp'])
     0
 
     # 命令行调用
-    >>> os.system('python doctest_modules_recur.py ../my/python ../my/python/custom_dict.py')
+    >>> os.system('python doctest_modules_recur.py ../my')
     0
 
 """
@@ -50,8 +50,6 @@ def doctest_modules(paths: Union[str, List[str]]):
         else:
             file_name, ext = os.path.splitext(base)
             tmp_failed = _doctest_py(file_name)
-        if tmp_failed > 0:
-            logging.warning(f'=== `{p}` doctest failed! ===')
         num_failed += tmp_failed
 
     return num_failed
@@ -62,8 +60,10 @@ def _doctest_py(module_name):
     try:
         module = importlib.import_module(module_name)
         getattr(module, 'doctest')  # 如果该模块中使用了文档测试
-        out = doctest.testmod(module)
-        return out.failed
+        num_failed = doctest.testmod(module).failed
+        if num_failed > 0:
+            logging.warning(f'=== `{module.__name__}` doctest failed! ===')
+        return failed
     except:  # noqa
         raise Exception('Some Error.')
 
