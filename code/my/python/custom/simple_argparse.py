@@ -17,12 +17,12 @@ import argparse
 from typing import *
 from collections import defaultdict
 
-from my.python.custom_dict import Config
-
 
 def simple_argparse(args=None):
     """
     Examples:
+        >>> from my.python.custom import Config
+        >>> from my.python.custom.simple_argparse import simple_argparse
         >>> sys.argv = ['xxx.py', '--a', 'A', '--b', '1', '--c', '3.14', '--d', '[1,2]', '--e', '"[1,2]"']
         >>> simple_argparse()
         {'a': 'A', 'b': 1, 'c': 3.14, 'd': [1, 2], 'e': '[1,2]'}
@@ -38,8 +38,9 @@ def simple_argparse(args=None):
             ...
         AssertionError: `-a` should starts with "--"
 
-
     """
+    from my.python.custom import Config
+
     if len(sys.argv) < 2:
         return args
 
@@ -69,3 +70,12 @@ def _test():
 if __name__ == '__main__':
     """"""
     _test()
+
+    from doctest import DocTestParser
+
+    parse = DocTestParser()
+    r = parse.get_examples(simple_argparse.__doc__)
+    for it in r:
+        print(it.source.strip())
+        if it.want != '':
+            print(it.want.strip())
