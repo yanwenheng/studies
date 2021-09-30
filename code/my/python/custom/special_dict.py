@@ -8,6 +8,7 @@ Author: huayang
 Subject: 自定义字典
 
 """
+import os
 import json
 
 import doctest
@@ -15,8 +16,6 @@ import doctest
 from typing import *
 from dataclasses import dataclass, fields
 from collections import OrderedDict
-
-from my.python.custom_json import AnyEncoder, AnyDecoder
 
 
 # class DefaultOrderedDict(defaultdict, OrderedDict):
@@ -423,10 +422,13 @@ class Config(BunchDict):
         }
 
         # 保存配置到文件
-        # >>> fp = r'./_test/test_save_config.json'
-        # >>> args.save(fp)  # 保存
-        # >>> x = _TestConfig.load(fp)  # 重新加载
-        # >>> assert x.dict == args.dict
+        >>> fp = r'./-test/test_save_config.json'
+        >>> os.makedirs(os.path.dirname(fp), exist_ok=True)
+        >>> args.save(fp)  # 保存
+        >>> x = _TestConfig.load(fp)  # 重新加载
+        >>> assert x.dict == args.dict
+        >>> _ = os.system('rm -rf ./-test')
+
     """
 
     def __str__(self):
@@ -441,6 +443,7 @@ class Config(BunchDict):
     @property
     def print_dict(self):
         """"""
+        from my.python.custom import AnyEncoder
         return json.dumps(self.dict, cls=AnyEncoder, indent=4, ensure_ascii=False, sort_keys=True)
 
     def save(self, fp: str):
@@ -451,6 +454,7 @@ class Config(BunchDict):
     @classmethod
     def load(cls, fp: str):
         """"""
+        from my.python.custom import AnyDecoder
         config_items = json.load(open(fp, encoding='utf8'), cls=AnyDecoder)
         return cls(**config_items)
 

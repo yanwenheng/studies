@@ -34,7 +34,7 @@ def set_stdout_null():
 
 def get_print_json(obj, **json_kwargs):
     """ 生成 printable json"""
-    from my.python.custom_json import AnyEncoder
+    from my.python.custom import AnyEncoder
 
     obj = obj if isinstance(obj, dict) else obj.__dict__
 

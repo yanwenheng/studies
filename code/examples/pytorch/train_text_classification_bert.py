@@ -37,7 +37,7 @@ from my.pytorch.pipeline import TrainConfig, BertDatasets
 from my.pytorch.pipeline.trainer import Trainer
 
 from my.python.utils import get_logger
-from my.python.custom_argparse import simple_argparse
+from my.python.custom import simple_argparse
 
 logger = get_logger(__name__)
 
