@@ -6,7 +6,9 @@ git 常用命令
 - [参考](#参考)
 - [基本命令](#基本命令)
 - [删除分支](#删除分支)
-- [推送分支](#推送分支)
+- [推送](#推送)
+- [拉取](#拉取)
+    - [强制覆盖本地](#强制覆盖本地)
 - [撤回上次 commit](#撤回上次-commit)
 - [删除已提交文件/文件夹](#删除已提交文件文件夹)
 - [恢复已删除的文件](#恢复已删除的文件)
@@ -53,10 +55,47 @@ git branch -D [分支名]
 git push origin --delete [分支名]
 ```
 
-## 推送分支
-```
+## 推送
+```sh
 # 推送本地分支到远程分支
-git push origin 本地分支名:远程分支名
+$ git push <远程主机名/别名> <本地分支名:远程分支名>
+# 如果本地分支名与远程分支名相同，则可以省略冒号
+$ git push <远程主机名/别名> <本地分支名>
+
+# 将本地的 master 分支推送到 origin 主机的 master 分支
+$ git push origin master:master
+$ git push origin master  # 同上
+
+# 强制推送
+$ git push --force origin master
+
+# 删除远程的 test 分支
+git push origin --delete test
+```
+
+## 拉取
+- `git pull` 是 `git fetch` 和 `git merge FETCH_HEAD` 的简写；
+
+**常用**
+```sh
+# 完整格式
+git pull <远程主机名/别名> <远程分支名:本地分支名>
+
+# 更新
+$ git pull
+$ git pull origin  # 同上，远程主机默认的别名是 origin
+
+# 将远程主机 origin 的 master 分支拉取过来，与本地的 brantest 分支合并
+$ git pull origin master:brantest
+
+# 如果远程分支是与当前分支合并，则冒号后面的部分可以省略
+git pull origin master
+```
+
+### 强制覆盖本地
+使用本命令后，每次拉取，都会生成一次 commit，**慎用**
+```sh
+git pull --force --strategy recursive -Xtheirs --allow-unrelated-histories
 ```
 
 ## 撤回上次 commit
