@@ -14,7 +14,6 @@ import doctest
 from typing import List, Dict, Iterable, Union, Optional
 from collections import defaultdict
 from sortedcollections import OrderedSet
-from dataclasses import dataclass, fields
 
 import torch
 import numpy as np
@@ -25,7 +24,7 @@ from torch.utils.data import DataLoader
 
 from my.python.utils import get_logger, set_default, get_attr, set_attr
 # TODO: 返回值替换成 ArrayFields
-from my.python.custom_dict import ArrayFields
+from my.python.custom import ArrayFields
 from my.nlp.bert_tokenizer import tokenizer as _tokenizer
 from my.pytorch.pipeline.config import DEFAULT_ARGS, ARGS_TYPE, default_device
 

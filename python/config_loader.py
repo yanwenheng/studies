@@ -25,7 +25,7 @@ import sys
 import json
 import functools
 
-from my.python.custom_dict import BunchDict, Config
+from my.python.custom import BunchDict
 
 ALLOW_FILE_TYPE = {'json', 'yaml'}
 

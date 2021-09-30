@@ -41,9 +41,9 @@ def default_device() -> str:
         >>> setattr(config, '_DEFAULT_DEVICE', 'xxx')
         >>> default_device()
         'xxx'
-        >>> config._DEFAULT_DEVICE = 'cp'
+        >>> config._DEFAULT_DEVICE = 'cpu'  # 还原回来，不然 doctest 可能会报错
         >>> default_device()
-        'cp'
+        'cpu'
 
     """
     # return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
