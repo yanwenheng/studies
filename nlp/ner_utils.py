@@ -20,42 +20,32 @@ __all__ = [
 
 
 def ner_result_parse(tokens, labels,
-                     token_id2name: Dict[int, str] = None,
-                     label_id2name: Dict[int, str] = None):
-    """
-    NER 结果解析（BIO 格式）
+                     label_id2name: Dict[int, str],
+                     token_id2name: Dict[int, str] = None):
+    """@NLP Utils
+    NER 结果解析（基于 BIO 格式）
 
     Examples:
         >>> _label_id2name = {0: 'O', 1: 'B-PER', 2: 'I-PER', 3: 'B-LOC', 4: 'I-LOC'}
         >>> _tokens = list('你知道小明生活在北京吗？')
         >>> _labels = list(map(int, '000120003400'))
-        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, _label_id2name)
         [['PER', '小明', (3, 4)], ['LOC', '北京', (8, 9)]]
 
-        >>> _tokens = list('小明生活在北京')
+        >>> _tokens = list('小明生活在北京')  # 测试头尾是否正常
         >>> _labels = list(map(int, '1200034'))
         >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (0, 1)], ['LOC', '北京', (5, 6)]]
 
-        >>> _tokens = list('明生活在北京')
-        >>> _labels = list(map(int, '200034'))
-        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
-        [['LOC', '北京', (4, 5)]]
-
-        >>> _tokens = list('明生活在北京')
+        >>> _tokens = list('明生活在北京')  # 明: I-PER
         >>> _labels = list(map(int, '200034'))
         >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['LOC', '北京', (4, 5)]]
 
         >>> _tokens = list('小明生活在北')
-        >>> _labels = list(map(int, '120003'))
+        >>> _labels = list(map(int, '120003'))  # 北: B-LOC
         >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (0, 1)], ['LOC', '北', (5, 5)]]
-
-        >>> _tokens = list('小明生活在京')
-        >>> _labels = list(map(int, '120004'))
-        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
-        [['PER', '小明', (0, 1)]]
 
     Args:
         tokens:
