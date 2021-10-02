@@ -6,7 +6,7 @@ studies
 
 ---
 
-My Code Lab(Auto-Generation)
+My Code Lab(Auto-generated)
 ---
 
 - [Python Utils](#python-utils)
