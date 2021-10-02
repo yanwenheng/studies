@@ -15,6 +15,18 @@ else
 fi
 echo
 
+# 生成 README.md
+printf "=== Start generating README.md ===\n"
+out=$(python code/scripts/generate_readme_examples.py \
+      --module_path "$test_path" \
+      --out "$repo/code/README.md")
+echo "$out"
+if [[ $out = 'DIFF' ]]; then
+  git add "README.md" "$repo/code/README.md"
+  git commit -m '[U] README.md'
+fi
+echo
+
 # 主仓库
 printf "=== Start Push Main Repo ===\n"
 git push

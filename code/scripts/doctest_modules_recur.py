@@ -42,8 +42,8 @@ def doctest_modules(paths: Union[str, List[str]]):
         # 示例：path = '../my'
         path = os.path.abspath(p)  # /Users/huayang/workspace/my/studies/code/my
         base = os.path.basename(path)  # my
-        dir_path = os.path.dirname(path)  # /Users/huayang/workspace/my/studies/code
-        sys.path.append(dir_path)  # 添加到环境变量
+        # dir_path = os.path.dirname(path)  # /Users/huayang/workspace/my/studies/code
+        # sys.path.append(dir_path)  # 添加到环境变量
 
         if os.path.isdir(path):
             tmp_failed = _doctest_module(path, base)
@@ -71,7 +71,7 @@ def _doctest_py(module_name):
 def _doctest_module(path, base):
     """"""
     num_failed = 0
-    for path, module_name, is_pkg in pkgutil.walk_packages([path], base + '.'):
+    for p, module_name, is_pkg in pkgutil.walk_packages([path], base + '.'):
         # print(path, module_name, is_pkg)
         try:
             num_failed += _doctest_py(module_name)

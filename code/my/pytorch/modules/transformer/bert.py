@@ -22,7 +22,7 @@ from torch import Tensor
 from my.nlp.bert_tokenizer import Tokenizer
 from my.python.utils import set_env, get_env
 from my.python.config_loader import load_config_file
-from my.python.custom import Config
+from my.python.custom import ConfigDict
 from my.pytorch.utils import get_state_dict, load_weights_partly
 from my.pytorch.backend.activation_fn import ACT_STR2FN
 from my.pytorch.modules.transformer.transformer_block import TransformerBlock
@@ -45,7 +45,7 @@ def get_CKPT_DIR():  # noqa
     return get_env('CKPT', os.path.join(os.environ['HOME'], 'workspace/ckpt'))
 
 
-class BertConfig(Config):
+class BertConfig(ConfigDict):
 
     def __init__(self, **config_items):
         """ Default Base Config """

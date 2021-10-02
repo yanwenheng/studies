@@ -18,7 +18,7 @@ from typing import Union, Dict
 
 import torch
 
-from my.python import Config, get_time_string
+from my.python import ConfigDict, get_time_string
 
 DEFAULT_NO_DECAY_PARAMS = ('bias', 'LayerNorm.weight', 'layer_norm.weight', 'ln.weight')
 DEFAULT_SAVE_DIR = os.path.join(os.environ['HOME'], 'out/models')
@@ -92,7 +92,7 @@ def get_model_save_dir():
     return os.path.join(DEFAULT_SAVE_DIR, f'model-{get_time_string(fmt="%Y%m%d%H%M%S")}')
 
 
-class TrainConfig(Config):  # 父类基于 dict
+class TrainConfig(ConfigDict):  # 父类基于 dict
     """"""
 
     def __init__(self, **config_items):

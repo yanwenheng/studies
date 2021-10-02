@@ -1,15 +1,21 @@
+# python
+python>=3.8
+
 # base
 ipykernel
+markdown
 packaging
 python-levenshtein
 pyyaml
 requests
 sortedcollections
+sortedcontainers
 tqdm
 
 # ml
 jieba
 numpy
+opencc
 scikit-learn
 
 # pytorch

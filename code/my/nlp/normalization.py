@@ -20,7 +20,7 @@ try:
     import opencc
 
     t2s = opencc.OpenCC('t2s.json').convert
-except:
+except:  # noqa
     t2s = lambda s: s
 
 RE_MULTI_SPACE = re.compile(r'\s+', re.U)
@@ -118,7 +118,7 @@ def is_char_chinese(c):
     """
     if isinstance(c, str):
         c = ord(c)
-    return 0x4E00 <= c <= 0x9FFF
+    return 0x4E00 <= c <= 0x9FA5
 
 
 def is_char_cjk(c):

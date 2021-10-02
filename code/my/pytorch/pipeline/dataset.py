@@ -30,9 +30,20 @@ from my.pytorch.pipeline.config import DEFAULT_ARGS, ARGS_TYPE, default_device
 
 logger = get_logger(__name__)
 
+__all__ = [
+    'DictTensorDataset',
+    'ToyDataLoader',
+    'Datasets',
+    'BertDatasets',
+    'NerBertDatasets'
+]
+
 
 class DictTensorDataset(Dataset[Dict[str, Tensor]]):
-    """ 使用本类作为 Dataset 生成 DataLoader 时，可以返回 dict 类型的 batch
+    """@Pytorch Utils
+    字典形式的 Dataset
+
+    使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
 
     Examples:
         >>> x = y = torch.as_tensor([1,2,3,4,5])

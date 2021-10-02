@@ -198,6 +198,7 @@ jupyter notebook list
 
         """
         import os
+        import sys
         import json
         import doctest
 
