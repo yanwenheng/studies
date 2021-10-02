@@ -33,7 +33,7 @@ from my.python.custom import simple_argparse
 
 def gen_readme(docs):
     """"""
-    toc = ['My Code Lab', '---\n']
+    toc = ['My Code Lab(Auto-generated)', '---\n']
     content = []
     for key, blocks in docs.items():
         toc.append(DocParser.get_toc_line(key))
