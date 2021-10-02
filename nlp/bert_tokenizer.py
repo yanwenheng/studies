@@ -25,6 +25,11 @@ from my.nlp.normalization import (
     remove_accents,
 )
 
+__all__ = [
+    'BertTokenizer',
+    'tokenizer'
+]
+
 
 def convert_by_vocab(vocab, items):
     """Converts a sequence of [tokens|ids] using the vocab."""
@@ -225,8 +230,30 @@ class WordPieceTokenizer(object):
         return output_tokens
 
 
-class Tokenizer(object):
-    """End-to-end tokenizer, containing word-piece_tokenizer."""
+class BertTokenizer(object):
+    """@NLP Utils
+    Bert 分词器
+
+    Examples:
+        >>> text = '我爱python，我爱编程；I love python, I like programming. Some unkword'
+
+        # WordPiece 切分
+        >>> tokens = tokenizer.tokenize(text)
+        >>> assert [tokens[2], tokens[-2], tokens[-7]] == ['python', '##nk', 'program']
+
+        # 模型输入
+        >>> token_ids, segment_ids, masks = tokenizer.encode(text)
+        >>> assert token_ids[:6] == [101, 2769, 4263, 9030, 8024, 2769]
+        >>> assert segment_ids == [0] * len(token_ids)
+
+        # 句对模式
+        >>> txt1 = '我爱python'
+        >>> txt2 = '我爱编程'
+        >>> token_ids, segment_ids, masks = tokenizer.encode(txt1, txt2)
+        >>> assert token_ids == [101, 2769, 4263, 9030, 102, 2769, 4263, 5356, 4923, 102]
+        >>> assert segment_ids == [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+
+    """
 
     token2id_map: dict  # {token: id}
     id2token_map: dict  # {id: token}
@@ -363,14 +390,14 @@ class Tokenizer(object):
 
 # 模块内的变量默认为单例模式
 _default_vocab_path = os.path.join(os.path.dirname(__file__), 'data/vocab_cn.txt')
-tokenizer = Tokenizer(_default_vocab_path)
+tokenizer = BertTokenizer(_default_vocab_path)
 
 
 def _test():
     """"""
     doctest.testmod()
 
-    def _test_Tokenizer():
+    def _test_Tokenizer():  # noqa
         """"""
         text = '我爱python，我爱编程；I love python, I like programming. Some unkword'
 
@@ -394,7 +421,7 @@ def _test():
         assert token_ids == [101, 2769, 4263, 9030, 102, 2769, 4263, 5356, 4923, 102]
         assert segment_ids == [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
 
-    _test_Tokenizer()
+    # _test_Tokenizer()
 
 
 if __name__ == '__main__':

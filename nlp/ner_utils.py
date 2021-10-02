@@ -14,42 +14,47 @@ from typing import Dict
 
 import numpy as np
 
+__all__ = [
+    'ner_result_parse'
+]
 
-def parse_labels(tokens, labels,
-                 token_id2name: Dict[int, str] = None,
-                 label_id2name: Dict[int, str] = None):
-    """ NER 结果解析
+
+def ner_result_parse(tokens, labels,
+                     token_id2name: Dict[int, str] = None,
+                     label_id2name: Dict[int, str] = None):
+    """
+    NER 结果解析（BIO 格式）
 
     Examples:
         >>> _label_id2name = {0: 'O', 1: 'B-PER', 2: 'I-PER', 3: 'B-LOC', 4: 'I-LOC'}
         >>> _tokens = list('你知道小明生活在北京吗？')
         >>> _labels = list(map(int, '000120003400'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (3, 4)], ['LOC', '北京', (8, 9)]]
 
         >>> _tokens = list('小明生活在北京')
         >>> _labels = list(map(int, '1200034'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (0, 1)], ['LOC', '北京', (5, 6)]]
 
         >>> _tokens = list('明生活在北京')
         >>> _labels = list(map(int, '200034'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['LOC', '北京', (4, 5)]]
 
         >>> _tokens = list('明生活在北京')
         >>> _labels = list(map(int, '200034'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['LOC', '北京', (4, 5)]]
 
         >>> _tokens = list('小明生活在北')
         >>> _labels = list(map(int, '120003'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (0, 1)], ['LOC', '北', (5, 5)]]
 
         >>> _tokens = list('小明生活在京')
         >>> _labels = list(map(int, '120004'))
-        >>> parse_labels(_tokens, _labels, label_id2name=_label_id2name)
+        >>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
         [['PER', '小明', (0, 1)]]
 
     Args:
@@ -57,7 +62,6 @@ def parse_labels(tokens, labels,
         labels:
         token_id2name:
         label_id2name:
-        # masks:
 
     Returns:
         example: [['小明', 'PER', (3, 4)], ['北京', 'LOC', (8, 9)]]
@@ -70,7 +74,7 @@ def parse_labels(tokens, labels,
     def get_tag():
         try:
             return label.split('-')[1]
-        except:
+        except:  # noqa
             return '_SPAN'  # 针对 'B'/'I' 而非 'B-XX'/'I-XX' 的情况
 
     def chunks_append():
