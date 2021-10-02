@@ -17,16 +17,24 @@ import argparse
 from typing import *
 from collections import defaultdict
 
+__all__ = [
+    'simple_argparse',
+]
+
 
 def simple_argparse(args=None):
-    """
+    """@Python Utils
+    一个简化版 argparse
+
+    不需要预先设置字段，严格按照 `--a A` 一组的方式自动提取，
+        其中 A 部分会调用 eval()，某种程度上比自带的 argparse 更强大
+
     Examples:
-        >>> from my.python.custom import Config
-        >>> from my.python.custom.simple_argparse import simple_argparse
+        >>> from my.python.custom import ConfigDict, simple_argparse
         >>> sys.argv = ['xxx.py', '--a', 'A', '--b', '1', '--c', '3.14', '--d', '[1,2]', '--e', '"[1,2]"']
         >>> simple_argparse()
         {'a': 'A', 'b': 1, 'c': 3.14, 'd': [1, 2], 'e': '[1,2]'}
-        >>> _args = Config(x=1, b=20)
+        >>> _args = ConfigDict(x=1, b=20)
         >>> simple_argparse(_args)
         {'x': 1, 'b': 1, 'a': 'A', 'c': 3.14, 'd': [1, 2], 'e': '[1,2]'}
         >>> sys.argv = ['xxx.py']
@@ -39,16 +47,16 @@ def simple_argparse(args=None):
         AssertionError: `-a` should starts with "--"
 
     """
-    from my.python.custom import Config
+    from my.python.custom import ConfigDict
 
     if len(sys.argv) < 2:
         return args
 
     if args is None:
-        args = Config()
+        args = ConfigDict()
 
     argv = sys.argv[1:]
-    assert len(argv) % 2 == 0
+    assert len(argv) % 2 == 0, argv
 
     for i in range(0, len(argv), 2):
         assert argv[i].startswith('--'), f'`{argv[i]}` should starts with "--"'

@@ -136,7 +136,7 @@ def get_system_type():
     return platform.system()
 
 
-def system_is(sys_name: str):
+def _system_is(sys_name: str):
     """"""
     sys_name = sys_name.lower()
     if sys_name in {'mac', 'macos'}:
@@ -149,17 +149,17 @@ def system_is(sys_name: str):
 
 def is_mac():
     """判断是否为 mac os 系统"""
-    return system_is('Darwin')
+    return _system_is('Darwin')
 
 
 def is_linux():
     """判断是否为 linux 系统"""
-    return system_is('Linux')
+    return _system_is('Linux')
 
 
 def is_windows():
     """判断是否为 windows 系统"""
-    return system_is('Windows')
+    return _system_is('Windows')
 
 
 def get_response(url,

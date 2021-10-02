@@ -17,6 +17,15 @@ from typing import *
 from dataclasses import dataclass, fields
 from collections import OrderedDict
 
+__all__ = [
+    'ArrayDict',
+    'ValueArrayDict',
+    'BunchDict',
+    'ConfigDict',
+    'Fields',
+    'ArrayFields'
+]
+
 
 # class DefaultOrderedDict(defaultdict, OrderedDict):
 #
@@ -28,7 +37,8 @@ from collections import OrderedDict
 
 
 class ArrayDict(OrderedDict):
-    """ 数组字典（支持 slice 操作）
+    """@Python 自定义数据结构
+    数组字典，支持 slice
 
     Examples:
         >>> d = ArrayDict(a=1, b=2)
@@ -88,7 +98,8 @@ class ArrayDict(OrderedDict):
 
 
 class ValueArrayDict(ArrayDict):
-    """ 数组字典（支持 slice 操作），且 slice 获取的值是字典的 value
+    """@Python 自定义数据结构
+    数组字典，支持 slice，且操作 values
 
     Examples:
         >>> d = ValueArrayDict(a=1, b=2)
@@ -153,12 +164,12 @@ class ValueArrayDict(ArrayDict):
 
 
 class BunchDict(dict):
-    """
+    """@Python 自定义数据结构
     基于 dict 实现 Bunch 模式
+
     行为上类似于 argparse.Namespace，但可以使用 dict 的方法，更通用
 
     Examples:
-
         >>> c = BunchDict(a=1, b=2)
         >>> c
         {'a': 1, 'b': 2}
@@ -232,6 +243,77 @@ class BunchDict(dict):
     @classmethod
     def from_dict(cls, d: dict):
         return _bunch(d, cls)
+
+
+class ConfigDict(BunchDict):
+    """@Python 自定义数据结构
+    配置字典（基于 BunchDict）
+
+    在 BunchDict 基础上添加了 save/load 等操作。
+
+    Examples:
+        # _TestConfig 继承自 BaseConfig，并对配置项设置默认值
+        >>> class _TestConfig(ConfigDict):
+        ...     def __init__(self, **config_items):
+        ...         from datetime import datetime
+        ...         self.a = 1
+        ...         self.b = datetime(2012, 1, 1)  # 注意是一个特殊对象，默认 json 是不支持的
+        ...         super(_TestConfig, self).__init__(**config_items)
+
+        >>> args = _TestConfig()
+        >>> assert args.a == 1  # 默认值
+        >>> args.a = 10  # 修改值
+        >>> assert args.a == 10  # 自定义值
+
+        >>> args = _TestConfig(a=10)  # 创建时修改
+        >>> assert args.a == 10
+
+        # 添加默认中不存的配置项
+        >>> args.c = 3  # 默认中没有的配置项（不推荐，建议都定义在继承类中，并设置默认值）
+        >>> assert args.c == 3
+        >>> print(args)  # 注意 'b' 保存成了特殊形式
+        _TestConfig: {
+            "a": 10,
+            "b": "datetime.datetime(2012, 1, 1, 0, 0)__@AnyEncoder@__gASVKgAAAAAAAACMCGRhdGV0aW1llIwIZGF0ZXRpbWWUk5RDCgfcAQEAAAAAAACUhZRSlC4=",
+            "c": 3
+        }
+
+        # 保存配置到文件
+        >>> fp = r'./-test/test_save_config.json'
+        >>> os.makedirs(os.path.dirname(fp), exist_ok=True)
+        >>> args.save(fp)  # 保存
+        >>> x = _TestConfig.load(fp)  # 重新加载
+        >>> assert x.dict == args.dict
+        >>> _ = os.system('rm -rf ./-test')
+
+    """
+
+    def __str__(self):
+        """"""
+        return f'{self.__class__.__name__}: {self.print_dict}'
+
+    @property
+    def dict(self):
+        """"""
+        return self
+
+    @property
+    def print_dict(self):
+        """"""
+        from my.python.custom import AnyEncoder
+        return json.dumps(self.dict, cls=AnyEncoder, indent=4, ensure_ascii=False, sort_keys=True)
+
+    def save(self, fp: str):
+        """ 保存配置到文件 """
+        with open(fp, 'w', encoding='utf8') as fw:
+            fw.write(self.print_dict)
+
+    @classmethod
+    def load(cls, fp: str):
+        """"""
+        from my.python.custom import AnyDecoder
+        config_items = json.load(open(fp, encoding='utf8'), cls=AnyDecoder)
+        return cls(**config_items)
 
 
 class BunchArrayDict(ArrayDict, BunchDict):
@@ -326,7 +408,7 @@ class Fields(BunchDict):
         >>> r = Test()
         >>> r
         Test(c1='c1', c2=0, c3=None)
-        >>> r.c1  # r[0]
+        >>> r.c1
         'c1'
 
         >>> r = Test(c1='a', c3=[1,2,3])
@@ -337,9 +419,7 @@ class Fields(BunchDict):
 
         >>> d = {'c1': 'C1', 'c2': 10, 'c3': [1, 2]}
         >>> t = Test(**d)
-        >>> t.c4 = 1  # 不推荐新增 attr
-        >>> t.c4
-        1
+        >>> t.c4 = 1  # 不推荐新增 attr，因为不会显示在 __repr__ 中，容易混乱
         >>> t  # 没有 c4
         Test(c1='C1', c2=10, c3=[1, 2])
         >>> list(t.items())  # 这里有 c4
@@ -386,77 +466,13 @@ class ArrayFields(Fields, BunchValueArrayDict):
         'a'
         >>> r[-1]
         [1, 2, 3]
+        >>> for it in r:
+        ...     print(it)
+        a
+        0
+        [1, 2, 3]
 
     """
-
-
-class Config(BunchDict):
-    """
-    配置类基类，继承使用，支持保存为 json 文件，且支持保存默认 json 不支持的对象类型
-
-    Examples:
-        # _TestConfig 继承自 BaseConfig，并对配置项设置默认值
-        >>> class _TestConfig(Config):
-        ...     def __init__(self, **config_items):
-        ...         from datetime import datetime
-        ...         self.a = 1
-        ...         self.b = datetime(2012, 1, 1)  # 注意是一个特殊对象，默认 json 是不支持的
-        ...         super(_TestConfig, self).__init__(**config_items)
-        
-        >>> args = _TestConfig()
-        >>> assert args.a == 1  # 默认值
-        >>> args.a = 10  # 修改值
-        >>> assert args.a == 10  # 自定义值
-
-        >>> args = _TestConfig(a=10)  # 创建时修改
-        >>> assert args.a == 10
-
-        # 添加默认中不存的配置项
-        >>> args.c = 3  # 默认中没有的配置项（不推荐，建议都定义在继承类中，并设置默认值）
-        >>> assert args.c == 3
-        >>> print(args)  # 注意 'b' 保存成了特殊形式
-        _TestConfig: {
-            "a": 10,
-            "b": "datetime.datetime(2012, 1, 1, 0, 0)__@AnyEncoder@__gASVKgAAAAAAAACMCGRhdGV0aW1llIwIZGF0ZXRpbWWUk5RDCgfcAQEAAAAAAACUhZRSlC4=",
-            "c": 3
-        }
-
-        # 保存配置到文件
-        >>> fp = r'./-test/test_save_config.json'
-        >>> os.makedirs(os.path.dirname(fp), exist_ok=True)
-        >>> args.save(fp)  # 保存
-        >>> x = _TestConfig.load(fp)  # 重新加载
-        >>> assert x.dict == args.dict
-        >>> _ = os.system('rm -rf ./-test')
-
-    """
-
-    def __str__(self):
-        """"""
-        return f'{self.__class__.__name__}: {self.print_dict}'
-
-    @property
-    def dict(self):
-        """"""
-        return self
-
-    @property
-    def print_dict(self):
-        """"""
-        from my.python.custom import AnyEncoder
-        return json.dumps(self.dict, cls=AnyEncoder, indent=4, ensure_ascii=False, sort_keys=True)
-
-    def save(self, fp: str):
-        """ 保存配置到文件 """
-        with open(fp, 'w', encoding='utf8') as fw:
-            fw.write(self.print_dict)
-
-    @classmethod
-    def load(cls, fp: str):
-        """"""
-        from my.python.custom import AnyDecoder
-        config_items = json.load(open(fp, encoding='utf8'), cls=AnyDecoder)
-        return cls(**config_items)
 
 
 def _bunch(x, cls):
