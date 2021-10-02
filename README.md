@@ -14,6 +14,7 @@ My Code Lab(Auto-generated)
 
 - [`BertTokenizer`: Bert 分词器](#berttokenizer-bert-分词器)
 - [`split`: 将数据按比例切分](#split-将数据按比例切分)
+- [`ner_result_parse`: NER 结果解析（基于 BIO 格式）](#ner_result_parse-ner-结果解析基于-bio-格式)
 
 </details>
 
@@ -82,6 +83,43 @@ My Code Lab(Auto-generated)
 [[0, 1, 2, 3, 4], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4]]
 >>> xv
 [[5, 6, 7], [5, 6, 7], [5, 6, 7]]
+```
+
+### `ner_result_parse`: NER 结果解析（基于 BIO 格式）
+> [source](code/my/nlp/ner_utils.py#L22)
+
+**Examples:**
+```python
+>>> _label_id2name = {0: 'O', 1: 'B-PER', 2: 'I-PER', 3: 'B-LOC', 4: 'I-LOC'}
+>>> _tokens = list('你知道小明生活在北京吗？')
+>>> _labels = list(map(int, '000120003400'))
+>>> ner_result_parse(_tokens, _labels, _label_id2name)
+[['PER', '小明', (3, 4)], ['LOC', '北京', (8, 9)]]
+
+>>> _tokens = list('小明生活在北京')
+>>> _labels = list(map(int, '1200034'))
+>>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+[['PER', '小明', (0, 1)], ['LOC', '北京', (5, 6)]]
+
+>>> _tokens = list('明生活在北京')
+>>> _labels = list(map(int, '200034'))
+>>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+[['LOC', '北京', (4, 5)]]
+
+>>> _tokens = list('明生活在北京')
+>>> _labels = list(map(int, '200034'))
+>>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+[['LOC', '北京', (4, 5)]]
+
+>>> _tokens = list('小明生活在北')
+>>> _labels = list(map(int, '120003'))
+>>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+[['PER', '小明', (0, 1)], ['LOC', '北', (5, 5)]]
+
+>>> _tokens = list('小明生活在京')
+>>> _labels = list(map(int, '120004'))
+>>> ner_result_parse(_tokens, _labels, label_id2name=_label_id2name)
+[['PER', '小明', (0, 1)]]
 ```
 
 ## Python Utils
