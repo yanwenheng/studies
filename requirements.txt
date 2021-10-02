@@ -15,8 +15,11 @@ tqdm
 # ml
 jieba
 numpy
-opencc
 scikit-learn
+
+# nlp
+gensim
+opencc
 
 # pytorch
 accelerate

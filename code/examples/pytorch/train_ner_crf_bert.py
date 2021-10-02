@@ -12,7 +12,7 @@ from my.pytorch.modules import BertCRF
 from my.pytorch.pipeline import TrainConfig, NerBertDatasets
 from my.pytorch.pipeline.trainer import Trainer
 from my.python.utils import get_logger
-from my.nlp.ner_utils import parse_labels
+from my.nlp.ner_utils import ner_result_parse
 
 logger = get_logger(__name__)
 
@@ -42,8 +42,8 @@ class train(Trainer):
                 tokens_id = tokens_id[m.to(bool)].cpu().numpy().tolist()  # 移除 [PAD]
                 ids = ids[: len(tokens_id)]  # [1: -1]  # 移除 [CLS]、[SEP]
                 tokens_id = tokens_id  # [1: -1]
-                chunks = parse_labels(tokens_id, ids, token_id2name=tokenizer.id2token_map,
-                                      label_id2name=self._args.id2label_map)
+                chunks = ner_result_parse(tokens_id, ids, token_id2name=tokenizer.id2token_map,
+                                          label_id2name=self._args.id2label_map)
                 tokens = tokenizer.convert_ids_to_tokens(tokens_id)
                 print(''.join(tokens), chunks)
 

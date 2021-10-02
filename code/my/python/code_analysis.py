@@ -207,7 +207,7 @@ class DocParser:
 
         # details
         lno = 0
-        while lines[lno].find(':') == -1:
+        while lno < len(lines) and lines[lno].find(':') == -1:
             lno += 1
 
         if lno > 0:
@@ -241,15 +241,19 @@ class DocParser:
         """
         return inspect.findsource(obj)[1] + 1
 
-    def get_quote_link(self):
+    def get_source_link(self):
         """"""
-        return f'> [source code]({self.soft_link}#L{self.line_number})'
+        return f'[source]({self.soft_link}#L{self.line_number})'
+
+    @staticmethod
+    def get_href(line):
+        """"""
+        return slugify(line, '-')
 
     @staticmethod
     def get_toc_line(line):
         """"""
-        sp_line = slugify(line, '-')
-        toc_line = f'- [{line}](#{sp_line})'
+        toc_line = f'[{line}](#{DocParser.get_href(line)})'
         return toc_line
 
     def get_markdown_block(self):
@@ -259,16 +263,18 @@ class DocParser:
             if not lines:
                 return ''
             content = lines if isinstance(lines, str) else '<br>\n'.join(lines)
-            return content + '\n\n' if lines else ''
+            return content + '\n\n'
 
         def _concat_code(lines):
+            if not lines:
+                return ''
             head = lines[0]
             min_indent = self.get_min_indent('\n'.join(lines[1:]))
             content = '\n'.join([ln[min_indent:] for ln in lines[1:]])
             return f"**{head}**\n```python\n{content}\n```" if lines else ''
 
         block = f'### {"".join(self.summary.lines)}\n'
-        block += _concat(self.get_quote_link())
+        block += _concat('> ' + self.get_source_link())
         block += _concat(self.details.lines)
         block += _concat_code(self.examples.lines)
         return block

@@ -19,7 +19,7 @@ import torch.nn.functional as F
 
 from torch import Tensor
 
-from my.nlp.bert_tokenizer import Tokenizer
+from my.nlp.bert_tokenizer import BertTokenizer
 from my.python.utils import set_env, get_env
 from my.python.config_loader import load_config_file
 from my.python.custom import ConfigDict
@@ -413,7 +413,7 @@ def get_bert_pretrained(model_dir: str = None,
     if return_tokenizer:
         vocab_file_name = vocab_file_name or 'vocab.txt'
         vocab_path = os.path.join(model_dir, vocab_file_name)
-        tokenizer = Tokenizer(vocab_path)
+        tokenizer = BertTokenizer(vocab_path)
         return bert, tokenizer
 
     return bert

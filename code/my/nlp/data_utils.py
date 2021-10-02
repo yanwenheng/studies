@@ -15,6 +15,11 @@ import warnings
 
 import numpy as np
 
+__all__ = [
+    'safe_indexing',
+    'split',
+]
+
 
 def safe_indexing(x, indices=None):
     """
@@ -33,21 +38,21 @@ def safe_indexing(x, indices=None):
     if hasattr(x, "shape"):  # for numpy
         try:
             return x.take(indices, axis=0)  # faster
-        except:
+        except:  # noqa
             return x[indices]
     elif hasattr(x, "iloc"):  # for pandas
         indices = np.asarray(indices)
         indices = indices if indices.flags.writeable else indices.copy()
         try:
             return x.iloc[indices]
-        except:
+        except:  # noqa
             return x.copy().iloc[indices]
     else:  # for python
         return [x[idx] for idx in indices]
 
 
 def split(*arrays, split_size=0.2, random_seed=1, shuffle=True):
-    """
+    """@NLP Utils
     将数据按比例切分
 
     Args:
@@ -133,7 +138,7 @@ def unzip(data):
         out_type = type(data)
         in_type = type(data[0])
         return out_type([in_type(it) for it in zip(*data)])  # 尝试还原类型，不一定都能成功
-    except:
+    except:  # noqa
         return zip(*data)
 
 

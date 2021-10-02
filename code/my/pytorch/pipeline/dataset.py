@@ -80,28 +80,30 @@ class DictTensorDataset(Dataset[Dict[str, Tensor]]):
 
 
 class ToyDataLoader(DataLoader):
-    """ 一个简单的 DataLoader，简化中间创建 Dataset 的过程，直接从数据（tensor/list/ndarray）创建 DataLoader """
+    """@Pytorch Utils
+    一个简单的 DataLoader
+
+    简化中间创建 Dataset 的过程，直接从数据（tensor/list/ndarray）创建 DataLoader
+
+    Examples:
+        >>> x = y = torch.as_tensor([1,2,3,4,5])
+
+        # 返回 tuple
+        >>> dl = ToyDataLoader([x, y], batch_size=3, shuffle=False)
+        >>> for batch in dl: print(batch)
+        [tensor([1, 2, 3]), tensor([1, 2, 3])]
+        [tensor([4, 5]), tensor([4, 5])]
+
+        # 返回 dict
+        >>> dl = ToyDataLoader({'x': x, 'y': y}, batch_size=3, shuffle=False)
+        >>> for batch in dl: print(batch)
+        {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
+        {'x': tensor([4, 5]), 'y': tensor([4, 5])}
+    """
 
     def __init__(self, dataset: Iterable,
                  batch_size=16, shuffle=True, device=None, **kwargs):
-        """
-
-        Examples:
-            >>> x = y = torch.as_tensor([1,2,3,4,5])
-
-            # 返回 tuple
-            >>> dl = ToyDataLoader([x, y], batch_size=3, shuffle=False)
-            >>> for batch in dl: print(batch)
-            [tensor([1, 2, 3]), tensor([1, 2, 3])]
-            [tensor([4, 5]), tensor([4, 5])]
-
-            # 返回 dict
-            >>> dl = ToyDataLoader({'x': x, 'y': y}, batch_size=3, shuffle=False)
-            >>> for batch in dl: print(batch)
-            {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
-            {'x': tensor([4, 5]), 'y': tensor([4, 5])}
-
-        """
+        """"""
         if device is None:
             device = default_device()
 
@@ -511,6 +513,10 @@ def _test():
     """"""
     doctest.testmod()
     from my.pytorch.pipeline.config import TrainConfig
+
+    from my.python.code_analysis import DocParser
+
+    ret = DocParser(ToyDataLoader)
 
     def _test_bert_data_loader_helper():
         """"""

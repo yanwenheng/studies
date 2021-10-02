@@ -1,22 +1,85 @@
 My Code Lab(Auto-generated)
 ---
 
-- [Python Utils](#python-utils)
-    - [`simple_argparse`: 一个简化版 argparse](#simple_argparse-一个简化版-argparse)
-- [Python 自定义数据结构](#python-自定义数据结构)
-    - [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
-    - [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
-    - [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
-    - [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
-- [Pytorch Utils](#pytorch-utils)
-    - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
+
+<details><summary><b> NLP Utils <a href="#nlp-utils">¶</a></b></summary>
+
+- [`BertTokenizer`: Bert 分词器](#berttokenizer-bert-分词器)
+- [`split`: 将数据按比例切分](#split-将数据按比例切分)
+
+</details>
+
+
+<details><summary><b> Python Utils <a href="#python-utils">¶</a></b></summary>
+
+- [`simple_argparse`: 一个简化版 argparse](#simple_argparse-一个简化版-argparse)
+
+</details>
+
+
+<details><summary><b> Python 自定义数据结构 <a href="#python-自定义数据结构">¶</a></b></summary>
+
+- [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
+- [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
+- [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
+- [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
+
+</details>
+
+
+<details><summary><b> Pytorch Utils <a href="#pytorch-utils">¶</a></b></summary>
+
+- [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
+- [`ToyDataLoader`: 一个简单的 DataLoader](#toydataloader-一个简单的-dataloader)
+
+</details>
+
 
 ---
+
+## NLP Utils
+
+### `BertTokenizer`: Bert 分词器
+> [source](code/my/nlp/bert_tokenizer.py#L233)
+
+**Examples:**
+```python
+>>> text = '我爱python，我爱编程；I love python, I like programming. Some unkword'
+
+# WordPiece 切分
+>>> tokens = tokenizer.tokenize(text)
+>>> assert [tokens[2], tokens[-2], tokens[-7]] == ['python', '##nk', 'program']
+
+# 模型输入
+>>> token_ids, segment_ids, masks = tokenizer.encode(text)
+>>> assert token_ids[:6] == [101, 2769, 4263, 9030, 8024, 2769]
+>>> assert segment_ids == [0] * len(token_ids)
+
+# 句对模式
+>>> txt1 = '我爱python'
+>>> txt2 = '我爱编程'
+>>> token_ids, segment_ids, masks = tokenizer.encode(txt1, txt2)
+>>> assert token_ids == [101, 2769, 4263, 9030, 102, 2769, 4263, 5356, 4923, 102]
+>>> assert segment_ids == [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+```
+
+### `split`: 将数据按比例切分
+> [source](code/my/nlp/data_utils.py#L54)
+
+**Examples:**
+```python
+>>> data = [[0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 2, 3, 4, 5, 6, 7]]
+>>> xt, xv = split(*data, split_size=0.3, shuffle=False)
+>>> xt
+[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4]]
+>>> xv
+[[5, 6, 7], [5, 6, 7], [5, 6, 7]]
+```
 
 ## Python Utils
 
 ### `simple_argparse`: 一个简化版 argparse
-> [source code](code/my/python/custom/simple_argparse.py#L25)
+> [source](code/my/python/custom/simple_argparse.py#L25)
 
 不需要预先设置字段，严格按照 `--a A` 一组的方式自动提取，<br>
     其中 A 部分会调用 eval()，某种程度上比自带的 argparse 更强大
@@ -43,7 +106,7 @@ AssertionError: `-a` should starts with "--"
 ## Python 自定义数据结构
 
 ### `ArrayDict`: 数组字典，支持 slice
-> [source code](code/my/python/custom/special_dict.py#L39)
+> [source](code/my/python/custom/special_dict.py#L39)
 
 **Examples:**
 ```python
@@ -76,7 +139,7 @@ ArrayDict([('a', 1), ('b', 2), ('c', 3), ('d', 4)])
 ```
 
 ### `ValueArrayDict`: 数组字典，支持 slice，且操作 values
-> [source code](code/my/python/custom/special_dict.py#L100)
+> [source](code/my/python/custom/special_dict.py#L100)
 
 **Examples:**
 ```python
@@ -97,7 +160,7 @@ ValueArrayDict([('b', 20), ('c', 3), ('a', 10)])
 ```
 
 ### `BunchDict`: 基于 dict 实现 Bunch 模式
-> [source code](code/my/python/custom/special_dict.py#L166)
+> [source](code/my/python/custom/special_dict.py#L166)
 
 行为上类似于 argparse.Namespace，但可以使用 dict 的方法，更通用
 
@@ -125,7 +188,7 @@ ValueArrayDict([('b', 20), ('c', 3), ('a', 10)])
 ```
 
 ### `ConfigDict`: 配置字典（基于 BunchDict）
-> [source code](code/my/python/custom/special_dict.py#L248)
+> [source](code/my/python/custom/special_dict.py#L248)
 
 在 BunchDict 基础上添加了 save/load 等操作。
 
@@ -169,7 +232,7 @@ _TestConfig: {
 ## Pytorch Utils
 
 ### `DictTensorDataset`: 字典形式的 Dataset
-> [source code](code/my/pytorch/pipeline/dataset.py#L42)
+> [source](code/my/pytorch/pipeline/dataset.py#L42)
 
 使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
 
@@ -180,6 +243,28 @@ _TestConfig: {
 >>> len(ds)
 5
 >>> dl = DataLoader(ds, batch_size=3)
+>>> for batch in dl: print(batch)
+{'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
+{'x': tensor([4, 5]), 'y': tensor([4, 5])}
+```
+
+### `ToyDataLoader`: 一个简单的 DataLoader
+> [source](code/my/pytorch/pipeline/dataset.py#L82)
+
+简化中间创建 Dataset 的过程，直接从数据（tensor/list/ndarray）创建 DataLoader
+
+**Examples:**
+```python
+>>> x = y = torch.as_tensor([1,2,3,4,5])
+
+# 返回 tuple
+>>> dl = ToyDataLoader([x, y], batch_size=3, shuffle=False)
+>>> for batch in dl: print(batch)
+[tensor([1, 2, 3]), tensor([1, 2, 3])]
+[tensor([4, 5]), tensor([4, 5])]
+
+# 返回 dict
+>>> dl = ToyDataLoader({'x': x, 'y': y}, batch_size=3, shuffle=False)
 >>> for batch in dl: print(batch)
 {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
 {'x': tensor([4, 5]), 'y': tensor([4, 5])}

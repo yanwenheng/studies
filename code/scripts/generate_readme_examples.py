@@ -33,14 +33,18 @@ from my.python.custom import simple_argparse
 
 def gen_readme(docs):
     """"""
+    docs_items = sorted(docs.items())
+
     toc = ['My Code Lab(Auto-generated)', '---\n']
     content = []
-    for key, blocks in docs.items():
-        toc.append(DocParser.get_toc_line(key))
+    for key, blocks in docs_items:
+        toc.append(f'\n<details><summary><b> {key} <a href="#{DocParser.get_href(key)}">¶</a></b></summary>\n')
+        # toc.append('- ' + DocParser.get_toc_line(key))
         content.append(f'## {key}')
         for toc_line, markdown_block in blocks:
-            toc.append('    ' + toc_line)
+            toc.append('- ' + toc_line)
             content.append(markdown_block)
+        toc.append('\n</details>\n')
 
     toc_str = '\n'.join(toc)
     sep = '\n\n' + '---' + '\n\n'
@@ -57,7 +61,9 @@ def gen_readme_examples(args):
         if hasattr(module, '__all__'):
             for obj_str in module.__all__:
                 obj = getattr(module, obj_str)
-                if getattr(obj, '__doc__', None) and obj.__doc__.startswith('@'):
+                if isinstance(obj, (ModuleType, FunctionType, type)) \
+                        and getattr(obj, '__doc__') \
+                        and obj.__doc__.startswith('@'):
                     doc = DocParser(obj)
                     docs[doc.flag[1:]].append((doc.toc_line, doc.markdown_block))
 
