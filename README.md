@@ -27,20 +27,10 @@ My Code Lab(Auto-generated)
 
 <details><summary><b> Python 自定义数据结构 <a href="#python-自定义数据结构">¶</a></b></summary>
 
-- [My Code Lab(Auto-generated)](#my-code-labauto-generated)
-- [NLP Utils](#nlp-utils)
-    - [`BertTokenizer`: Bert 分词器](#berttokenizer-bert-分词器)
-    - [`split`: 将数据按比例切分](#split-将数据按比例切分)
-- [Python Utils](#python-utils)
-    - [`simple_argparse`: 一个简化版 argparse](#simple_argparse-一个简化版-argparse)
-- [Python 自定义数据结构](#python-自定义数据结构)
-    - [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
-    - [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
-    - [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
-    - [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
-- [Pytorch Utils](#pytorch-utils)
-    - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
-    - [`ToyDataLoader`: 一个简单的 DataLoader](#toydataloader-一个简单的-dataloader)
+- [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
+- [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
+- [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
+- [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
 
 </details>
 
