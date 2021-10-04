@@ -20,7 +20,7 @@ from typing import *
 from collections import defaultdict
 from dataclasses import dataclass, field, fields
 from pkgutil import walk_packages
-from markdown.extensions.toc import slugify_unicode as slugify
+from markdown.extensions.toc import slugify_unicode
 
 from my.python.utils import get_logger
 from my.python.custom import simple_argparse, ConfigDict
@@ -39,6 +39,11 @@ README_BLOCK_TEMPLATE = """### {summary}
 {examples}
 ```
 """
+
+
+def _slugify(line):
+    """"""
+    return slugify_unicode(line, '-')
 
 
 def module_iter(path='.') -> Iterable[ModuleType]:
@@ -154,14 +159,13 @@ class DocParser:
             self._doc = '\n'.join(self._lines)
 
             self.doc_parse()
-            self.markdown_block = self.get_markdown_block()
-            self.toc_line = self.get_toc_line(''.join(self.summary.lines))
+            self.summary_line = ''.join(self.summary.lines)
 
     def get_soft_link(self):
         abs_url = inspect.getmodule(self._obj).__file__
         dirs = abs_url.split('/')
         idx = dirs[::-1].index('my')  # *从后往前*找到 my 文件夹，只有这个位置是基本固定的
-        return '/'.join(dirs[-(idx + 2):])  # 再找到这个 my 文件夹的上一级目录
+        return '/'.join(dirs[-(idx + 1):])  # 再找到这个 my 文件夹的上一级目录
 
     @staticmethod
     def get_min_indent(s):
@@ -227,6 +231,10 @@ class DocParser:
         _update()
 
     @staticmethod
+    def slugify(line):
+        return _slugify(line)
+
+    @staticmethod
     def get_line_number(obj):
         """ 获取对象行号
         基于正则表达式，所以不一定保证准确
@@ -241,22 +249,17 @@ class DocParser:
         """
         return inspect.findsource(obj)[1] + 1
 
-    def get_source_link(self):
+    def get_source_link(self, prefix=''):
         """"""
-        return f'[source]({self.soft_link}#L{self.line_number})'
+        return f'[source]({os.path.join(prefix, self.soft_link)}#L{self.line_number})'
 
     @staticmethod
-    def get_href(line):
+    def get_toc_line(line, prefix=''):
         """"""
-        return slugify(line, '-')
-
-    @staticmethod
-    def get_toc_line(line):
-        """"""
-        toc_line = f'[{line}](#{DocParser.get_href(line)})'
+        toc_line = f'[{line}]({prefix}#{_slugify(line)})'
         return toc_line
 
-    def get_markdown_block(self):
+    def get_markdown_block(self, prefix=''):
         """"""
 
         def _concat(lines):
@@ -274,7 +277,7 @@ class DocParser:
             return f"**{head}**\n```python\n{content}\n```" if lines else ''
 
         block = f'### {"".join(self.summary.lines)}\n'
-        block += _concat('> ' + self.get_source_link())
+        block += _concat('> ' + self.get_source_link(prefix))
         block += _concat(self.details.lines)
         block += _concat_code(self.examples.lines)
         return block
