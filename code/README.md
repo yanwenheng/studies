@@ -1,6 +1,5 @@
-My Code Lab(Auto-generated)
+My Code Lab
 ---
-
 
 <details><summary><b> NLP Utils <a href="#nlp-utils">¶</a></b></summary>
 
@@ -10,13 +9,11 @@ My Code Lab(Auto-generated)
 
 </details>
 
-
 <details><summary><b> Python Utils <a href="#python-utils">¶</a></b></summary>
 
 - [`simple_argparse`: 一个简化版 argparse](#simple_argparse-一个简化版-argparse)
 
 </details>
-
 
 <details><summary><b> Python 自定义数据结构 <a href="#python-自定义数据结构">¶</a></b></summary>
 
@@ -27,7 +24,6 @@ My Code Lab(Auto-generated)
 
 </details>
 
-
 <details><summary><b> Pytorch Utils <a href="#pytorch-utils">¶</a></b></summary>
 
 - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
@@ -35,13 +31,12 @@ My Code Lab(Auto-generated)
 
 </details>
 
-
 ---
 
 ## NLP Utils
 
 ### `BertTokenizer`: Bert 分词器
-> [source](code/my/nlp/bert_tokenizer.py#L233)
+> [source](my/nlp/bert_tokenizer.py#L233)
 
 **Examples:**
 ```python
@@ -65,7 +60,7 @@ My Code Lab(Auto-generated)
 ```
 
 ### `split`: 将数据按比例切分
-> [source](code/my/nlp/data_utils.py#L54)
+> [source](my/nlp/data_utils.py#L54)
 
 **Examples:**
 ```python
@@ -78,7 +73,7 @@ My Code Lab(Auto-generated)
 ```
 
 ### `ner_result_parse`: NER 结果解析（基于 BIO 格式）
-> [source](code/my/nlp/ner_utils.py#L22)
+> [source](my/nlp/ner_utils.py#L22)
 
 **Examples:**
 ```python
@@ -107,7 +102,7 @@ My Code Lab(Auto-generated)
 ## Python Utils
 
 ### `simple_argparse`: 一个简化版 argparse
-> [source](code/my/python/custom/simple_argparse.py#L25)
+> [source](my/python/custom/simple_argparse.py#L25)
 
 不需要预先设置字段，严格按照 `--a A` 一组的方式自动提取，<br>
     其中 A 部分会调用 eval()，某种程度上比自带的 argparse 更强大
@@ -134,7 +129,7 @@ AssertionError: `-a` should starts with "--"
 ## Python 自定义数据结构
 
 ### `ArrayDict`: 数组字典，支持 slice
-> [source](code/my/python/custom/special_dict.py#L39)
+> [source](my/python/custom/special_dict.py#L39)
 
 **Examples:**
 ```python
@@ -167,7 +162,7 @@ ArrayDict([('a', 1), ('b', 2), ('c', 3), ('d', 4)])
 ```
 
 ### `ValueArrayDict`: 数组字典，支持 slice，且操作 values
-> [source](code/my/python/custom/special_dict.py#L100)
+> [source](my/python/custom/special_dict.py#L100)
 
 **Examples:**
 ```python
@@ -188,7 +183,7 @@ ValueArrayDict([('b', 20), ('c', 3), ('a', 10)])
 ```
 
 ### `BunchDict`: 基于 dict 实现 Bunch 模式
-> [source](code/my/python/custom/special_dict.py#L166)
+> [source](my/python/custom/special_dict.py#L166)
 
 行为上类似于 argparse.Namespace，但可以使用 dict 的方法，更通用
 
@@ -216,7 +211,7 @@ ValueArrayDict([('b', 20), ('c', 3), ('a', 10)])
 ```
 
 ### `ConfigDict`: 配置字典（基于 BunchDict）
-> [source](code/my/python/custom/special_dict.py#L248)
+> [source](my/python/custom/special_dict.py#L248)
 
 在 BunchDict 基础上添加了 save/load 等操作。
 
@@ -260,7 +255,7 @@ _TestConfig: {
 ## Pytorch Utils
 
 ### `DictTensorDataset`: 字典形式的 Dataset
-> [source](code/my/pytorch/pipeline/dataset.py#L42)
+> [source](my/pytorch/pipeline/dataset.py#L42)
 
 使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
 
@@ -277,7 +272,7 @@ _TestConfig: {
 ```
 
 ### `ToyDataLoader`: 一个简单的 DataLoader
-> [source](code/my/pytorch/pipeline/dataset.py#L82)
+> [source](my/pytorch/pipeline/dataset.py#L82)
 
 简化中间创建 Dataset 的过程，直接从数据（tensor/list/ndarray）创建 DataLoader
 

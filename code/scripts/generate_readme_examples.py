@@ -21,8 +21,11 @@ from pkgutil import walk_packages
 from sortedcontainers import SortedList
 
 try:
-    dir_path = os.path.dirname(__file__)
-    sys.path.append(os.path.join(dir_path, r'..'))
+    script_path = os.path.dirname(__file__)
+    code_path = os.path.join(script_path, '..')
+    repo_path = os.path.join(code_path, '..')
+    # print(os.path.basename(os.path.abspath(repo_path)))
+    sys.path.append(code_path)
 except:  # noqa
     pass
 
@@ -31,31 +34,57 @@ from my.python.file_utils import files_concat
 from my.python.custom import simple_argparse
 
 
-def gen_readme(docs):
+def hn_line(line, lv=2):
     """"""
-    docs_items = sorted(docs.items())
+    return f'{"#" * lv} {line}'
 
-    toc = ['My Code Lab(Auto-generated)', '---\n']
+
+def gen_readme(args, docs_dt: Dict[str, List[DocParser]]):
+    """"""
+    code_prefix = os.path.basename(os.path.abspath(code_path))
+
+    toc = [args.toc_line, '---\n']
+    # main_toc = ['My Code Lab', '---\n']
     content = []
-    for key, blocks in docs_items:
-        toc.append(f'\n<details><summary><b> {key} <a href="#{DocParser.get_href(key)}">¶</a></b></summary>\n')
-        # toc.append('- ' + DocParser.get_toc_line(key))
-        content.append(f'## {key}')
-        for toc_line, markdown_block in blocks:
-            toc.append('- ' + toc_line)
-            content.append(markdown_block)
-        toc.append('\n</details>\n')
+    append_content = []
+
+    beg_details_tmp = '<details><summary><b> {key} <a href="{url}">¶</a></b></summary>\n'
+    end_details = '\n</details>\n'
+
+    key_sorted = sorted(docs_dt.keys())
+    for key in key_sorted:
+        blocks = docs_dt[key]
+        toc.append(beg_details_tmp.format(key=key, url=f'#{DocParser.slugify(key)}'))
+        # main_toc.append(beg_details_tmp.format(key=key, url=f'{code_prefix}/README.md#{DocParser.slugify(key)}'))
+
+        content.append(hn_line(key, 2))
+        append_content.append(hn_line(key, 2))
+        for d in blocks:
+            toc.append('- ' + DocParser.get_toc_line(d.summary_line))
+            # main_toc.append('- ' + DocParser.get_toc_line(d.summary_line, prefix=code_prefix))
+            content.append(d.get_markdown_block())
+            append_content.append(d.get_markdown_block(prefix=code_prefix))
+
+        toc.append(end_details)
+        # main_toc.append(end_details)
 
     toc_str = '\n'.join(toc)
-    sep = '\n\n' + '---' + '\n\n'
+    sep = '\n---\n\n'
     content_str = '\n\n'.join(content)
+    code_readme = toc_str + sep + content_str
+    with open(args.out, 'w', encoding='utf8') as fw:
+        fw.write(code_readme)
 
-    return toc_str + sep + content_str
+    main_append = toc_str + sep + '\n\n'.join(append_content)
+    return main_append
 
 
-def gen_readme_examples(args):
-    """"""
-    docs = defaultdict(list)
+def gen_code_readme(args):
+    """ 生成 readme for code """
+    toc_line = 'My Code Lab'
+    args.toc_line = toc_line
+
+    docs_dt = defaultdict(list)
 
     for module in module_iter(args.module_path):
         if hasattr(module, '__all__'):
@@ -65,26 +94,38 @@ def gen_readme_examples(args):
                         and getattr(obj, '__doc__') \
                         and obj.__doc__.startswith('@'):
                     doc = DocParser(obj)
-                    docs[doc.flag[1:]].append((doc.toc_line, doc.markdown_block))
+                    docs_dt[doc.flag[1:]].append(doc)
 
-    readme_ex = gen_readme(docs)
-    with open(args.out, 'w', encoding='utf8') as fw:
-        fw.write(readme_ex)
+    code_append = gen_readme(args, docs_dt)
+    return toc_line, code_append
 
-    # return readme_ex
+
+def gen_main_toc(toc_lines):
+    """"""
+    lns = ['Study Index', '---\n']
+    for ln in toc_lines:
+        lns.append('- ' + DocParser.get_toc_line(ln))
+
+    return lns
 
 
 def pipeline():
     """"""
     args = simple_argparse()
-    repo_readme_path = os.path.join(dir_path, r'../../README.md')
+    repo_readme_path = os.path.join(repo_path, r'README.md')
     if os.path.exists(repo_readme_path):
         readme_old = open(repo_readme_path, encoding='utf8').read()
     else:
         readme_old = ''
-    gen_readme_examples(args)
-    readme_main_path = os.path.join(dir_path, r'../../README-main.md')
-    files_concat(files_in=[readme_main_path, args.out],
+    code_toc, code_append = gen_code_readme(args)
+    block_toc = gen_main_toc([code_toc])
+    readme_main_path = os.path.join(repo_path, r'README-main.md')
+
+    auto_line = '<font color="LightGrey"><i> `The following is Auto-generated` </i></font>'
+    files_concat(src_in=[readme_main_path,
+                         auto_line,
+                         '\n'.join(block_toc),
+                         code_append],
                  file_out=repo_readme_path,
                  sep='\n---\n\n')
     readme = open(repo_readme_path, encoding='utf8').read()
@@ -108,6 +149,6 @@ if __name__ == '__main__':
     else:
         # 抑制标准输出，只打印 WARNING 信息
         # sys.stdout = open(os.devnull, 'w')
-        command = "generate_readme_examples.py --module_path ../my --out ../README.md"
+        command = "generate_readme_examples.py --module_path .. --out ../README.md"
         sys.argv = command.split()
         _test()

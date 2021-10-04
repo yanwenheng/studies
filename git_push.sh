@@ -17,8 +17,9 @@ echo
 
 # 生成 README.md
 printf "=== Start generating README.md ===\n"
+code_path="$repo/code"
 out=$(python code/scripts/generate_readme_examples.py \
-      --module_path "$test_path" \
+      --module_path "$code_path" \
       --out "$repo/code/README.md")
 echo "$out"
 if [[ $out = 'DIFF' ]]; then
