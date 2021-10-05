@@ -17,10 +17,11 @@ echo
 
 # 生成 README.md
 printf "=== Start generating README.md ===\n"
-code_path="$repo/code"
 out=$(python code/scripts/generate_readme_examples.py \
-      --module_path "$code_path" \
-      --out "$repo/code/README.md")
+      --repo_path "$repo" \
+      --code_path "$repo/code" \
+      --algo_path "$repo/algorithm" \
+      --module_path "$repo/code/my")
 echo "$out"
 if [[ $out = 'DIFF' ]]; then
   git add "README.md" "$repo/code/README.md"

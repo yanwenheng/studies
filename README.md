@@ -10,10 +10,23 @@ studies
 
 ---
 
-Study Index
+Repo Index
 ---
 
+- [Algorithm Studies](#algorithm-studies)
 - [My Code Lab](#my-code-lab)
+
+---
+
+Algorithm Studies
+---
+
+<details><summary><b> 专题-双指针 <a href="algorithm/专题-双指针.md">¶</a></b></summary>
+
+- [三数之和（3Sum）](algorithm/专题-双指针.md#三数之和3sum)
+- [最接近的三数之和（3Sum Closest）](algorithm/专题-双指针.md#最接近的三数之和3sum-closest)
+
+</details>
 
 ---
 
@@ -36,22 +49,10 @@ My Code Lab
 
 <details><summary><b> Python 自定义数据结构 <a href="#python-自定义数据结构">¶</a></b></summary>
 
-- [Study Index](#study-index)
-- [My Code Lab](#my-code-lab)
-- [NLP Utils](#nlp-utils)
-    - [`BertTokenizer`: Bert 分词器](#berttokenizer-bert-分词器)
-    - [`split`: 将数据按比例切分](#split-将数据按比例切分)
-    - [`ner_result_parse`: NER 结果解析（基于 BIO 格式）](#ner_result_parse-ner-结果解析基于-bio-格式)
-- [Python Utils](#python-utils)
-    - [`simple_argparse`: 一个简化版 argparse](#simple_argparse-一个简化版-argparse)
-- [Python 自定义数据结构](#python-自定义数据结构)
-    - [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
-    - [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
-    - [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
-    - [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
-- [Pytorch Utils](#pytorch-utils)
-    - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
-    - [`ToyDataLoader`: 一个简单的 DataLoader](#toydataloader-一个简单的-dataloader)
+- [`ArrayDict`: 数组字典，支持 slice](#arraydict-数组字典支持-slice)
+- [`ValueArrayDict`: 数组字典，支持 slice，且操作 values](#valuearraydict-数组字典支持-slice且操作-values)
+- [`BunchDict`: 基于 dict 实现 Bunch 模式](#bunchdict-基于-dict-实现-bunch-模式)
+- [`ConfigDict`: 配置字典（基于 BunchDict）](#configdict-配置字典基于-bunchdict)
 
 </details>
 

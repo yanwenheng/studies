@@ -41,7 +41,7 @@ README_BLOCK_TEMPLATE = """### {summary}
 """
 
 
-def _slugify(line):
+def slugify(line):
     """"""
     return slugify_unicode(line, '-')
 
@@ -232,7 +232,7 @@ class DocParser:
 
     @staticmethod
     def slugify(line):
-        return _slugify(line)
+        return slugify(line)
 
     @staticmethod
     def get_line_number(obj):
@@ -256,7 +256,7 @@ class DocParser:
     @staticmethod
     def get_toc_line(line, prefix=''):
         """"""
-        toc_line = f'[{line}]({prefix}#{_slugify(line)})'
+        toc_line = f'[{line}]({prefix}#{slugify(line)})'
         return toc_line
 
     def get_markdown_block(self, prefix=''):
