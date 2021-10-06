@@ -24,7 +24,7 @@ out=$(python code/scripts/generate_readme_examples.py \
       --module_path "$repo/code/my")
 echo "$out"
 if [[ $out = 'DIFF' ]]; then
-  git add "README.md" "$repo/code/README.md"
+  git add "README.md" "$repo/code/README.md" "$repo/algorithm/*"
   git commit -m '[U] Auto-README.md'
 fi
 echo
