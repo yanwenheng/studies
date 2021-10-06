@@ -107,10 +107,10 @@ class AlgorithmReadme:
         readme_lines = [self.toc_head, '===\n', auto_line]
         append_lines = [self.toc_head, '---\n']
 
-        index_lines = ['Index', '---']
         for tag, problems_txts in problems_dt.items():  # noqa
             """"""
             topic_fn = f'专题-{tag}'
+            index_lines = ['Index', '---']
             # readme_lines.append(f'- [{topic_fn}]({topic_fn}.md)')
             # append_lines.append(f'- [{topic_fn}]({self.prefix}/{topic_fn}.md)')
             readme_lines.append(beg_details_tmp.format(key=topic_fn, url=f'{topic_fn}.md'))
