@@ -34,7 +34,7 @@ from my.python.code_analysis import DocParser, module_iter, slugify
 from my.python.file_utils import files_concat
 from my.python.custom import simple_argparse
 
-RE_TAG = re.compile(r'Tag:(.*?)\n')
+RE_TAG = re.compile(r'Tag: (.*?)\s')
 RE_TITLE = re.compile(r'#+\s+(.*?)$')
 
 beg_details_tmp = '<details><summary><b> {key} <a href="{url}">¶</a></b></summary>\n'
