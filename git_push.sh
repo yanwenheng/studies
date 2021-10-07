@@ -11,6 +11,7 @@ if [[ $out != 0 ]]; then
   echo "Not all file pass doctest($test_path)"
   exit
 else
+  echo "$out"
   echo "All file passed doctest."
 fi
 echo
