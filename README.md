@@ -40,6 +40,12 @@ Algorithm Studies
 
 </details>
 
+<details><summary><b> 专题-哈希表 <a href="algorithm/专题-哈希表.md">¶</a></b></summary>
+
+- [两数之和](algorithm/专题-哈希表.md#两数之和)
+
+</details>
+
 <details><summary><b> 专题-深度优先搜索 <a href="algorithm/专题-深度优先搜索.md">¶</a></b></summary>
 
 - [路径总和 III](algorithm/专题-深度优先搜索.md#路径总和-iii)
