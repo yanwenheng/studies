@@ -41,6 +41,23 @@ beg_details_tmp = '<details><summary><b> {key} <a href="{url}">¶</a></b></summa
 end_details = '\n</details>\n'
 auto_line = '<font color="LightGrey"><i> `This README is Auto-generated` </i></font>\n'
 
+tag_map = [  # 文件名: tag名
+    ('双指针(滑动窗口)', '双指针'),
+    ('双指针(滑动窗口)', '滑动窗口'),
+    ('深度优先搜索(递归)', '深度优先搜索'),
+    ('深度优先搜索(递归)', 'dfs'),
+    ('递归(迭代)', '递归'),
+    ('递归(迭代)', '迭代'),
+    ('哈希表', '哈希表'),
+    ('哈希表', 'hash'),
+    ('链表', '链表'),
+    ('二叉树(树)', '二叉树'),
+    ('二叉树(树)', '树'),
+    ('前缀和', '前缀和'),
+]
+
+tag_dt = {k: v for v, k in tag_map}
+
 
 def hn_line(line, lv=2):
     """"""
@@ -85,7 +102,8 @@ class AlgorithmReadme:
             txt = open(fp, encoding='utf8').read()
             tags = RE_TAG.search(txt)
             if tags:
-                tags = [tag.strip() for tag in re.split(r'[,，、]', tags.group(1))]
+                tags = re.split(r'[,，、]', tags.group(1))
+                tags = [tag_dt[tag.strip().lower()] for tag in tags]
             else:
                 tags = ['其他']
 
