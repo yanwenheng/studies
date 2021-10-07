@@ -16,7 +16,7 @@ import doctest
 
 from types import *
 from typing import *
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from pkgutil import walk_packages
 
 from sortedcontainers import SortedList
@@ -85,19 +85,18 @@ class AlgorithmReadme:
             txt = open(fp, encoding='utf8').read()
             tags = RE_TAG.search(txt)
             if tags:
-                tags = [tag.strip() for tag in re.split(r'[,，]]', tags.group(1))]
+                tags = [tag.strip() for tag in re.split(r'[,，、]', tags.group(1))]
             else:
                 tags = ['其他']
 
-            txt = txt.rstrip() + '\n\n---'
+            txt = txt.rstrip().replace('../_assets', './_assets') + '\n\n---'
             for tag in tags:
                 problems_dt[tag].append(txt)
 
-        # for k, v in problems_dt.items():
-        #     for idx, txt in enumerate(v):
-        #         if idx < len(v) - 1:
-        #             v[idx] = txt.rstrip() + '\n\n---'
+        for k, v in problems_dt.items():
+            problems_dt[k] = sorted(v)
 
+        problems_dt = OrderedDict(sorted(problems_dt.items()))
         return problems_dt
 
     def gen_topic_md(self, problems_dt):
@@ -160,7 +159,7 @@ class CodeReadme:
         args = self.args
         docs_dt = defaultdict(list)
 
-        for module in module_iter(args.module_path):
+        for module in module_iter(args.code_path):
             if hasattr(module, '__all__'):
                 for obj_str in module.__all__:
                     obj = getattr(module, obj_str)
@@ -268,7 +267,6 @@ if __name__ == '__main__':
         command = "generate_readme_examples.py " \
                   "--repo_path ../../ " \
                   "--code_path ../../code/ " \
-                  "--algo_path ../../algorithm " \
-                  "--module_path ../../code/my"
+                  "--algo_path ../../algorithm "
         sys.argv = command.split()
         _test()

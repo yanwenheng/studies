@@ -21,10 +21,34 @@ Repo Index
 Algorithm Studies
 ---
 
+<details><summary><b> 专题-二叉树 <a href="algorithm/专题-二叉树.md">¶</a></b></summary>
+
+- [路径总和 III](algorithm/专题-二叉树.md#路径总和-iii)
+
+</details>
+
+<details><summary><b> 专题-前缀和 <a href="algorithm/专题-前缀和.md">¶</a></b></summary>
+
+- [路径总和 III](algorithm/专题-前缀和.md#路径总和-iii)
+
+</details>
+
 <details><summary><b> 专题-双指针 <a href="algorithm/专题-双指针.md">¶</a></b></summary>
 
 - [三数之和（3Sum）](algorithm/专题-双指针.md#三数之和3sum)
 - [最接近的三数之和（3Sum Closest）](algorithm/专题-双指针.md#最接近的三数之和3sum-closest)
+
+</details>
+
+<details><summary><b> 专题-深度优先搜索 <a href="algorithm/专题-深度优先搜索.md">¶</a></b></summary>
+
+- [路径总和 III](algorithm/专题-深度优先搜索.md#路径总和-iii)
+
+</details>
+
+<details><summary><b> 专题-递归 <a href="algorithm/专题-递归.md">¶</a></b></summary>
+
+- [路径总和 III](algorithm/专题-递归.md#路径总和-iii)
 
 </details>
 
