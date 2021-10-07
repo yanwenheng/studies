@@ -38,7 +38,9 @@ Algorithm Studies
 - [LeetCode_Easy_0167_两数之和2(输入有序数组)](algorithm/专题-双指针(首尾).md#两数之和-ii-输入有序数组)
 - [LeetCode_Hard_0042_接雨水](algorithm/专题-双指针(首尾).md#题目名)
 - [LeetCode_Medium_0011_盛最多水的容器](algorithm/专题-双指针(首尾).md#盛最多水的容器)
-
+- [LeetCode_Medium_0015_三数之和](algorithm/专题-双指针(首尾).md#三数之和3sum)
+- [LeetCode_Medium_0016_最接近的三数之和](algorithm/专题-双指针(首尾).md#最接近的三数之和3sum-closest)
+- [LeetCode_Medium_0611_有效三角形的个数](algorithm/专题-双指针(首尾).md#有效三角形的个数)
 
 </details>
 
