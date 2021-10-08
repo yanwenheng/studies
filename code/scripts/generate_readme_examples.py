@@ -78,7 +78,8 @@ class AlgorithmReadme:
         """"""
         self.args = args
         self.toc_head = 'Algorithm Studies'
-        self.prefix = os.path.basename(args.algo_path)
+        self.prefix_algo = os.path.basename(args.algo_path)
+        self.prefix_repo = os.path.join(self.prefix_algo, 'topics')
         args.problems_path = os.path.join(args.algo_path, 'problems')
 
         problems_dt = self.parse_problems()
@@ -154,8 +155,10 @@ class AlgorithmReadme:
             index_lines = ['Index', '---']
             # readme_lines.append(f'- [{topic_fn}]({topic_fn}.md)')
             # append_lines.append(f'- [{topic_fn}]({self.prefix}/{topic_fn}.md)')
-            readme_lines.append(beg_details_tmp.format(key=topic_fn, url=f'{topic_fn}.md'))
-            append_lines.append(beg_details_tmp.format(key=topic_fn, url=f'{self.prefix}/{topic_fn}.md'))
+            algo_url = f'{os.path.join(self.prefix_algo, topic_fn)}.md'
+            repo_url = f'{os.path.join(self.prefix_repo, topic_fn)}.md'
+            readme_lines.append(beg_details_tmp.format(key=topic_fn, url=algo_url))
+            append_lines.append(beg_details_tmp.format(key=topic_fn, url=repo_url))
 
             contents = []
             for (head, txt) in problems_txts:
@@ -164,13 +167,13 @@ class AlgorithmReadme:
                 link = slugify(head)
                 contents.append(txt)
                 index_lines.append(f'- [{head}](#{link})')
-                readme_lines.append(f'- [{head}]({topic_fn}.md#{link})')
-                append_lines.append(f'- [{head}]({self.prefix}/{topic_fn}.md#{link})')
+                readme_lines.append(f'- [{head}]({algo_url}#{link})')
+                append_lines.append(f'- [{head}]({repo_url}#{link})')
 
             readme_lines.append(end_details)
             append_lines.append(end_details)
             index_lines.append('\n---')
-            f_out = os.path.join(args.problems_path, '..', f'{topic_fn}.md')
+            f_out = os.path.join(args.repo_path, self.prefix_repo, f'{topic_fn}.md')
             files_concat(['\n'.join(index_lines)] + contents, f_out, '\n')
 
         with open(os.path.join(args.algo_path, 'README.md'), 'w', encoding='utf8') as fw:
