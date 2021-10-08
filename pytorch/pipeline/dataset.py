@@ -514,10 +514,6 @@ def _test():
     doctest.testmod()
     from my.pytorch.pipeline.config import TrainConfig
 
-    from my.python.code_analysis import DocParser
-
-    ret = DocParser(ToyDataLoader)
-
     def _test_bert_data_loader_helper():
         """"""
         log_n = '测试 1：单句-单文件（默认返回 dict_batch）'
