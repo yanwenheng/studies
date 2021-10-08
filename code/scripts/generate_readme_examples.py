@@ -32,7 +32,7 @@ try:
 except:  # noqa
     pass
 
-from my.python.code_analysis import DocParser, module_iter, slugify
+from my.python.code_analysis import module_iter, slugify
 from my.python.file_utils import files_concat
 from my.python.custom import simple_argparse
 
@@ -288,7 +288,6 @@ class CodeReadme:
         for key in key_sorted:
             blocks = docs_dt[key]
             toc.append(beg_details_tmp.format(key=key, url=f'#{slugify(key)}'))
-            # main_toc.append(beg_details_tmp.format(key=key, url=f'{code_prefix}/README.md#{DocParser.slugify(key)}'))
 
             readme_lines.append(hn_line(key, 2))
             append_lines.append(hn_line(key, 2))
@@ -314,9 +313,15 @@ class CodeReadme:
 
 def gen_main_toc(toc_lines):
     """"""
+
+    def get_toc_line(line, prefix=''):
+        """"""
+        toc_line = f'[{line}]({prefix}#{slugify(line)})'
+        return toc_line
+
     lns = ['Repo Index', '---\n']
     for ln in toc_lines:
-        lns.append('- ' + DocParser.get_toc_line(ln))
+        lns.append('- ' + get_toc_line(ln))
 
     return lns
 

@@ -106,6 +106,52 @@ class Item:
     lines: List[str] = None
 
 
+def get_min_indent(s):
+    """Return the minimum indentation of any non-blank line in `s`"""
+    indents = [len(indent) for indent in RE_INDENT.findall(s)]
+    if len(indents) > 0:
+        return min(indents)
+    else:
+        return 0
+
+
+def get_toc_line(line, prefix=''):
+    """"""
+    toc_line = f'[{line}]({prefix}#{slugify(line)})'
+    return toc_line
+
+
+def remove_white_lines(lns):
+    while len(lns) > 0:
+        if lns[0].strip() == '':
+            lns.pop(0)
+        else:
+            break
+
+    while len(lns) > 0:
+        if lns[-1].strip() == '':
+            lns.pop()
+        else:
+            break
+
+    return lns
+
+
+def get_line_number(obj):
+    """ 获取对象行号
+    基于正则表达式，所以不一定保证准确
+
+    Examples:
+        # 获取失败示例
+        class Test:
+        >>> class Test:  # 正确答案应该是这行，但因为上面那行也能 match，所以实际返回的是上一行
+        ...     ''''''
+        >>> # get_line_number(Test)
+
+    """
+    return inspect.findsource(obj)[1] + 1
+
+
 class DocParser:
     """@Test
     一个简单的 docstring 解析器，只解析了我需要的部分（比如 Examples，用于自动生成 README）
@@ -145,7 +191,7 @@ class DocParser:
 
         self._obj = obj
         self._raw_doc = obj.__doc__
-        self.line_number = self.get_line_number(obj)
+        self.line_number = get_line_number(obj)
         self.soft_link = self.get_soft_link()
 
         lines = self._raw_doc.split('\n')
@@ -154,7 +200,7 @@ class DocParser:
             lines = lines[1:]
 
             # remove indent
-            self._min_indent = self.get_min_indent('\n'.join(lines))
+            self._min_indent = get_min_indent('\n'.join(lines))
             self._lines = [ln[self._min_indent:] for ln in lines]
             self._doc = '\n'.join(self._lines)
 
@@ -167,31 +213,6 @@ class DocParser:
         idx = dirs[::-1].index('my')  # *从后往前*找到 my 文件夹，只有这个位置是基本固定的
         return '/'.join(dirs[-(idx + 1):])  # 再找到这个 my 文件夹的上一级目录
 
-    @staticmethod
-    def get_min_indent(s):
-        """Return the minimum indentation of any non-blank line in `s`"""
-        indents = [len(indent) for indent in RE_INDENT.findall(s)]
-        if len(indents) > 0:
-            return min(indents)
-        else:
-            return 0
-
-    @staticmethod
-    def _remove_white_lines(_lns):
-        while len(_lns) > 0:
-            if _lns[0].strip() == '':
-                _lns.pop(0)
-            else:
-                break
-
-        while len(_lns) > 0:
-            if _lns[-1].strip() == '':
-                _lns.pop()
-            else:
-                break
-
-        return _lns
-
     def doc_parse(self):
         """"""
 
@@ -199,7 +220,7 @@ class DocParser:
             if start_lno > -1:
                 if hasattr(self, name) and isinstance(getattr(self, name), Item):
                     getattr(self, name).flag = flag
-                    _lines = self._remove_white_lines(lines[start_lno: end_lno])
+                    _lines = remove_white_lines(lines[start_lno: end_lno])
                     getattr(self, name).lines = _lines
 
         # summary 特殊处理
@@ -207,7 +228,7 @@ class DocParser:
         if head.strip():
             self.summary.lines = [f'`{self._obj.__name__}`: ', head]
 
-        lines = self._remove_white_lines(self._lines[1:])
+        lines = remove_white_lines(self._lines[1:])
 
         # details
         lno = 0
@@ -215,9 +236,9 @@ class DocParser:
             lno += 1
 
         if lno > 0:
-            tmp_lines = self._remove_white_lines(lines[:lno])
+            tmp_lines = remove_white_lines(lines[:lno])
             self.details.lines = tmp_lines
-            lines = self._remove_white_lines(lines[lno:])
+            lines = remove_white_lines(lines[lno:])
 
         name = ''
         start_lno = -1
@@ -230,34 +251,9 @@ class DocParser:
 
         _update()
 
-    @staticmethod
-    def slugify(line):
-        return slugify(line)
-
-    @staticmethod
-    def get_line_number(obj):
-        """ 获取对象行号
-        基于正则表达式，所以不一定保证准确
-
-        Examples:
-            # 获取失败示例
-            class Test:
-            >>> class Test:  # 正确答案应该是这行，但因为上面那行也能 match，所以实际返回的是上一行
-            ...     ''''''
-            >>> # get_line_number(Test)
-
-        """
-        return inspect.findsource(obj)[1] + 1
-
     def get_source_link(self, prefix=''):
         """"""
         return f'[source]({os.path.join(prefix, self.soft_link)}#L{self.line_number})'
-
-    @staticmethod
-    def get_toc_line(line, prefix=''):
-        """"""
-        toc_line = f'[{line}]({prefix}#{slugify(line)})'
-        return toc_line
 
     def get_markdown_block(self, prefix=''):
         """"""
@@ -272,7 +268,7 @@ class DocParser:
             if not lines:
                 return ''
             head = lines[0]
-            min_indent = self.get_min_indent('\n'.join(lines[1:]))
+            min_indent = get_min_indent('\n'.join(lines[1:]))
             content = '\n'.join([ln[min_indent:] for ln in lines[1:]])
             return f"**{head}**\n```python\n{content}\n```" if lines else ''
 
@@ -281,21 +277,6 @@ class DocParser:
         block += _concat(self.details.lines)
         block += _concat_code(self.examples.lines)
         return block
-
-
-def get_line_number(obj):
-    """ 获取对象行号
-    基于正则表达式，所以不一定保证准确
-    
-    Examples:
-        # 获取失败示例
-        class Test:
-        >>> class Test:  # 正确答案应该是这行，但因为上面那行也能 match，所以实际返回的是上一行
-        ...     ''''''
-        >>> # get_line_number(Test)
-
-    """
-    return inspect.findsource(obj)[1] + 1
 
 
 def _fields_match(ln, fs):
