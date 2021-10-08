@@ -78,8 +78,8 @@ class AlgorithmReadme:
         """"""
         self.args = args
         self.toc_head = 'Algorithm Studies'
-        self.prefix_algo = os.path.basename(args.algo_path)
-        self.prefix_repo = os.path.join(self.prefix_algo, 'topics')
+        self.prefix_algo = 'topics'  # os.path.basename(args.algo_path)
+        self.prefix_repo = os.path.join(os.path.basename(args.algo_path), self.prefix_algo)
         args.problems_path = os.path.join(args.algo_path, 'problems')
 
         problems_dt = self.parse_problems()
