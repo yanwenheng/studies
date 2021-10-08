@@ -101,12 +101,23 @@ class AlgorithmReadme:
         args = self.args
 
         problems_dt = defaultdict(list)  # {tag: file_txt_ls}
-        files = os.listdir(args.problems_path)
+        # files = os.listdir(args.problems_path)
+
+        file_iter = []
+        for prefix, _, files in os.walk(args.problems_path):
+            for f in files:
+                fn, ext = os.path.splitext(f)
+                if ext != '.md':
+                    continue
+
+                fp = os.path.join(prefix, f)
+                suffix = '-'.join(prefix.split('/')[-2:])
+                file_iter.append((fn, fp, suffix))
 
         # 解析算法 tags
-        for f in files:
-            fn, _ = os.path.splitext(f)
-            fp = os.path.join(args.problems_path, f)
+        for fn, fp, suffix in file_iter:
+            # fn, _ = os.path.splitext(f)
+            # fp = os.path.join(args.problems_path, f)
             txt = open(fp, encoding='utf8').read()
             tags = RE_TAG.search(txt)
             if tags:
@@ -115,9 +126,14 @@ class AlgorithmReadme:
             else:
                 tags = ['其他']
 
+            src, lv, pid, pn = fn.split('_')
+            head = f'{pn} ({src}, {lv}, No.{pid}, {suffix})'
+            lines = txt.split('\n')
+            lines[0] = f'### {head}'
+            txt = '\n'.join(lines)
             txt = txt.rstrip().replace('../_assets', './_assets') + '\n\n---'
             for tag in tags:
-                problems_dt[tag].append((fn, txt))
+                problems_dt[tag].append((head, txt))
 
         for k, v in problems_dt.items():
             problems_dt[k] = sorted(v)
@@ -142,13 +158,14 @@ class AlgorithmReadme:
             append_lines.append(beg_details_tmp.format(key=topic_fn, url=f'{self.prefix}/{topic_fn}.md'))
 
             contents = []
-            for (fn, txt) in problems_txts:
-                head = fn
-                link = self.parse_head(txt)
+            for (head, txt) in problems_txts:
+                # head = fn
+                # link = self.parse_head(txt)
+                link = slugify(head)
                 contents.append(txt)
-                index_lines.append(f'- [{head}](#{slugify(link)})')
-                readme_lines.append(f'- [{head}]({topic_fn}.md#{slugify(link)})')
-                append_lines.append(f'- [{head}]({self.prefix}/{topic_fn}.md#{slugify(link)})')
+                index_lines.append(f'- [{head}](#{link})')
+                readme_lines.append(f'- [{head}]({topic_fn}.md#{link})')
+                append_lines.append(f'- [{head}]({self.prefix}/{topic_fn}.md#{link})')
 
             readme_lines.append(end_details)
             append_lines.append(end_details)
