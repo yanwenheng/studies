@@ -12,12 +12,14 @@ import os
 import re
 import sys
 import json
+import inspect
 import doctest
 
 from types import *
 from typing import *
 from collections import defaultdict, OrderedDict
 from pkgutil import walk_packages
+from dataclasses import dataclass
 
 from sortedcontainers import SortedList
 
@@ -36,6 +38,7 @@ from my.python.custom import simple_argparse
 
 RE_TAG = re.compile(r'Tag: (.*?)\s')
 RE_TITLE = re.compile(r'#+\s+(.*?)$')
+RE_INDENT = re.compile(r'^([ ]*)(?=\S)', re.MULTILINE)
 
 beg_details_tmp = '<details><summary><b> {key} <a href="{url}">¶</a></b></summary>\n'
 end_details = '\n</details>\n'
@@ -57,6 +60,7 @@ tag_map = [  # 文件名: tag名
     ('二叉树(树)', '树'),
     ('前缀和', '前缀和'),
     ('字符串', '字符串'),
+    ('位运算', '位运算'),
 ]
 
 tag_dt = {k: v for v, k in tag_map}
@@ -172,6 +176,45 @@ class AlgorithmReadme:
 class CodeReadme:
     """"""
 
+    @dataclass()
+    class DocItem:
+        """"""
+        flag: str
+        summary: str
+        content: str
+        module_path: str
+        line_no: int
+        link: str = None
+
+        def __post_init__(self):
+            self.link = f'[source]({self.module_path}#L{self.line_no})'
+
+        def get_block(self, prefix=''):
+            """"""
+
+            block = f'### {self.summary}\n'
+            block += f'> [source]({os.path.join(prefix, self.module_path)}#L{self.line_no})\n\n'
+            block += '```python\n'
+            block += f'{self.content}'
+            block += '```'
+
+            return block
+
+    @staticmethod
+    def get_line_number(obj):
+        """ 获取对象行号
+        基于正则表达式，所以不一定保证准确
+
+        Examples:
+            # 获取失败示例
+            class Test:
+            >>> class Test:  # 正确答案应该是这行，但因为上面那行也能 match，所以实际返回的是上一行
+            ...     ''''''
+            >>> # get_line_number(Test)
+
+        """
+        return inspect.findsource(obj)[1] + 1
+
     def __init__(self, args):
         """"""
         self.args = args
@@ -192,12 +235,45 @@ class CodeReadme:
                     if isinstance(obj, (ModuleType, FunctionType, type)) \
                             and getattr(obj, '__doc__') \
                             and obj.__doc__.startswith('@'):
-                        doc = DocParser(obj)
-                        docs_dt[doc.flag[1:]].append(doc)
+                        doc = self.parse_doc(obj)
+                        docs_dt[doc.flag].append(doc)
 
         return docs_dt
 
-    def gen_readme_md(self, docs_dt: Dict[str, List[DocParser]]):
+    def parse_doc(self, obj) -> DocItem:
+        """"""
+        raw_doc = obj.__doc__
+        lines = raw_doc.split('\n')
+        flag = lines[0][1:]
+
+        lines = lines[1:]
+        min_indent = self.get_min_indent('\n'.join(lines))
+        lines = [ln[min_indent:] for ln in lines]
+
+        summary = f'`{obj.__name__}`: {lines[0]}'
+        content = '\n'.join(lines)
+
+        line_no = self.get_line_number(obj)
+        module_path = self.get_module_path(obj)
+        return self.DocItem(flag, summary, content, module_path, line_no)
+
+    @staticmethod
+    def get_module_path(obj):
+        abs_url = inspect.getmodule(obj).__file__
+        dirs = abs_url.split('/')
+        idx = dirs[::-1].index('my')  # *从后往前*找到 my 文件夹，只有这个位置是基本固定的
+        return '/'.join(dirs[-(idx + 1):])  # 再找到这个 my 文件夹的上一级目录
+
+    @staticmethod
+    def get_min_indent(s):
+        """Return the minimum indentation of any non-blank line in `s`"""
+        indents = [len(indent) for indent in RE_INDENT.findall(s)]
+        if len(indents) > 0:
+            return min(indents)
+        else:
+            return 0
+
+    def gen_readme_md(self, docs_dt: Dict[str, List[DocItem]]):
         """"""
         args = self.args
         code_prefix = os.path.basename(os.path.abspath(args.code_path))
@@ -217,9 +293,9 @@ class CodeReadme:
             readme_lines.append(hn_line(key, 2))
             append_lines.append(hn_line(key, 2))
             for d in blocks:
-                toc.append(f'- [{d.summary_line}](#{slugify(d.summary_line)})')
-                readme_lines.append(d.get_markdown_block())
-                append_lines.append(d.get_markdown_block(prefix=code_prefix))
+                toc.append(f'- [{d.summary}](#{slugify(d.summary)})')
+                readme_lines.append(d.get_block())
+                append_lines.append(d.get_block(prefix=code_prefix))
 
             toc.append(end_details)
             # main_toc.append(end_details)
