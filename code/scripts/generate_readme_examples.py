@@ -106,7 +106,7 @@ class AlgorithmReadme:
         for idx, tag in enumerate(tags):
             """"""
             # ![ForgiveDB](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg)
-            lns.append(f'[![{tag}](https://img.shields.io/badge/{tag}-gray.svg)]({self.get_topic_fn(tag)})')
+            lns.append(f'[![{tag}](https://img.shields.io/badge/{tag}-lightgray.svg)]({self.get_topic_fn(tag)})')
 
         return '\n'.join(lns)
 
