@@ -21,6 +21,12 @@ Repo Index
 Algorithm Studies
 ---
 
+<details><summary><b> 专题-二分查找 <a href="algorithm/topics/专题-二分查找.md">¶</a></b></summary>
+
+- [将数据流变为多个不相交区间 (LeetCode, Hard, No.0352, 2021-10)](algorithm/topics/专题-二分查找.md#将数据流变为多个不相交区间-leetcode-hard-no0352-2021-10)
+
+</details>
+
 <details><summary><b> 专题-二叉树(树) <a href="algorithm/topics/专题-二叉树(树).md">¶</a></b></summary>
 
 - [路径总和3 (LeetCode, Medium, No.0437, 2021-10)](algorithm/topics/专题-二叉树(树).md#路径总和3-leetcode-medium-no0437-2021-10)
@@ -60,6 +66,12 @@ Algorithm Studies
 <details><summary><b> 专题-字符串 <a href="algorithm/topics/专题-字符串.md">¶</a></b></summary>
 
 - [字符串中的单词数 (LeetCode, Easy, No.0434, 2021-10)](algorithm/topics/专题-字符串.md#字符串中的单词数-leetcode-easy-no0434-2021-10)
+
+</details>
+
+<details><summary><b> 专题-模拟 <a href="algorithm/topics/专题-模拟.md">¶</a></b></summary>
+
+- [将数据流变为多个不相交区间 (LeetCode, Hard, No.0352, 2021-10)](algorithm/topics/专题-模拟.md#将数据流变为多个不相交区间-leetcode-hard-no0352-2021-10)
 
 </details>
 
