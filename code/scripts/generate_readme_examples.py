@@ -135,7 +135,7 @@ class AlgorithmReadme:
             lines = txt.split('\n')
             lines[0] = f'### {head}'
             txt = '\n'.join(lines)
-            txt = txt.rstrip().replace('../_assets', './_assets') + '\n\n---'
+            txt = txt.rstrip().replace(r'../../../_assets', '../_assets') + '\n\n---'
             for tag in tags:
                 problems_dt[tag].append((head, txt))
 
