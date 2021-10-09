@@ -30,6 +30,14 @@ if [[ $out = 'DIFF' ]]; then
 fi
 echo
 
+# 子仓库
+prefix="algorithm"
+name="algorithm"
+echo "=== Start Push $name ==="
+git subtree split --prefix=$prefix --branch $name --rejoin
+git subtree push --prefix=$prefix $name master --squash
+echo
+
 # 主仓库
 printf "=== Start Push Main Repo ===\n"
 git push
@@ -40,13 +48,6 @@ echo
 #split_feq=20  # 每提交 20 次再 split 一次
 #split_flag=$((num_commits % split_feq))
 
-# 子仓库
-prefix="algorithm"
-name="algorithm"
-echo "=== Start Push $name ==="
-git subtree split --prefix=$prefix --branch $name --rejoin
-git subtree push --prefix=$prefix $name master --squash
-echo
 
 #prefix="code"
 #name="my_lab"
