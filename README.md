@@ -18,7 +18,7 @@ Repo Index
 
 ---
 
-Algorithm Studie
+Algorithm Studies
 ---
 
 <details><summary><b> 专题-二分查找 <a href="algorithm/topics/专题-二分查找.md">¶</a></b></summary>
