@@ -29,6 +29,8 @@ Algorithm Studies
 
 <details><summary><b> 专题-二叉树(树) <a href="algorithm/topics/专题-二叉树(树).md">¶</a></b></summary>
 
+- [二叉树的最大深度 (LeetCode, Easy, No.0104, 2021-10)](algorithm/topics/专题-二叉树(树).md#二叉树的最大深度-leetcode-easy-no0104-2021-10)
+- [二叉树的最小深度 (LeetCode, Easy, No.0111, 2021-10)](algorithm/topics/专题-二叉树(树).md#二叉树的最小深度-leetcode-easy-no0111-2021-10)
 - [路径总和3 (LeetCode, Medium, No.0437, 2021-10)](algorithm/topics/专题-二叉树(树).md#路径总和3-leetcode-medium-no0437-2021-10)
 
 </details>
@@ -77,12 +79,14 @@ Algorithm Studies
 
 <details><summary><b> 专题-深度优先搜索(递归) <a href="algorithm/topics/专题-深度优先搜索(递归).md">¶</a></b></summary>
 
+- [二叉树的最小深度 (LeetCode, Easy, No.0111, 2021-10)](algorithm/topics/专题-深度优先搜索(递归).md#二叉树的最小深度-leetcode-easy-no0111-2021-10)
 - [路径总和3 (LeetCode, Medium, No.0437, 2021-10)](algorithm/topics/专题-深度优先搜索(递归).md#路径总和3-leetcode-medium-no0437-2021-10)
 
 </details>
 
 <details><summary><b> 专题-递归(迭代) <a href="algorithm/topics/专题-递归(迭代).md">¶</a></b></summary>
 
+- [二叉树的最大深度 (LeetCode, Easy, No.0104, 2021-10)](algorithm/topics/专题-递归(迭代).md#二叉树的最大深度-leetcode-easy-no0104-2021-10)
 - [合并两个有序链表 (LeetCode, Easy, No.0021, 2021-10)](algorithm/topics/专题-递归(迭代).md#合并两个有序链表-leetcode-easy-no0021-2021-10)
 
 </details>
