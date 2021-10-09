@@ -100,6 +100,16 @@ class AlgorithmReadme:
         #
         # self.toc = '\n'.join(toc_lns)
 
+    def gen_tags_svg(self, tags):
+        """"""
+        lns = ['\n']
+        for idx, tag in enumerate(tags):
+            """"""
+            # ![ForgiveDB](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg)
+            lns.append(f'[![{tag}](https://img.shields.io/badge/{tag}-gray.svg)]({self.get_topic_fn(tag)})')
+
+        return '\n'.join(lns)
+
     def parse_problems(self):
         """"""
         args = self.args
@@ -134,6 +144,7 @@ class AlgorithmReadme:
             head = f'{pn} ({src}, {lv}, No.{pid}, {suffix})'
             lines = txt.split('\n')
             lines[0] = f'### {head}'
+            lines.insert(1, self.gen_tags_svg(tags))
             txt = '\n'.join(lines)
             txt = txt.rstrip().replace(r'../../../_assets', '../_assets') + '\n\n---'
             for tag in tags:
@@ -145,6 +156,10 @@ class AlgorithmReadme:
         problems_dt = OrderedDict(sorted(problems_dt.items()))
         return problems_dt
 
+    @staticmethod
+    def get_topic_fn(tag):
+        return f'专题-{tag}.md'
+
     def gen_topic_md(self, problems_dt):
         """生成算法专题md"""
         args = self.args
@@ -154,14 +169,15 @@ class AlgorithmReadme:
 
         for tag, problems_txts in problems_dt.items():  # noqa
             """"""
-            topic_fn = f'专题-{tag}'
+            topic_fn = self.get_topic_fn(tag)
+            topic_name, _ = os.path.splitext(topic_fn)
             index_lines = ['Index', '---']
             # readme_lines.append(f'- [{topic_fn}]({topic_fn}.md)')
             # append_lines.append(f'- [{topic_fn}]({self.prefix}/{topic_fn}.md)')
-            algo_url = f'{os.path.join(self.prefix_algo, topic_fn)}.md'
-            repo_url = f'{os.path.join(self.prefix_repo, topic_fn)}.md'
-            readme_lines.append(beg_details_tmp.format(key=topic_fn, url=algo_url))
-            append_lines.append(beg_details_tmp.format(key=topic_fn, url=repo_url))
+            algo_url = os.path.join(self.prefix_algo, topic_fn)
+            repo_url = os.path.join(self.prefix_repo, topic_fn)
+            readme_lines.append(beg_details_tmp.format(key=topic_name, url=algo_url))
+            append_lines.append(beg_details_tmp.format(key=topic_name, url=repo_url))
 
             contents = []
             for (head, txt) in problems_txts:
@@ -176,7 +192,7 @@ class AlgorithmReadme:
             readme_lines.append(end_details)
             append_lines.append(end_details)
             index_lines.append('\n---')
-            f_out = os.path.join(args.repo_path, self.prefix_repo, f'{topic_fn}.md')
+            f_out = os.path.join(args.repo_path, self.prefix_repo, topic_fn)
             files_concat(['\n'.join(index_lines)] + contents, f_out, '\n')
 
         with open(os.path.join(args.algo_path, 'README.md'), 'w', encoding='utf8') as fw:
