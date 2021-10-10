@@ -21,10 +21,18 @@ import torch.nn as nn
 from my.pytorch.modules.wrap import EncoderWrapper
 from my.pytorch.utils import cosine_similarity_dense
 
+__all__ = [
+    'SimCSE'
+]
+
 
 # TODO: 有监督
 class SimCSE(EncoderWrapper):
-    """"""
+    """@Pytorch Models
+    SimCSE
+
+    References: https://github.com/princeton-nlp/SimCSE
+    """
 
     def __init__(self, encoder, distance_fn=cosine_similarity_dense, encode_wrapper=None):
         """"""

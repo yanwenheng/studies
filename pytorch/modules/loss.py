@@ -25,8 +25,16 @@ from my.pytorch.backend.loss_fn import triplet_loss
 LABEL_FORMATS = {'category', 'one_hot'}
 
 
+__all__ = [
+    'BaseLoss',
+    'ContrastiveLoss',
+    'TripletLoss',
+    'CrossEntropyLoss'
+]
+
 class BaseLoss(nn.Module):
-    """ Loss 基类
+    """@Pytorch Loss
+    Loss 基类
     """
 
     def __init__(self, reduction='mean', temperature=1.0):
@@ -73,7 +81,8 @@ class BaseLoss(nn.Module):
 
 
 class ContrastiveLoss(BaseLoss):
-    """ 对比损失（可自定义距离函数，默认为欧几里得距离）
+    """@Pytorch Loss
+    对比损失（可自定义距离函数，默认为欧几里得距离）
     """
 
     def __init__(self, distance_fn=euclidean_distance, margin=1.0, **kwargs):
@@ -89,7 +98,8 @@ class ContrastiveLoss(BaseLoss):
 
 
 class TripletLoss(BaseLoss):
-    """ Triplet 损失，常用于无监督学习、few-shot 学习
+    """@Pytorch Loss
+    Triplet 损失，常用于无监督学习、few-shot 学习
 
     Examples:
         >>> anchor = torch.randn(100, 128)
@@ -122,7 +132,12 @@ class TripletLoss(BaseLoss):
 
 
 class CrossEntropyLoss(BaseLoss):
-    """
+    """@Pytorch Loss
+    交叉熵
+
+    区别：官方内置了 softmax 操作，且默认非 one-hot 标签；
+    这里参考了 tf 的实现方式
+
     Examples:
         >>> logits = torch.randn(5, 5)
         >>> labels = torch.arange(5)
@@ -134,7 +149,6 @@ class CrossEntropyLoss(BaseLoss):
         >>> ce = nn.CrossEntropyLoss(reduction='none')
         >>> assert torch.allclose(my_ce(probs, onehot_labels), ce(logits, labels), atol=1e-5)
 
-        # 区别：官方 ce 内置了 softmax 操作，且默认非 one-hot 标签；my_ce 参考了 tf 的实现方式
     """
 
     def __init__(self, **kwargs):
