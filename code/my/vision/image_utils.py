@@ -12,6 +12,11 @@ Subject:
 """
 import os
 
+__all__ = [
+    'get_real_ext',
+    'rename_to_real_ext'
+]
+
 
 def get_real_ext(image_path, return_is_same=False):
     """@Image Utils
