@@ -57,7 +57,7 @@ Examples:
 ```
 
 ### `get_real_ext`: 获取图像文件的真实后缀
-> [source](my/vision/image_utils.py#L20)
+> [source](my/vision/image_utils.py#L21)
 
 ```python
 获取图像文件的真实后缀

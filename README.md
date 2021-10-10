@@ -110,6 +110,13 @@ Algorithm Studies
 My Code Lab
 ---
 
+<details><summary><b> Image Utils <a href="#image-utils">¶</a></b></summary>
+
+- [`ImageCheck`: 图片完整性检查](#imagecheck-图片完整性检查)
+- [`get_real_ext`: 获取图像文件的真实后缀](#get_real_ext-获取图像文件的真实后缀)
+
+</details>
+
 <details><summary><b> NLP Utils <a href="#nlp-utils">¶</a></b></summary>
 
 - [`BertTokenizer`: Bert 分词器](#berttokenizer-bert-分词器)
@@ -141,6 +148,38 @@ My Code Lab
 </details>
 
 ---
+
+## Image Utils
+
+### `ImageCheck`: 图片完整性检查
+> [source](code/my/vision/image_check.py#L21)
+
+```python
+图片完整性检查
+
+Examples:
+    >>> img = r'./_test_data/pok.jpg'
+    >>> ImageCheck.is_complete(img)
+
+```
+
+### `get_real_ext`: 获取图像文件的真实后缀
+> [source](code/my/vision/image_utils.py#L21)
+
+```python
+获取图像文件的真实后缀
+如果不是图片，返回后缀为 None
+该方法不能判断图片是否完整
+
+Args:
+    image_path:
+    return_is_same: 是否返回 `is_same`
+
+Returns:
+    ext_real, is_same
+    真实后缀，真实后缀与当前后缀是否相同
+    如果当前文件不是图片，则 ext_real 为 None
+```
 
 ## NLP Utils
 
