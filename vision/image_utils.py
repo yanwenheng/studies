@@ -14,7 +14,7 @@ import os
 
 
 def get_real_ext(image_path, return_is_same=False):
-    """
+    """@Image Utils
     获取图像文件的真实后缀
     如果不是图片，返回后缀为 None
     该方法不能判断图片是否完整
