@@ -30,6 +30,12 @@ from typing import *
 # from my.python.utils import get_logger, set_stdout_null
 
 # logger = logging.getLogger(__name__)
+# logger.setLevel(logging.WARN)
+
+from transformers.modeling_utils import logger  # noqa
+
+logging.basicConfig(level=logging.ERROR)
+logger.setLevel(logging.ERROR)
 
 
 def doctest_modules(paths: Union[str, List[str]]):
@@ -62,7 +68,7 @@ def _doctest_py(module_name):
     if hasattr(module, 'doctest'):  # 如果该模块中使用了文档测试
         num_failed = doctest.testmod(module).failed
         if num_failed > 0:
-            logging.warning(f'=== `{module.__name__}` doctest failed! ===')
+            logging.error(f'=== `{module.__name__}` doctest failed! ===')
 
     return num_failed
 
@@ -84,10 +90,12 @@ def _test():
 
 if __name__ == '__main__':
     """"""
-    sys.argv = 'code/scripts/doctest_modules_recur.py /Users/huayang/workspace/my/studies/code/my'.split()
+    # sys.argv = 'code/scripts/doctest_modules_recur.py /Users/huayang/workspace/my/studies/code/my'.split()
     if len(sys.argv) > 1:
+        # sys.stdout = open(os.devnull, 'w')
         pkg_path = sys.argv[1:]
         failed = doctest_modules(pkg_path)
+        # sys.stdout = sys.__stdout__
         print(failed)
     else:
         # 抑制标准输出，只打印 WARNING 信息
