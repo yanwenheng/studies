@@ -17,7 +17,9 @@ from my.pytorch.modules.sequence_labeling.crf import CRFEncoder
 
 
 class BertCRF(CRFEncoder):
-    """"""
+    """@Pytorch Models
+    BertCRF
+    """
 
     def __init__(self, n_classes, bert=None, **kwargs):
         if bert is None:

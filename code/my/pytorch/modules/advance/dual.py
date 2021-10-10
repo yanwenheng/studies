@@ -17,9 +17,15 @@ from torch import nn as nn
 from my.pytorch.backend.distance_fn import cosine_distance
 from my.pytorch.modules.loss import ContrastiveLoss
 
+__all__ = [
+    'DualNet'
+]
+
 
 class DualNet(nn.Module):
-    """ 双塔结构 """
+    """@Pytorch Models
+    双塔结构
+    """
 
     def __init__(self,
                  encoder_q,

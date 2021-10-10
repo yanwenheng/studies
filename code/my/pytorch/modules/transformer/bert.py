@@ -12,6 +12,7 @@ Subject:
 """
 import os
 import re
+import doctest
 
 import torch
 import torch.nn as nn
@@ -133,7 +134,32 @@ class BertPooler(nn.Module):
 
 
 class Bert(nn.Module):
-    """ Bert """
+    """@Pytorch Models
+    Bert by Pytorch
+
+    Examples:
+        >>> # My bert 1 (default)
+        >>> bert = get_bert_pretrained(return_tokenizer=False)
+
+        # 输出测试
+        >>> from my.nlp.bert_tokenizer import tokenizer
+        >>> s = '我爱机器学习'
+        >>> tokens_ids, segments_ids, masks = tokenizer.batch_encode([s], max_len=10, convert_fn=torch.as_tensor)
+
+        # transformers Bert
+        >>> from transformers import BertModel
+        >>> model = BertModel.from_pretrained('bert-base-chinese')
+        >>> model.config.output_hidden_states = True
+        >>> o_pt = model(tokens_ids, masks, segments_ids)
+
+        >>> o_my = bert(tokens_ids, segments_ids)
+        >>> # cls embedding
+        >>> assert torch.allclose(o_pt.pooler_output, o_my[0], atol=1e-5)
+        >>> # last_hidden_state
+        >>> assert torch.allclose(o_pt.last_hidden_state, o_my[1], atol=1e-5)
+        >>> # all_hidden_state
+        >>> assert torch.allclose(torch.cat(o_pt.hidden_states), torch.cat(o_my[-1]), atol=1e-5)
+    """
 
     def __init__(self,
                  args: BertConfig = None,
@@ -421,26 +447,28 @@ def get_bert_pretrained(model_dir: str = None,
 
 def _test():
     """"""
+    doctest.testmod()
 
     def _test_basic():
         """"""
         from transformers import BertModel
         from my.nlp.bert_tokenizer import tokenizer
         s = '我爱机器学习'
-        tid, sid, mask = tokenizer.encode(s, max_len=10)
+        # tokens_ids, segments_ids, masks
+        tokens_ids, segments_ids, masks = tokenizer.batch_encode([s], max_len=10, convert_fn=torch.as_tensor)
         # print(tid, sid)
-        tids = torch.tensor([tid])
-        sids = torch.tensor([sid])
-        masks = torch.tensor([mask])
+        # tids = torch.tensor([tokens_ids])
+        # sids = torch.tensor([segments_ids])
+        # masks = torch.tensor([mask])
 
         # transformers Bert
         model = BertModel.from_pretrained('bert-base-chinese')
         model.config.output_hidden_states = True
-        o_pt = model(tids, masks, sids)
+        o_pt = model(tokens_ids, masks, segments_ids)
 
         # My bert 1 (default)
         bert = get_bert_pretrained(return_tokenizer=False)
-        o_my = bert(tids, sids)
+        o_my = bert(tokens_ids, segments_ids)
         # cls embedding
         assert torch.allclose(o_pt.pooler_output, o_my[0], atol=1e-5)
         # last_hidden_state
@@ -459,7 +487,7 @@ def _test():
         name_mapping = build_name_mapping(num_transformers=12, from_tf=False, with_prefix=True)
         load_weights_partly(bert, sd, name_mapping)
         # load_weights_from_others(bert, weights_path, name_mapping)
-        o_my = bert(tids)
+        o_my = bert(tokens_ids)
         # cls embedding
         assert torch.allclose(o_pt.pooler_output, o_my[0], atol=1e-5)
         # last_hidden_state

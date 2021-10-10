@@ -19,9 +19,14 @@ from my.pytorch.modules.loss import ContrastiveLoss
 from my.pytorch.modules.advance.dual import DualNet
 from my.pytorch.backend.distance_fn import euclidean_distance
 
+__all__ = [
+    'SiameseNet'
+]
+
 
 class SiameseNet(DualNet):
-    """ 孪生网络，基于双塔结构
+    """@Pytorch Models
+    孪生网络，基于双塔结构
     """
 
     def __init__(self, encoder, **kwargs):
