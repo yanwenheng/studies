@@ -140,6 +140,24 @@ My Code Lab
 
 </details>
 
+<details><summary><b> Pytorch Loss <a href="#pytorch-loss">¶</a></b></summary>
+
+- [`BaseLoss`: Loss 基类](#baseloss-loss-基类)
+- [`ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）](#contrastiveloss-对比损失可自定义距离函数默认为欧几里得距离)
+- [`TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习](#tripletloss-triplet-损失常用于无监督学习few-shot-学习)
+- [`CrossEntropyLoss`: 交叉熵](#crossentropyloss-交叉熵)
+
+</details>
+
+<details><summary><b> Pytorch Models <a href="#pytorch-models">¶</a></b></summary>
+
+- [`DualNet`: 双塔结构](#dualnet-双塔结构)
+- [`SiameseNet`: 孪生网络，基于双塔结构](#siamesenet-孪生网络基于双塔结构)
+- [`SimCSE`: SimCSE](#simcse-simcse)
+- [`Bert`: Bert by Pytorch](#bert-bert-by-pytorch)
+
+</details>
+
 <details><summary><b> Pytorch Utils <a href="#pytorch-utils">¶</a></b></summary>
 
 - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
@@ -441,6 +459,123 @@ Examples:
     >>> assert x.dict == args.dict
     >>> _ = os.system('rm -rf ./-test')
 
+```
+
+## Pytorch Loss
+
+### `BaseLoss`: Loss 基类
+> [source](code/my/pytorch/modules/loss.py#L35)
+
+```python
+Loss 基类
+```
+
+### `ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）
+> [source](code/my/pytorch/modules/loss.py#L83)
+
+```python
+对比损失（可自定义距离函数，默认为欧几里得距离）
+```
+
+### `TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习
+> [source](code/my/pytorch/modules/loss.py#L100)
+
+```python
+Triplet 损失，常用于无监督学习、few-shot 学习
+
+Examples:
+    >>> anchor = torch.randn(100, 128)
+    >>> positive = torch.randn(100, 128)
+    >>> negative = torch.randn(100, 128)
+
+    # my_tl 默认 euclidean_distance_nosqrt
+    >>> tl = TripletLoss(margin=2., reduction='none')
+    >>> tld = nn.TripletMarginWithDistanceLoss(distance_function=euclidean_distance_nosqrt, margin=2., reduction='none')
+    >>> assert torch.allclose(tl(anchor, positive, negative), tld(anchor, positive, negative), atol=1e-5)
+
+    # 自定义距离函数
+    >>> from my.pytorch.backend.distance_fn import cosine_distance
+    >>> my_tl = TripletLoss(distance_fn=cosine_distance, margin=0.5, reduction='none')
+    >>> tl = nn.TripletMarginWithDistanceLoss(distance_function=cosine_distance, margin=0.5, reduction='none')
+    >>> assert torch.allclose(my_tl(anchor, positive, negative), tl(anchor, positive, negative), atol=1e-5)
+
+```
+
+### `CrossEntropyLoss`: 交叉熵
+> [source](code/my/pytorch/modules/loss.py#L134)
+
+```python
+交叉熵
+
+区别：官方内置了 softmax 操作，且默认非 one-hot 标签；
+这里参考了 tf 的实现方式
+
+Examples:
+    >>> logits = torch.randn(5, 5)
+    >>> labels = torch.arange(5)
+    
+    >>> probs = torch.softmax(logits, dim=-1)
+    >>> onehot_labels = F.one_hot(labels)
+
+    >>> my_ce = CrossEntropyLoss(reduction='none')
+    >>> ce = nn.CrossEntropyLoss(reduction='none')
+    >>> assert torch.allclose(my_ce(probs, onehot_labels), ce(logits, labels), atol=1e-5)
+
+```
+
+## Pytorch Models
+
+### `DualNet`: 双塔结构
+> [source](code/my/pytorch/modules/advance/dual.py#L25)
+
+```python
+双塔结构
+```
+
+### `SiameseNet`: 孪生网络，基于双塔结构
+> [source](code/my/pytorch/modules/advance/siamese.py#L27)
+
+```python
+孪生网络，基于双塔结构
+```
+
+### `SimCSE`: SimCSE
+> [source](code/my/pytorch/modules/advance/sim_cse.py#L30)
+
+```python
+SimCSE
+
+References: https://github.com/princeton-nlp/SimCSE
+```
+
+### `Bert`: Bert by Pytorch
+> [source](code/my/pytorch/modules/transformer/bert.py#L136)
+
+```python
+Bert by Pytorch
+
+Examples:
+    >>> # My bert 1 (default)
+    >>> bert = get_bert_pretrained(return_tokenizer=False)
+
+    # 输出测试
+    >>> from my.nlp.bert_tokenizer import tokenizer
+    >>> s = '我爱机器学习'
+    >>> tokens_ids, segments_ids, masks = tokenizer.batch_encode([s], max_len=10, convert_fn=torch.as_tensor)
+
+    # transformers Bert
+    >>> from transformers import BertModel
+    >>> model = BertModel.from_pretrained('bert-base-chinese')
+    >>> model.config.output_hidden_states = True
+    >>> o_pt = model(tokens_ids, masks, segments_ids)
+
+    >>> o_my = bert(tokens_ids, segments_ids)
+    >>> # cls embedding
+    >>> assert torch.allclose(o_pt.pooler_output, o_my[0], atol=1e-5)
+    >>> # last_hidden_state
+    >>> assert torch.allclose(o_pt.last_hidden_state, o_my[1], atol=1e-5)
+    >>> # all_hidden_state
+    >>> assert torch.allclose(torch.cat(o_pt.hidden_states), torch.cat(o_my[-1]), atol=1e-5)
 ```
 
 ## Pytorch Utils
