@@ -9,7 +9,7 @@ studies
 <!-- ![code-size](https://img.shields.io/github/languages/code-size/imhuay/studies) -->
 
 ![followers](https://img.shields.io/github/followers/imhuay?style=social)
-![user-stars](https://img.shields.io/github/stars/imhuay?style=social)
+<!-- ![user-stars](https://img.shields.io/github/stars/imhuay?style=social) -->
 
 
 ### 其他仓库
