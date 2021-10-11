@@ -1,6 +1,17 @@
 studies
 ===
 
+![python-version](https://img.shields.io/badge/python-3.8+-green)
+![pytorch-version](https://img.shields.io/badge/pytorch-1.8+-green)
+![tf-version](https://img.shields.io/badge/tensorflow-2.3+-green)
+![repo-size](https://img.shields.io/github/repo-size/imhuay/studies)
+![total-lines](https://img.shields.io/tokei/lines/github/imhuay/studies)
+<!-- ![code-size](https://img.shields.io/github/languages/code-size/imhuay/studies) -->
+
+![followers](https://img.shields.io/github/followers/imhuay?style=social)
+![user-stars](https://img.shields.io/github/stars/imhuay?style=social)
+
+
 ### 其他仓库
 - [imhuay/bert_by_keras](https://github.com/imhuay/bert_by_keras)
 
@@ -464,21 +475,21 @@ Examples:
 ## Pytorch Loss
 
 ### `BaseLoss`: Loss 基类
-> [source](code/my/pytorch/modules/loss.py#L35)
+> [source](code/my/pytorch/modules/loss.py#L36)
 
 ```python
 Loss 基类
 ```
 
 ### `ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）
-> [source](code/my/pytorch/modules/loss.py#L83)
+> [source](code/my/pytorch/modules/loss.py#L84)
 
 ```python
 对比损失（可自定义距离函数，默认为欧几里得距离）
 ```
 
 ### `TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习
-> [source](code/my/pytorch/modules/loss.py#L100)
+> [source](code/my/pytorch/modules/loss.py#L101)
 
 ```python
 Triplet 损失，常用于无监督学习、few-shot 学习
@@ -502,7 +513,7 @@ Examples:
 ```
 
 ### `CrossEntropyLoss`: 交叉熵
-> [source](code/my/pytorch/modules/loss.py#L134)
+> [source](code/my/pytorch/modules/loss.py#L135)
 
 ```python
 交叉熵

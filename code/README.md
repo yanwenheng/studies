@@ -357,21 +357,21 @@ Examples:
 ## Pytorch Loss
 
 ### `BaseLoss`: Loss 基类
-> [source](my/pytorch/modules/loss.py#L35)
+> [source](my/pytorch/modules/loss.py#L36)
 
 ```python
 Loss 基类
 ```
 
 ### `ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）
-> [source](my/pytorch/modules/loss.py#L83)
+> [source](my/pytorch/modules/loss.py#L84)
 
 ```python
 对比损失（可自定义距离函数，默认为欧几里得距离）
 ```
 
 ### `TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习
-> [source](my/pytorch/modules/loss.py#L100)
+> [source](my/pytorch/modules/loss.py#L101)
 
 ```python
 Triplet 损失，常用于无监督学习、few-shot 学习
@@ -395,7 +395,7 @@ Examples:
 ```
 
 ### `CrossEntropyLoss`: 交叉熵
-> [source](my/pytorch/modules/loss.py#L134)
+> [source](my/pytorch/modules/loss.py#L135)
 
 ```python
 交叉熵
