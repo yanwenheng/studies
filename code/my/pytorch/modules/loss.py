@@ -24,13 +24,14 @@ from my.pytorch.backend.loss_fn import triplet_loss
 
 LABEL_FORMATS = {'category', 'one_hot'}
 
-
 __all__ = [
     'BaseLoss',
     'ContrastiveLoss',
     'TripletLoss',
-    'CrossEntropyLoss'
+    'CrossEntropyLoss',
+    'RDropLoss'
 ]
+
 
 class BaseLoss(nn.Module):
     """@Pytorch Loss
@@ -151,12 +152,33 @@ class CrossEntropyLoss(BaseLoss):
 
     """
 
-    def __init__(self, **kwargs):
-        """"""
-        super(CrossEntropyLoss, self).__init__(**kwargs)
-
     def compute_loss(self, inputs, labels):
         return cross_entropy_loss(inputs, labels)
+
+
+class RDropLoss(BaseLoss):
+    """"""
+
+    def __init__(self, kl_alpha=1.0, kl_reduction='sum', **kwargs):
+        """"""
+        super().__init__(**kwargs)
+
+        self.kl_alpha = kl_alpha
+        self.ce = nn.CrossEntropyLoss(reduction='none')
+        kld_loss = nn.KLDivLoss(reduction='none')
+        if kl_reduction == 'sum':
+            self.kld = lambda x1, x2: kld_loss(x1, x2).sum(-1)
+        elif kl_reduction == 'mean':
+            self.kld = lambda x1, x2: kld_loss(x1, x2).mean(-1)
+        else:
+            raise ValueError('`kl_reduction` should be one of {"sum", "mean"}')
+
+    def compute_loss(self, logits1, logits2, labels):
+        """"""
+        ce_loss = (self.ce(logits1, labels) + self.ce(logits2, labels)) / 2
+        kl_loss1 = self.kld(F.log_softmax(logits1, dim=-1), F.softmax(logits2, dim=-1))
+        kl_loss2 = self.kld(F.log_softmax(logits2, dim=-1), F.softmax(logits1, dim=-1))
+        return ce_loss + self.kl_alpha * (kl_loss1 + kl_loss2) / 2
 
 
 def _test():
