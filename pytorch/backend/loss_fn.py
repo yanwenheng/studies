@@ -70,13 +70,12 @@ def negative_likelihood_loss(logits, onehot_labels):
         logits -> negative_likelihood_loss
 
     Examples:
-        >>> logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
-        >>> labels = torch.arange(5)
-        >>> onehot_labels = F.one_hot(labels)
-
-        # 与官方结果比较
-        >>> my_ret = negative_likelihood_loss(logits, onehot_labels)
-        >>> official_ret = F.nll_loss(logits, labels, reduction='none')
+        >>> _logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
+        >>> _labels = torch.arange(5)
+        >>> _onehot_labels = F.one_hot(_labels)
+        >>> # 与官方结果比较
+        >>> my_ret = negative_likelihood_loss(_logits, _onehot_labels)
+        >>> official_ret = F.nll_loss(_logits, _labels, reduction='none')
         >>> assert torch.allclose(my_ret, official_ret, atol=1e-5)
 
     Args:
@@ -96,13 +95,12 @@ def negative_log_likelihood_loss(logits, onehot_labels):
             并将交叉熵分解为 log_softmax 和 nll_loss 两个步骤的原因！
 
     Examples:
-        >>> logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
+        >>> _logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
         >>> labels = torch.arange(5)
-        >>> onehot_labels = F.one_hot(labels)
-
-        # 与官方结果比较
-        >>> my_ret = negative_log_likelihood_loss(logits, onehot_labels)
-        >>> official_ret = F.nll_loss(torch.log(logits + _EPSILON), labels, reduction='none')
+        >>> _onehot_labels = F.one_hot(labels)
+        >>> # 与官方结果比较
+        >>> my_ret = negative_log_likelihood_loss(_logits, _onehot_labels)
+        >>> official_ret = F.nll_loss(torch.log(_logits + _EPSILON), labels, reduction='none')
         >>> assert torch.allclose(my_ret, official_ret, atol=1e-5)
 
     Args:
@@ -143,13 +141,12 @@ def binary_cross_entropy_loss(probs, onehot_labels):
     Examples:
         >>> bce = nn.BCELoss(reduction='none')
         >>> bcel = nn.BCEWithLogitsLoss(reduction='none')
-        >>> logits = torch.rand(3, 2)
-        >>> probs = torch.sigmoid(logits)  # convert logits to probs
+        >>> _logits = torch.rand(3, 2)
+        >>> _probs = torch.sigmoid(_logits)  # convert logits to probs
         >>> labels = torch.rand(3, 2)  # shape same as logits
-
-        # 与官方结果比较
-        >>> assert torch.allclose(bce(probs, labels), binary_cross_entropy_loss(probs, labels), 1e-5)
-        >>> assert torch.allclose(bcel(logits, labels), binary_cross_entropy_loss(probs, labels), 1e-5)
+        >>> # 与官方结果比较
+        >>> assert torch.allclose(bce(_probs, labels), binary_cross_entropy_loss(_probs, labels), 1e-5)
+        >>> assert torch.allclose(bcel(_logits, labels), binary_cross_entropy_loss(_probs, labels), 1e-5)
 
         # 可见 BCELoss 和 BCEWithLogitsLoss 的区别就是后者自带了 sigmoid 操作
 
@@ -177,13 +174,12 @@ def cross_entropy_loss(probs, onehot_labels):
             那么在 eval 时，如果想得到类别的概率分布，还要对结果再做一次 softmax；
 
     Examples:
-        >>> logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
-        >>> labels = torch.arange(5)
-        >>> onehot_labels = F.one_hot(labels)
-
-        # 与官方结果比较
-        >>> my_ret = cross_entropy_loss(logits, onehot_labels)
-        >>> official_ret = F.nll_loss(torch.log(logits + _EPSILON), labels, reduction='none')
+        >>> _logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
+        >>> _labels = torch.arange(5)
+        >>> _onehot_labels = F.one_hot(_labels)
+        >>> # 与官方结果比较
+        >>> my_ret = cross_entropy_loss(_logits, _onehot_labels)
+        >>> official_ret = F.nll_loss(torch.log(_logits + _EPSILON), _labels, reduction='none')
         >>> assert torch.allclose(my_ret, official_ret, atol=1e-5)
 
     Args:
@@ -193,34 +189,31 @@ def cross_entropy_loss(probs, onehot_labels):
     return negative_log_likelihood_loss(probs, onehot_labels)
 
 
-def cross_entropy_softmax_loss(logits, onehot_labels, eps=_EPSILON, dim=-1):
+def cross_entropy_softmax_loss(logits, onehot_labels, dim=-1):
     """ 交叉熵损失（带 softmax），相比 `cross_entropy_loss`，对 logits 多做了一次 softmax
 
         logits -> softmax -> log -> negative_likelihood
 
     Examples:
-        >>> logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
-        >>> labels = torch.arange(5)
-        >>> onehot_labels = F.one_hot(labels)
-
-        # 与官方结果比较
-        >>> my_ret = cross_entropy_softmax_loss(logits, onehot_labels)
-        >>> official_ret = F.cross_entropy(logits, labels, reduction='none')
+        >>> _logits = torch.randn(5, 5).clamp(min=_EPSILON)  # 负对数似然的输入需要值大于 0
+        >>> _labels = torch.arange(5)
+        >>> _onehot_labels = F.one_hot(_labels)
+        >>> # 与官方结果比较
+        >>> my_ret = cross_entropy_softmax_loss(_logits, _onehot_labels)
+        >>> official_ret = F.cross_entropy(_logits, _labels, reduction='none')
         >>> assert torch.allclose(my_ret, official_ret, atol=1e-5)
-        
-        # 与 tf 结果比较
+        >>> # 与 tf 结果比较
         >>> import tensorflow as tf
         >>> os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # 屏蔽输出信息，避免影响文档测试的输出
-        >>> logits_softmax = tf.nn.softmax(logits.numpy())
+        >>> logits_softmax = tf.nn.softmax(_logits.numpy())
         >>> ce_tf = tf.keras.losses.CategoricalCrossentropy(reduction=tf.keras.losses.Reduction.NONE)
         >>> sce_tf = tf.keras.losses.SparseCategoricalCrossentropy(reduction=tf.keras.losses.Reduction.NONE)
-        >>> assert torch.allclose(my_ret, torch.as_tensor(ce_tf(onehot_labels, logits_softmax).numpy()), atol=1e-5)
-        >>> assert torch.allclose(my_ret, torch.as_tensor(sce_tf(labels.numpy(), logits_softmax).numpy()), atol=1e-5)
+        >>> assert torch.allclose(my_ret, torch.as_tensor(ce_tf(_onehot_labels, logits_softmax).numpy()), atol=1e-5)
+        >>> assert torch.allclose(my_ret, torch.as_tensor(sce_tf(_labels.numpy(), logits_softmax).numpy()), atol=1e-5)
 
     Args:
         logits:
         onehot_labels:
-        eps:
         dim:
 
     """
@@ -241,22 +234,38 @@ def cross_entropy_sparse_softmax_loss(logits, labels):
     return F.cross_entropy(logits, labels, reduction='none')
 
 
+def kl_div_loss(p, q, masks=None):
+    """"""
+    p_loss = F.kl_div(F.log_softmax(p, dim=-1), F.softmax(q, dim=-1), reduction='none')
+    q_loss = F.kl_div(F.log_softmax(q, dim=-1), F.softmax(p, dim=-1), reduction='none')
+
+    # pad_mask is for seq-level tasks
+    if masks is not None:
+        p_loss.masked_fill_(masks, 0.)
+        q_loss.masked_fill_(masks, 0.)
+
+    # You can choose whether to use function "sum" and "mean" depending on your task
+    p_loss = p_loss.sum()
+    q_loss = q_loss.sum()
+
+    loss = (p_loss + q_loss) / 2
+    return loss
+
+
 def triplet_loss(anchor, positive, negative, distance_fn=F.pairwise_distance, margin=2.0):
     """  triplet 损失
 
     Examples:
-        >>> anchor = torch.randn(100, 128)
-        >>> positive = torch.randn(100, 128)
-        >>> negative = torch.randn(100, 128)
-
-        # 官方提供的 triplet_loss
+        >>> a = torch.randn(100, 128)
+        >>> p = torch.randn(100, 128)
+        >>> n = torch.randn(100, 128)
+        >>> # 官方提供的 triplet_loss
         >>> tl = nn.TripletMarginLoss(margin=2.0, p=2, reduction='none')
-        >>> assert torch.allclose(triplet_loss(anchor, positive, negative), tl(anchor, positive, negative), atol=1e-5)
-
-        # 官方提供的 triplet_loss: 自定义距离函数
+        >>> assert torch.allclose(triplet_loss(a, p, n), tl(a, p, n), atol=1e-5)
+        >>> # 官方提供的 triplet_loss: 自定义距离函数
         >>> from my.pytorch.backend.distance_fn import cosine_distance
         >>> tld = nn.TripletMarginWithDistanceLoss(distance_function=cosine_distance, margin=2.0, reduction='none')
-        >>> assert torch.allclose(triplet_loss(anchor, positive, negative, distance_fn=cosine_distance), tld(anchor, positive, negative), atol=1e-5)
+        >>> assert torch.allclose(triplet_loss(a, p, n, distance_fn=cosine_distance), tld(a, p, n), atol=1e-5)
 
     Args:
         anchor:
