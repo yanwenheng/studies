@@ -14,5 +14,5 @@ studies
 
 ### 其他仓库
 - [Algorithm_Interview_Notes-Chinese](https://github.com/imhuay/Algorithm_Interview_Notes-Chinese_backups): 在校期间的学习/面试笔记；
-- [imhuay/bert_by_keras](https://github.com/imhuay/bert_by_keras): 使用 keras 重构的 Bert；
+- [bert_by_keras](https://github.com/imhuay/bert_by_keras): 使用 keras 重构的 Bert；
 - [algorithm](https://github.com/imhuay/algorithm): 刷题笔记，实际上就是本仓库 algorithm 目录下的内容；
