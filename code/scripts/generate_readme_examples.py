@@ -41,6 +41,7 @@ RE_TITLE = re.compile(r'#+\s+(.*?)$')
 RE_INDENT = re.compile(r'^([ ]*)(?=\S)', re.MULTILINE)
 
 beg_details_tmp = '<details><summary><b> {key} <a href="{url}">¶</a></b></summary>\n'
+beg_details_cnt_tmp = '<details><summary><b> {key} ({cnt}) <a href="{url}">¶</a></b></summary>\n'
 end_details = '\n</details>\n'
 auto_line = '<font color="LightGrey"><i> `This README is Auto-generated` </i></font>\n'
 
@@ -82,12 +83,13 @@ class AlgorithmReadme:
         """"""
         self.args = args
         self.toc_head = 'Algorithm Studies'
-        self.prefix_algo = 'topics'  # os.path.basename(args.algo_path)
-        self.prefix_repo = os.path.join(os.path.basename(args.algo_path), self.prefix_algo)
+        self.prefix_topics = 'topics'  # os.path.basename(args.algo_path)
+        self.prefix_algo = os.path.basename(os.path.abspath(args.algo_path))
+        self.prefix_repo = os.path.join(os.path.basename(args.algo_path), self.prefix_topics)
         args.problems_path = os.path.join(args.algo_path, 'problems')
 
         problems_dt = self.parse_problems()
-        append_lines = self.gen_topic_md(problems_dt)
+        append_lines = self.gen_topic_md_sorted(problems_dt)
         self.readme_append = '\n'.join(append_lines)
 
         # algo_path = os.path.join(repo_path, self.prefix)
@@ -175,7 +177,7 @@ class AlgorithmReadme:
             index_lines = ['Index', '---']
             # readme_lines.append(f'- [{topic_fn}]({topic_fn}.md)')
             # append_lines.append(f'- [{topic_fn}]({self.prefix}/{topic_fn}.md)')
-            algo_url = os.path.join(self.prefix_algo, topic_fn)
+            algo_url = os.path.join(self.prefix_topics, topic_fn)
             repo_url = os.path.join(self.prefix_repo, topic_fn)
             readme_lines.append(beg_details_tmp.format(key=topic_name, url=algo_url))
             append_lines.append(beg_details_tmp.format(key=topic_name, url=repo_url))
@@ -201,6 +203,70 @@ class AlgorithmReadme:
 
         return append_lines
 
+    def gen_topic_md_sorted(self, problems_dt, top=10):
+        """生成算法专题md，对主页topics排序"""
+        args = self.args
+
+        readme_lines = [self.toc_head, '===\n', auto_line]
+        append_lines = [self.toc_head, '---\n']
+
+        append_blocks = []
+
+        for tag, problems_txts in problems_dt.items():  # noqa
+            """"""
+            append_tmp = []
+            topic_fn = self.get_topic_fn(tag)
+            topic_name, _ = os.path.splitext(topic_fn)
+            index_lines = ['Index', '---']
+            # readme_lines.append(f'- [{topic_fn}]({topic_fn}.md)')
+            # append_lines.append(f'- [{topic_fn}]({self.prefix}/{topic_fn}.md)')
+            algo_url = os.path.join(self.prefix_topics, topic_fn)
+            repo_url = os.path.join(self.prefix_repo, topic_fn)
+            problems_cnt = len(problems_txts)
+
+            readme_lines.append(beg_details_cnt_tmp.format(key=topic_name, url=algo_url, cnt=problems_cnt))
+            # append_lines.append(beg_details_tmp.format(key=topic_name, url=repo_url))
+            append_tmp.append(beg_details_cnt_tmp.format(key=topic_name, url=repo_url, cnt=problems_cnt))
+
+            contents = []
+            for (head, txt) in problems_txts:
+                # head = fn
+                # link = self.parse_head(txt)
+                link = slugify(head)
+                contents.append(txt)
+                index_lines.append(f'- [{head}](#{link})')
+                readme_lines.append(f'- [{head}]({algo_url}#{link})')
+                # append_lines.append(f'- [{head}]({repo_url}#{link})')
+                append_tmp.append(f'- [{head}]({repo_url}#{link})')
+
+            readme_lines.append(end_details)
+            # append_lines.append(end_details)
+            append_tmp.append(end_details)
+            index_lines.append('\n---')
+            f_out = os.path.join(args.repo_path, self.prefix_repo, topic_fn)
+            files_concat(['\n'.join(index_lines)] + contents, f_out, '\n')
+
+            append_blocks.append((problems_cnt, append_tmp))
+
+        with open(os.path.join(args.algo_path, 'README.md'), 'w', encoding='utf8') as fw:
+            fw.write('\n'.join(readme_lines))
+
+        append_blocks = sorted(append_blocks, key=lambda x: -x[0])
+        for _, block in append_blocks[:top]:
+            append_lines += block
+
+        append_lines.append('<details><summary><b> Others ... <a href="{url}">¶</a></b></summary>\n'.format(
+            url=f'{self.prefix_algo}/README.md'
+        ))
+
+        for _, block in append_blocks[top:]:
+            append_lines += block
+
+        append_lines.append(end_details)
+
+        # append_lines.append(f'- [All Topics]({self.prefix_algo}/README.md)')
+        return append_lines
+
     @staticmethod
     def parse_head(txt):
         """"""
@@ -218,7 +284,7 @@ class CodeReadme:
 
     @dataclass()
     class DocItem:
-        """"""
+        """ 每个 docstring 需要提取的内容 """
         flag: str
         summary: str
         content: str
@@ -260,8 +326,9 @@ class CodeReadme:
         self.args = args
         self.toc_head = 'My Code Lab'
         docs_dt = self.parse_docs()
+        self.code_basename = os.path.basename(os.path.abspath(args.code_path))
         args.code_readme_path = os.path.join(args.code_path, 'README.md')
-        self.readme_append = self.gen_readme_md(docs_dt)
+        self.readme_append = self.gen_readme_md_simply(docs_dt)
 
     def parse_docs(self):
         """ 生成 readme for code """
@@ -348,6 +415,47 @@ class CodeReadme:
 
         toc_str = '\n'.join(toc)
         main_append = toc_str + sep + '\n\n'.join(append_lines)
+        return main_append
+
+    def gen_readme_md_simply(self, docs_dt: Dict[str, List[DocItem]]):
+        """ 简化首页的输出 """
+        args = self.args
+        # code_prefix = os.path.basename(os.path.abspath(args.code_path))
+        # print(code_prefix)
+
+        toc = [self.toc_head, '---\n']
+        append_toc = [self.toc_head, '---\n']
+        # main_toc = ['My Code Lab', '---\n']
+        readme_lines = []
+        # append_lines = []
+
+        key_sorted = sorted(docs_dt.keys())
+        for key in key_sorted:
+            blocks = docs_dt[key]
+            toc.append(beg_details_tmp.format(key=key, url=f'#{slugify(key)}'))
+            append_toc.append(beg_details_tmp.format(key=key, url=f'{self.code_basename}/README.md#{slugify(key)}'))
+
+            readme_lines.append(hn_line(key, 2))
+            # append_lines.append(hn_line(key, 2))
+            for d in blocks:
+                toc.append(f'- [{d.summary}](#{slugify(d.summary)})')
+                append_toc.append(f'- [{d.summary}]({self.code_basename}/README.md#{slugify(d.summary)})')
+                readme_lines.append(d.get_block())
+                # append_lines.append(d.get_block(prefix=code_prefix))
+
+            toc.append(end_details)
+            # main_toc.append(end_details)
+            append_toc.append(end_details)
+
+        toc_str = '\n'.join(toc[:2] + [auto_line] + toc[2:])
+        sep = '\n---\n\n'
+        content_str = '\n\n'.join(readme_lines)
+        code_readme = toc_str + sep + content_str
+        with open(args.code_readme_path, 'w', encoding='utf8') as fw:
+            fw.write(code_readme)
+
+        append_toc_str = '\n'.join(append_toc)
+        main_append = append_toc_str + sep  # + '\n\n'.join(append_lines)
         return main_append
 
 
