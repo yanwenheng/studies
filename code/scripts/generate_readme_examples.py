@@ -46,17 +46,22 @@ end_details = '\n</details>\n'
 auto_line = '<font color="LightGrey"><i> `This README is Auto-generated` </i></font>\n'
 
 tag_map = [  # 文件名: tag名
-    ('滑动窗口(双指针)', '滑动窗口'),
-    ('双指针(首尾)', '双指针(首尾)'),
-    ('双指针(首尾)', '首尾双指针'),
+    # ('滑动窗口(双指针)', '滑动窗口'),
+    ('双指针(滑动窗口)', '双指针(滑动窗口)'),
+    ('双指针(滑动窗口)', '滑动窗口'),
+    ('双指针(滑动窗口)', '双指针(首尾)'),
+    ('双指针(滑动窗口)', '首尾双指针'),
+    ('深度优先搜索(递归)', '深度优先搜索(递归)'),
     ('深度优先搜索(递归)', '深度优先搜索'),
     ('深度优先搜索(递归)', 'dfs'),
+    ('递归(迭代)', '递归(迭代)'),
     ('递归(迭代)', '递归'),
     ('递归(迭代)', '递归/迭代'),
     ('递归(迭代)', '递归-迭代'),
     ('哈希表', '哈希表'),
     ('哈希表', 'hash'),
     ('链表', '链表'),
+    ('二叉树(树)', '二叉树(树)'),
     ('二叉树(树)', '二叉树'),
     ('二叉树(树)', '树'),
     ('前缀和', '前缀和'),
@@ -66,6 +71,8 @@ tag_map = [  # 文件名: tag名
     ('二分查找', '二分搜索'),
     ('模拟', '模拟'),
     ('数学', '数学'),
+    ('其他', '其他'),
+    ('其他', 'other'),
 ]
 
 tag_dt = {k: v for v, k in tag_map}
@@ -103,13 +110,14 @@ class AlgorithmReadme:
         #
         # self.toc = '\n'.join(toc_lns)
 
-    def gen_tags_svg(self, tags):
+    def gen_tags_svg(self, tags):  # noqa
         """"""
         lns = ['\n']
-        for idx, tag in enumerate(tags):
+        for idx, (tag, topic) in enumerate(tags.items()):
             """"""
             # ![ForgiveDB](https://img.shields.io/badge/ForgiveDB-HuiZ-brightgreen.svg)
-            lns.append(f'[![{tag}](https://img.shields.io/badge/{tag}-lightgray.svg)]({self.get_topic_fn(tag)})')
+            lns.append(f'[![{tag}](https://img.shields.io/badge/{tag}-lightgray.svg)]({self.get_topic_fn(topic)})')
+            # lns.append(f'[{tag}](https://img.shields.io/badge/{tag}-lightgray.svg)]')
 
         return '\n'.join(lns)
 
@@ -139,19 +147,21 @@ class AlgorithmReadme:
             tags = RE_TAG.search(txt)
             if tags:
                 tags = re.split(r'[,，、]', tags.group(1))
-                tags = [tag_dt[tag.strip().lower()] for tag in tags]
+                tag2topic = {tag.strip().lower(): tag_dt[tag.strip().lower()] for tag in tags}
+                topics = list(tag2topic.values())
             else:
-                tags = ['其他']
+                tag2topic = {'其他': '其他'}
+                topics = ['其他']
 
             src, lv, pid, pn = fn.split('_')
             head = f'{pn} ({src}, {lv}, No.{pid}, {suffix})'
             lines = txt.split('\n')
             lines[0] = f'### {head}'
-            lines.insert(1, self.gen_tags_svg(tags))
+            lines.insert(1, self.gen_tags_svg(tag2topic))
             txt = '\n'.join(lines)
             txt = txt.rstrip().replace(r'../../../_assets', '../_assets') + '\n\n---'
-            for tag in tags:
-                problems_dt[tag].append((head, txt))
+            for topic in topics:
+                problems_dt[topic].append((head, txt))
 
         for k, v in problems_dt.items():
             problems_dt[k] = sorted(v)
