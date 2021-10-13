@@ -147,7 +147,7 @@ class AlgorithmReadme:
             tags = RE_TAG.search(txt)
             if tags:
                 tags = re.split(r'[,，、]', tags.group(1))
-                tag2topic = {tag.strip().lower(): tag_dt[tag.strip().lower()] for tag in tags}
+                tag2topic = {tag.strip(): tag_dt[tag.strip().lower()] for tag in tags}
                 topics = list(tag2topic.values())
             else:
                 tag2topic = {'其他': '其他'}
