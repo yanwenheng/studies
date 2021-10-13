@@ -19,7 +19,7 @@ from collections import defaultdict
 from torch import nn as nn
 from torch.nn import functional as F  # noqa
 
-from my.pytorch.loss import BaseLoss
+from my.pytorch.loss.base import BaseLoss
 
 __all__ = [
     'RDropLoss'
@@ -27,7 +27,11 @@ __all__ = [
 
 
 class RDropLoss(BaseLoss):
-    """"""
+    """
+
+    References:
+
+    """
 
     def __init__(self, kl_alpha=1.0, reduction='mean', kl_reduction='sum', **base_kwargs):
         """"""

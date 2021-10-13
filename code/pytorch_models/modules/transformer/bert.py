@@ -26,7 +26,7 @@ from my.python.config_loader import load_config_file
 from my.python.custom import ConfigDict
 from my.pytorch.utils import get_state_dict, load_weights_partly
 from my.pytorch.backend.activation_fn import ACT_STR2FN
-from my.pytorch.modules.transformer.transformer_block import TransformerBlock
+from pytorch_models.modules.transformer.transformer_block import TransformerBlock
 
 __all__ = [
     'Bert',

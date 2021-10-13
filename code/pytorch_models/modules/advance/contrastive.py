@@ -15,11 +15,11 @@ Subject:
 """
 
 # 孪生网络
-from my.pytorch.modules.advance.siamese import SiameseNet
+from pytorch_models.modules.advance.siamese import SiameseNet
 # Triplet
-from my.pytorch.modules.advance.triplet import TripletNet
+from pytorch_models.modules.advance.triplet import TripletNet
 # SimCSE
-from my.pytorch.modules.advance.sim_cse import SimCSE
+from pytorch_models.modules.advance.sim_cse import SimCSE
 
 
 def _test():
@@ -27,7 +27,7 @@ def _test():
 
     def _test_base():
         """"""
-        from my.pytorch.modules.transformer.bert import get_bert_pretrained
+        from pytorch_models.modules.transformer.bert import get_bert_pretrained
         bert = get_bert_pretrained()
 
         sn = SiameseNet(encoder=bert)

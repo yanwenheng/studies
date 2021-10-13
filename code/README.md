@@ -35,10 +35,9 @@ My Code Lab
 
 <details><summary><b> Pytorch Loss <a href="#pytorch-loss">¶</a></b></summary>
 
-- [`BaseLoss`: Loss 基类](#baseloss-loss-基类)
-- [`ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）](#contrastiveloss-对比损失可自定义距离函数默认为欧几里得距离)
-- [`TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习](#tripletloss-triplet-损失常用于无监督学习few-shot-学习)
+- [`ContrastiveLoss`: 对比损失（默认距离函数为欧几里得距离）](#contrastiveloss-对比损失默认距离函数为欧几里得距离)
 - [`CrossEntropyLoss`: 交叉熵](#crossentropyloss-交叉熵)
+- [`TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习](#tripletloss-triplet-损失常用于无监督学习few-shot-学习)
 
 </details>
 
@@ -356,22 +355,34 @@ Examples:
 
 ## Pytorch Loss
 
-### `BaseLoss`: Loss 基类
-> [source](my/pytorch/modules/loss.py#L36)
+### `ContrastiveLoss`: 对比损失（默认距离函数为欧几里得距离）
+> [source](my/pytorch/loss/contrastive.py#L49)
 
 ```python
-Loss 基类
+对比损失（默认距离函数为欧几里得距离）
 ```
 
-### `ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）
-> [source](my/pytorch/modules/loss.py#L84)
+### `CrossEntropyLoss`: 交叉熵
+> [source](my/pytorch/loss/cross_entropy.py#L214)
 
 ```python
-对比损失（可自定义距离函数，默认为欧几里得距离）
+交叉熵
+
+TODO: 实现 weighted、smooth
+
+Examples:
+    >>> logits = torch.rand(5, 5)
+    >>> labels = torch.arange(5)
+    >>> probs = torch.softmax(logits, dim=-1)
+    >>> onehot_labels = F.one_hot(labels)
+    >>> my_ce = CrossEntropyLoss(reduction='none', onehot_label=True)
+    >>> ce = nn.CrossEntropyLoss(reduction='none')
+    >>> assert torch.allclose(my_ce(probs, onehot_labels), ce(logits, labels), atol=1e-5)
+
 ```
 
 ### `TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习
-> [source](my/pytorch/modules/loss.py#L101)
+> [source](my/pytorch/loss/triplet.py#L77)
 
 ```python
 Triplet 损失，常用于无监督学习、few-shot 学习
@@ -383,7 +394,8 @@ Examples:
 
     # my_tl 默认 euclidean_distance_nosqrt
     >>> tl = TripletLoss(margin=2., reduction='none')
-    >>> tld = nn.TripletMarginWithDistanceLoss(distance_function=euclidean_distance_nosqrt, margin=2., reduction='none')
+    >>> tld = nn.TripletMarginWithDistanceLoss(distance_function=euclidean_distance_nosqrt,
+    ...                                        margin=2., reduction='none')
     >>> assert torch.allclose(tl(anchor, positive, negative), tld(anchor, positive, negative), atol=1e-5)
 
     # 自定义距离函数
@@ -394,46 +406,24 @@ Examples:
 
 ```
 
-### `CrossEntropyLoss`: 交叉熵
-> [source](my/pytorch/modules/loss.py#L135)
-
-```python
-交叉熵
-
-区别：官方内置了 softmax 操作，且默认非 one-hot 标签；
-这里参考了 tf 的实现方式
-
-Examples:
-    >>> logits = torch.randn(5, 5)
-    >>> labels = torch.arange(5)
-    
-    >>> probs = torch.softmax(logits, dim=-1)
-    >>> onehot_labels = F.one_hot(labels)
-
-    >>> my_ce = CrossEntropyLoss(reduction='none')
-    >>> ce = nn.CrossEntropyLoss(reduction='none')
-    >>> assert torch.allclose(my_ce(probs, onehot_labels), ce(logits, labels), atol=1e-5)
-
-```
-
 ## Pytorch Models
 
 ### `DualNet`: 双塔结构
-> [source](my/pytorch/modules/advance/dual.py#L25)
+> [source](my/studies/code/pytorch_models/modules/advance/dual.py#L25)
 
 ```python
 双塔结构
 ```
 
 ### `SiameseNet`: 孪生网络，基于双塔结构
-> [source](my/pytorch/modules/advance/siamese.py#L27)
+> [source](my/studies/code/pytorch_models/modules/advance/siamese.py#L27)
 
 ```python
 孪生网络，基于双塔结构
 ```
 
 ### `SimCSE`: SimCSE
-> [source](my/pytorch/modules/advance/sim_cse.py#L30)
+> [source](my/studies/code/pytorch_models/modules/advance/sim_cse.py#L30)
 
 ```python
 SimCSE
@@ -442,7 +432,7 @@ References: https://github.com/princeton-nlp/SimCSE
 ```
 
 ### `Bert`: Bert by Pytorch
-> [source](my/pytorch/modules/transformer/bert.py#L136)
+> [source](my/studies/code/pytorch_models/modules/transformer/bert.py#L136)
 
 ```python
 Bert by Pytorch
@@ -474,7 +464,7 @@ Examples:
 ## Pytorch Utils
 
 ### `DictTensorDataset`: 字典形式的 Dataset
-> [source](my/pytorch/pipeline/dataset.py#L42)
+> [source](my/pytorch/data_utils/DictTensorDataset.py#L31)
 
 ```python
 字典形式的 Dataset
@@ -497,7 +487,7 @@ References:
 ```
 
 ### `ToyDataLoader`: 一个简单的 DataLoader
-> [source](my/pytorch/pipeline/dataset.py#L82)
+> [source](my/pytorch/data_utils/ToyDataLoader.py#L31)
 
 ```python
 一个简单的 DataLoader
@@ -506,16 +496,16 @@ References:
 
 Examples:
     >>> x = y = torch.as_tensor([1,2,3,4,5])
-
-    # 返回 tuple
+    >>> # 返回 tuple
     >>> dl = ToyDataLoader([x, y], batch_size=3, shuffle=False)
-    >>> for batch in dl: print(batch)
+    >>> for batch in dl:
+    ...     print(batch)
     [tensor([1, 2, 3]), tensor([1, 2, 3])]
     [tensor([4, 5]), tensor([4, 5])]
-
-    # 返回 dict
+    >>> # 返回 dict
     >>> dl = ToyDataLoader({'x': x, 'y': y}, batch_size=3, shuffle=False)
-    >>> for batch in dl: print(batch)
+    >>> for batch in dl:
+    ...     print(batch)
     {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
     {'x': tensor([4, 5]), 'y': tensor([4, 5])}
 ```

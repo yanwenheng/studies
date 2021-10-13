@@ -15,7 +15,7 @@ from typing import Callable
 from torch import nn as nn
 
 from my.pytorch.backend.distance_fn import cosine_distance
-from my.pytorch.loss.ContrastiveLoss import ContrastiveLoss
+from my.pytorch.loss.contrastive import ContrastiveLoss
 
 __all__ = [
     'DualNet'
@@ -82,7 +82,7 @@ def _test():
 
     def _test_base():
         """"""
-        from my.pytorch.modules.transformer.bert import get_bert_pretrained
+        from pytorch_models.modules.transformer.bert import get_bert_pretrained
         bert = get_bert_pretrained()
 
         def fn():

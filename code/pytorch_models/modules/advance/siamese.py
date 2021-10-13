@@ -15,8 +15,8 @@ References:
     - [PyTorch练手项目四：孪生网络（Siamese Network） - 天地辽阔 - 博客园](https://www.cnblogs.com/inchbyinch/p/12116339.html)
 """
 
-from my.pytorch.loss.ContrastiveLoss import ContrastiveLoss
-from my.pytorch.modules.advance.dual import DualNet
+from my.pytorch.loss.contrastive import ContrastiveLoss
+from pytorch_models.modules.advance.dual import DualNet
 from my.pytorch.backend.distance_fn import euclidean_distance
 
 __all__ = [
@@ -39,7 +39,7 @@ def _test():
 
     def _test_bert():
         """"""
-        from my.pytorch.modules.transformer.bert import get_bert_pretrained
+        from pytorch_models.modules.transformer.bert import get_bert_pretrained
         bert = get_bert_pretrained()
 
         sn = SiameseNet(encoder=bert)

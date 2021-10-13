@@ -27,10 +27,10 @@ from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
 
 from my.python.utils import get_logger, set_default, get_print_json
-from my.pytorch.pipeline.config import DEFAULT_ARGS, ARGS_TYPE
-from my.pytorch.pipeline.dataset import Datasets
-from my.pytorch.pipeline.optimizer import get_opt_by_name
-from my.pytorch.pipeline.scheduler import get_linear_schedule_with_warmup
+from my.pytorch.train.config import DEFAULT_ARGS, ARGS_TYPE
+from my.pytorch.data_utils.Datasets import Datasets
+from my.pytorch.train.optimizer import get_opt_by_name
+from my.pytorch.train.scheduler import get_linear_schedule_with_warmup
 
 logger = get_logger()
 

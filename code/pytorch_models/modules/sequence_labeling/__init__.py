@@ -11,4 +11,4 @@ Subject:
    
 """
 
-from .crf import CRF
+from .crf import CRF, CRFEncoder

@@ -19,7 +19,7 @@ import torch.nn as nn
 
 from typing import List, Optional
 
-from my.pytorch.modules.wrap import EncoderWrapper
+from pytorch_models.modules.wrap import EncoderWrapper
 
 
 class CRFEncoder(EncoderWrapper):

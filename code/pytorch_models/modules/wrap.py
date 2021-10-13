@@ -215,7 +215,7 @@ def _test():
 
                 return outputs
 
-        from my.pytorch.modules.transformer.bert import get_bert_pretrained
+        from pytorch_models.modules.transformer.bert import get_bert_pretrained
 
         bert, tokenizer = get_bert_pretrained(return_tokenizer=True)
         encode_wrapper = lambda _e, _i: _e(*_i)[1].mean(1)  #
@@ -230,7 +230,7 @@ def _test():
 
     def _test_TextClassification_fine_tune():
         """"""
-        from my.pytorch.modules.transformer.bert import Bert
+        from pytorch_models.modules.transformer.bert import Bert
         inputs = [torch.tensor([[1, 2, 3]]), torch.tensor([[0, 0, 0]])]
 
         class Test(nn.Module):
@@ -258,7 +258,7 @@ def _test():
 
     def _test_TextClassification():
         """"""
-        from my.pytorch.modules import Bert
+        from pytorch_models.modules import Bert
         test_inputs = [torch.tensor([[1, 2, 3]]), torch.tensor([[0, 0, 0]])]
         bert = Bert()
         outputs = bert(*test_inputs)

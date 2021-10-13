@@ -12,8 +12,8 @@ Subject:
 """
 from torch import Tensor
 
-from my.pytorch.modules.transformer.bert import get_bert_pretrained
-from my.pytorch.modules.sequence_labeling.crf import CRFEncoder
+from pytorch_models.modules.transformer.bert import get_bert_pretrained
+from pytorch_models.modules.sequence_labeling import CRFEncoder
 
 
 class BertCRF(CRFEncoder):

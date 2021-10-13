@@ -18,7 +18,7 @@ References:
 import torch
 import torch.nn as nn
 
-from my.pytorch.modules.wrap import EncoderWrapper
+from pytorch_models.modules.wrap import EncoderWrapper
 from my.pytorch.utils import cosine_similarity_dense
 
 __all__ = [
@@ -70,7 +70,7 @@ def _test():
     def _test_SimCSE():
         """"""
         from my.nlp.bert_tokenizer import tokenizer
-        from my.pytorch.modules.transformer.bert import Bert
+        from pytorch_models.modules.transformer.bert import Bert
 
         bert = Bert()
 

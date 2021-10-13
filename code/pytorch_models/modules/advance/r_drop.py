@@ -12,7 +12,7 @@ import doctest
 
 import torch.nn as nn
 
-from my.pytorch.loss.RDropLoss import RDropLoss
+from my.pytorch.loss.r_drop import RDropLoss
 
 
 class RDrop(nn.Module):

@@ -9,7 +9,7 @@ Subject:
 
 """
 
-from .ContrastiveLoss import ContrastiveLoss
-from .CrossEntropyLoss import CrossEntropyLoss
-from .RDropLoss import RDropLoss
-from .TripletLoss import TripletLoss
+from .contrastive import ContrastiveLoss
+from .cross_entropy import CrossEntropyLoss
+from .r_drop import RDropLoss
+from .triplet import TripletLoss

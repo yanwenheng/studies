@@ -19,7 +19,7 @@ from collections import defaultdict
 from torch.nn import functional as F  # noqa
 
 from my.pytorch.backend.distance_fn import euclidean_distance
-from my.pytorch.loss.BaseLoss import BaseLoss
+from my.pytorch.loss.base import BaseLoss
 
 __all__ = [
     'ContrastiveLoss'

@@ -15,7 +15,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # use full path, avoid circular reference
-from my.pytorch.modules.transformer.multi_head_attention import MultiHeadAttention
+from pytorch_models.modules.transformer.multi_head_attention import MultiHeadAttention
 
 __all__ = [
     'TransformerBlock',

@@ -10,8 +10,8 @@ Subject:
 """
 import torch.nn as nn
 
-from my.pytorch.modules.transformer.bert import Bert, get_bert_pretrained
-from my.pytorch.modules.wrap import ClassifierWrapper, ClassificationLayer
+from pytorch_models.modules.transformer.bert import Bert, get_bert_pretrained
+from pytorch_models.modules.wrap import ClassificationLayer
 
 
 class BertClassification(nn.Module):

@@ -34,14 +34,14 @@ Repo Index
 Algorithm Studies
 ---
 
-<details><summary><b> 专题-双指针(首尾) (6) <a href="algorithm/topics/专题-双指针(首尾).md">¶</a></b></summary>
+<details><summary><b> 专题-双指针(滑动窗口) (6) <a href="algorithm/topics/专题-双指针(滑动窗口).md">¶</a></b></summary>
 
-- [三数之和 (LeetCode, Medium, No.0015, 2021-10)](algorithm/topics/专题-双指针(首尾).md#三数之和-leetcode-medium-no0015-2021-10)
-- [两数之和2(输入有序数组) (LeetCode, Easy, No.0167, 2021-10)](algorithm/topics/专题-双指针(首尾).md#两数之和2输入有序数组-leetcode-easy-no0167-2021-10)
-- [接雨水 (LeetCode, Hard, No.0042, 2021-10)](algorithm/topics/专题-双指针(首尾).md#接雨水-leetcode-hard-no0042-2021-10)
-- [最接近的三数之和 (LeetCode, Medium, No.0016, 2021-10)](algorithm/topics/专题-双指针(首尾).md#最接近的三数之和-leetcode-medium-no0016-2021-10)
-- [有效三角形的个数 (LeetCode, Medium, No.0611, 2021-10)](algorithm/topics/专题-双指针(首尾).md#有效三角形的个数-leetcode-medium-no0611-2021-10)
-- [盛最多水的容器 (LeetCode, Medium, No.0011, 2021-10)](algorithm/topics/专题-双指针(首尾).md#盛最多水的容器-leetcode-medium-no0011-2021-10)
+- [三数之和 (LeetCode, Medium, No.0015, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#三数之和-leetcode-medium-no0015-2021-10)
+- [两数之和2(输入有序数组) (LeetCode, Easy, No.0167, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#两数之和2输入有序数组-leetcode-easy-no0167-2021-10)
+- [接雨水 (LeetCode, Hard, No.0042, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#接雨水-leetcode-hard-no0042-2021-10)
+- [最接近的三数之和 (LeetCode, Medium, No.0016, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#最接近的三数之和-leetcode-medium-no0016-2021-10)
+- [有效三角形的个数 (LeetCode, Medium, No.0611, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#有效三角形的个数-leetcode-medium-no0611-2021-10)
+- [盛最多水的容器 (LeetCode, Medium, No.0011, 2021-10)](algorithm/topics/专题-双指针(滑动窗口).md#盛最多水的容器-leetcode-medium-no0011-2021-10)
 
 </details>
 
@@ -163,10 +163,9 @@ My Code Lab
 
 <details><summary><b> Pytorch Loss <a href="code/README.md#pytorch-loss">¶</a></b></summary>
 
-- [`BaseLoss`: Loss 基类](code/README.md#baseloss-loss-基类)
-- [`ContrastiveLoss`: 对比损失（可自定义距离函数，默认为欧几里得距离）](code/README.md#contrastiveloss-对比损失可自定义距离函数默认为欧几里得距离)
-- [`TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习](code/README.md#tripletloss-triplet-损失常用于无监督学习few-shot-学习)
+- [`ContrastiveLoss`: 对比损失（默认距离函数为欧几里得距离）](code/README.md#contrastiveloss-对比损失默认距离函数为欧几里得距离)
 - [`CrossEntropyLoss`: 交叉熵](code/README.md#crossentropyloss-交叉熵)
+- [`TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习](code/README.md#tripletloss-triplet-损失常用于无监督学习few-shot-学习)
 
 </details>
 

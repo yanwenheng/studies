@@ -25,29 +25,23 @@ DEFAULT_SAVE_DIR = os.path.join(os.environ['HOME'], 'out/models')
 
 ARGS_TYPE = Union[Dict, Namespace]
 
-# ** 不建议直接使用 _XXX 常量，而是调用相应方法 **
-_DEFAULT_DEVICE: str = 'cuda' if torch.cuda.is_available() else 'cpu'
-""" 对应方法 default_device() """
+_DEFAULT_DEVICE_STR: str = '_DEFAULT_DEVICE'
 
 
 def default_device() -> str:
     """
     Examples:
-        >>> assert default_device() == 'cuda' if torch.cuda.is_available() else 'cpu'
-
-        # 通过以下方式全局修改 _DEFAULT_DEVICE
-        >>> from my.pytorch.pipeline import config
-        >>> from my.pytorch.pipeline.config import default_device  # doctest 时必须加这句，否则 setter 并不会生效
-        >>> setattr(config, '_DEFAULT_DEVICE', 'xxx')
-        >>> default_device()
-        'xxx'
-        >>> config._DEFAULT_DEVICE = 'cpu'  # 还原回来，不然 doctest 可能会报错
         >>> default_device()
         'cpu'
-
+        >>> set_device('xxx')
+        >>> default_device()
+        'xxx'
+        >>> set_device_cpu()
+        >>> default_device()
+        'cpu'
     """
     # return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    return _DEFAULT_DEVICE
+    return os.environ.get(_DEFAULT_DEVICE_STR, 'cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def set_device_cpu():
@@ -69,8 +63,9 @@ def set_device(device: str):
         'aaa'
 
     """
-    global _DEFAULT_DEVICE
-    _DEFAULT_DEVICE = device
+    # global _DEFAULT_DEVICE
+    # _DEFAULT_DEVICE = device
+    os.environ[_DEFAULT_DEVICE_STR] = device
 
 
 _MAX_GPU_BATCH_SIZE = 16

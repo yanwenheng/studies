@@ -15,107 +15,23 @@ from typing import List, Dict, Iterable, Union, Optional
 from collections import defaultdict
 from sortedcollections import OrderedSet
 
-import torch
 import numpy as np
 
-from torch import Tensor
-from torch.utils.data import Dataset, TensorDataset
 from torch.utils.data import DataLoader
 
 from my.python.utils import get_logger, set_default, get_attr, set_attr
 # TODO: 返回值替换成 ArrayFields
-from my.python.custom import ArrayFields
 from my.nlp.bert_tokenizer import tokenizer as _tokenizer
-from my.pytorch.pipeline.config import DEFAULT_ARGS, ARGS_TYPE, default_device
+from my.pytorch.data_utils.ToyDataLoader import ToyDataLoader
+from my.pytorch.train.config import TrainConfig, DEFAULT_ARGS, ARGS_TYPE
 
 logger = get_logger(__name__)
 
 __all__ = [
-    'DictTensorDataset',
-    'ToyDataLoader',
     'Datasets',
     'BertDatasets',
     'NerBertDatasets'
 ]
-
-
-class DictTensorDataset(Dataset[Dict[str, Tensor]]):
-    """@Pytorch Utils
-    字典形式的 Dataset
-
-    使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
-
-    Examples:
-        >>> x = y = torch.as_tensor([1,2,3,4,5])
-        >>> ds = DictTensorDataset(x=x, y=y)
-        >>> len(ds)
-        5
-        >>> dl = DataLoader(ds, batch_size=3)
-        >>> for batch in dl: print(batch)
-        {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
-        {'x': tensor([4, 5]), 'y': tensor([4, 5])}
-
-    References:
-        - torch.utils.data.TensorDataset
-        - huggingface/datasets.arrow_dataset.Dataset
-    """
-
-    tensors_dict: Dict[str, Tensor]
-
-    def __init__(self, **tensors_dict: Tensor) -> None:
-        """
-        Args:
-            **tensors_dict:
-        """
-        assert len(np.unique([tensor.shape[0] for tensor in tensors_dict.values()])) == 1, \
-            "Size mismatch between tensors"
-        self.tensors_dict = tensors_dict
-
-    def __getitem__(self, index) -> Dict[str, Tensor]:
-        """"""
-        return {name: tensor[index] for name, tensor in self.tensors_dict.items()}
-
-    def __len__(self):
-        return list(self.tensors_dict.values())[0].shape[0]
-
-
-class ToyDataLoader(DataLoader):
-    """@Pytorch Utils
-    一个简单的 DataLoader
-
-    简化中间创建 Dataset 的过程，直接从数据（tensor/list/ndarray）创建 DataLoader
-
-    Examples:
-        >>> x = y = torch.as_tensor([1,2,3,4,5])
-
-        # 返回 tuple
-        >>> dl = ToyDataLoader([x, y], batch_size=3, shuffle=False)
-        >>> for batch in dl: print(batch)
-        [tensor([1, 2, 3]), tensor([1, 2, 3])]
-        [tensor([4, 5]), tensor([4, 5])]
-
-        # 返回 dict
-        >>> dl = ToyDataLoader({'x': x, 'y': y}, batch_size=3, shuffle=False)
-        >>> for batch in dl: print(batch)
-        {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
-        {'x': tensor([4, 5]), 'y': tensor([4, 5])}
-    """
-
-    def __init__(self, dataset: Iterable,
-                 batch_size=16, shuffle=True, device=None, **kwargs):
-        """"""
-        if device is None:
-            device = default_device()
-
-        if isinstance(dataset, dict):
-            dataset = {name: torch.as_tensor(tensor).to(device) for name, tensor in dataset.items()}
-            dataset = DictTensorDataset(**dataset)
-        else:
-            dataset = [torch.as_tensor(tensor).to(device) for tensor in list(dataset)]
-            dataset = TensorDataset(*dataset)
-
-        # sampler = RandomSampler(dataset) if shuffle else None
-        super(ToyDataLoader, self).__init__(dataset, batch_size=batch_size, shuffle=shuffle, **kwargs)
 
 
 class Datasets(metaclass=abc.ABCMeta):
@@ -374,7 +290,6 @@ class BertDatasets(Datasets):
         """
         Examples:
             # 示例1：单文件，根据比例划分训练集和测试集（默认返回 dict_batch 格式）
-            >>> from my.pytorch.pipeline.config import TrainConfig
             >>> fp = os.path.join(os.path.dirname(__file__), '_data/one_train.txt')
             >>> _args = TrainConfig(src_train=fp, batch_size=2, val_percent=0.2, max_len=16, shuffle=False)
             >>> dl = BertDatasets(_args, num_examples=0)
@@ -451,7 +366,6 @@ class NerBertDatasets(BertDatasets):
     def __init__(self, args: dict, outer_label='O', **kwargs):
         """
         Examples:
-            >>> from my.pytorch.pipeline.config import TrainConfig
             >>> fp = os.path.join(os.path.dirname(__file__), '_data/ner_train.txt')
             >>> _args = TrainConfig(src_train=fp, batch_size=2, val_percent=0.1, max_len=16, shuffle=False)
             >>> dl = NerBertDatasets(_args, num_examples=0)
@@ -512,7 +426,7 @@ class NerBertDatasets(BertDatasets):
 def _test():
     """"""
     doctest.testmod()
-    from my.pytorch.pipeline.config import TrainConfig
+    from my.pytorch.train.config import TrainConfig
 
     def _test_bert_data_loader_helper():
         """"""

@@ -21,7 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F  # noqa
 
 from my.pytorch.backend.distance_fn import euclidean_distance_nosqrt
-from my.pytorch.loss import BaseLoss
+from my.pytorch.loss.base import BaseLoss
 
 __all__ = [
     'TripletLoss'
