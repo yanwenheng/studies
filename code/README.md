@@ -64,6 +64,8 @@ My Code Lab
 ### `ImageCheck`: 图片完整性检查
 > [source](my/vision/image_check.py#L21)
 
+<details><summary><b> Intro & Example </b></summary>
+
 ```python
 图片完整性检查
 
@@ -73,8 +75,13 @@ Examples:
 
 ```
 
+</details>
+
+
 ### `get_real_ext`: 获取图像文件的真实后缀
 > [source](my/vision/image_utils.py#L21)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 获取图像文件的真实后缀
@@ -91,10 +98,15 @@ Returns:
     如果当前文件不是图片，则 ext_real 为 None
 ```
 
+</details>
+
+
 ## NLP Utils
 
 ### `BertTokenizer`: Bert 分词器
 > [source](my/nlp/bert_tokenizer.py#L233)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 Bert 分词器
@@ -120,8 +132,13 @@ Examples:
 
 ```
 
+</details>
+
+
 ### `split`: 将数据按比例切分
 > [source](my/nlp/data_utils.py#L54)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 将数据按比例切分
@@ -145,8 +162,13 @@ Returns:
     (a_train, b_train, c_train), (a_val, b_train, c_train) = split(a, b, c)
 ```
 
+</details>
+
+
 ### `ner_result_parse`: NER 结果解析（基于 BIO 格式）
 > [source](my/nlp/ner_utils.py#L22)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 NER 结果解析（基于 BIO 格式）
@@ -183,10 +205,15 @@ Returns:
     example: [['小明', 'PER', (3, 4)], ['北京', 'LOC', (8, 9)]]
 ```
 
+</details>
+
+
 ## Python Utils
 
 ### `simple_argparse`: 一个简化版 argparse
 > [source](my/python/custom/simple_argparse.py#L25)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 一个简化版 argparse
@@ -213,10 +240,15 @@ Examples:
 
 ```
 
+</details>
+
+
 ## Python 自定义数据结构
 
 ### `ArrayDict`: 数组字典，支持 slice
 > [source](my/python/custom/special_dict.py#L39)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 数组字典，支持 slice
@@ -251,8 +283,13 @@ Examples:
 
 ```
 
+</details>
+
+
 ### `ValueArrayDict`: 数组字典，支持 slice，且操作 values
 > [source](my/python/custom/special_dict.py#L100)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 数组字典，支持 slice，且操作 values
@@ -275,8 +312,13 @@ Examples:
 
 ```
 
+</details>
+
+
 ### `BunchDict`: 基于 dict 实现 Bunch 模式
 > [source](my/python/custom/special_dict.py#L166)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 基于 dict 实现 Bunch 模式
@@ -308,8 +350,13 @@ References:
     - bunch（pip install bunch）
 ```
 
+</details>
+
+
 ### `ConfigDict`: 配置字典（基于 BunchDict）
 > [source](my/python/custom/special_dict.py#L248)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 配置字典（基于 BunchDict）
@@ -353,17 +400,27 @@ Examples:
 
 ```
 
+</details>
+
+
 ## Pytorch Loss
 
 ### `ContrastiveLoss`: 对比损失（默认距离函数为欧几里得距离）
 > [source](my/pytorch/loss/contrastive.py#L49)
 
+<details><summary><b> Intro & Example </b></summary>
+
 ```python
 对比损失（默认距离函数为欧几里得距离）
 ```
 
+</details>
+
+
 ### `CrossEntropyLoss`: 交叉熵
 > [source](my/pytorch/loss/cross_entropy.py#L214)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 交叉熵
@@ -381,8 +438,13 @@ Examples:
 
 ```
 
+</details>
+
+
 ### `TripletLoss`: Triplet 损失，常用于无监督学习、few-shot 学习
 > [source](my/pytorch/loss/triplet.py#L77)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 Triplet 损失，常用于无监督学习、few-shot 学习
@@ -406,24 +468,39 @@ Examples:
 
 ```
 
+</details>
+
+
 ## Pytorch Models
 
 ### `DualNet`: 双塔结构
 > [source](my/studies/code/pytorch_models/modules/advance/dual.py#L25)
 
+<details><summary><b> Intro & Example </b></summary>
+
 ```python
 双塔结构
 ```
 
+</details>
+
+
 ### `SiameseNet`: 孪生网络，基于双塔结构
 > [source](my/studies/code/pytorch_models/modules/advance/siamese.py#L27)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 孪生网络，基于双塔结构
 ```
 
+</details>
+
+
 ### `SimCSE`: SimCSE
 > [source](my/studies/code/pytorch_models/modules/advance/sim_cse.py#L30)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 SimCSE
@@ -431,8 +508,13 @@ SimCSE
 References: https://github.com/princeton-nlp/SimCSE
 ```
 
+</details>
+
+
 ### `Bert`: Bert by Pytorch
 > [source](my/studies/code/pytorch_models/modules/transformer/bert.py#L136)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 Bert by Pytorch
@@ -461,10 +543,15 @@ Examples:
     >>> assert torch.allclose(torch.cat(o_pt.hidden_states), torch.cat(o_my[-1]), atol=1e-5)
 ```
 
+</details>
+
+
 ## Pytorch Utils
 
 ### `DictTensorDataset`: 字典形式的 Dataset
 > [source](my/pytorch/data_utils/DictTensorDataset.py#L31)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 字典形式的 Dataset
@@ -486,8 +573,13 @@ References:
     - huggingface/datasets.arrow_dataset.Dataset
 ```
 
+</details>
+
+
 ### `ToyDataLoader`: 一个简单的 DataLoader
 > [source](my/pytorch/data_utils/ToyDataLoader.py#L31)
+
+<details><summary><b> Intro & Example </b></summary>
 
 ```python
 一个简单的 DataLoader
@@ -509,3 +601,5 @@ Examples:
     {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
     {'x': tensor([4, 5]), 'y': tensor([4, 5])}
 ```
+
+</details>
