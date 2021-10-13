@@ -310,9 +310,11 @@ class CodeReadme:
 
             block = f'### {self.summary}\n'
             block += f'> [source]({os.path.join(prefix, self.module_path)}#L{self.line_no})\n\n'
+            block += f'<details><summary><b> Intro & Example </b></summary>\n\n'
             block += '```python\n'
             block += f'{self.content}'
-            block += '```'
+            block += '```\n\n'
+            block += '</details>\n'
 
             return block
 
