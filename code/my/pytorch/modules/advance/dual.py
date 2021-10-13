@@ -15,7 +15,7 @@ from typing import Callable
 from torch import nn as nn
 
 from my.pytorch.backend.distance_fn import cosine_distance
-from my.pytorch.modules.loss import ContrastiveLoss
+from my.pytorch.loss.ContrastiveLoss import ContrastiveLoss
 
 __all__ = [
     'DualNet'

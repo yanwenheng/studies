@@ -15,7 +15,7 @@ References:
     - [PyTorch练手项目四：孪生网络（Siamese Network） - 天地辽阔 - 博客园](https://www.cnblogs.com/inchbyinch/p/12116339.html)
 """
 
-from my.pytorch.modules.loss import ContrastiveLoss
+from my.pytorch.loss.ContrastiveLoss import ContrastiveLoss
 from my.pytorch.modules.advance.dual import DualNet
 from my.pytorch.backend.distance_fn import euclidean_distance
 

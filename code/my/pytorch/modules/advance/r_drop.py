@@ -8,17 +8,11 @@ Author: huayang
 Subject:
 
 """
-import os
-import sys
-import json
 import doctest
-
-from typing import *
-from collections import defaultdict
 
 import torch.nn as nn
 
-from my.pytorch.modules.loss import RDropLoss
+from my.pytorch.loss.RDropLoss import RDropLoss
 
 
 class RDrop(nn.Module):

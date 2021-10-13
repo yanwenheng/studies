@@ -12,7 +12,7 @@ Subject:
 """
 from my.pytorch.backend.distance_fn import euclidean_distance_nosqrt
 from my.pytorch.modules import EncoderWrapper
-from my.pytorch.modules.loss import TripletLoss
+from my.pytorch.loss.TripletLoss import TripletLoss
 
 
 class TripletNet(EncoderWrapper):
