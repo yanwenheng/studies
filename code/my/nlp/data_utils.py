@@ -21,6 +21,13 @@ __all__ = [
 ]
 
 
+def shuffle(rows, random_seed=None):
+    """"""
+    rs = np.random.RandomState(random_seed)
+    rs.shuffle(rows)  # in-place
+    return rows
+
+
 def safe_indexing(x, indices=None):
     """
     Return items or rows from X using indices.

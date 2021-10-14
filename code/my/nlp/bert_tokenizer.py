@@ -284,17 +284,17 @@ class BertTokenizer(object):
         self._truncate(tokens_txt1, tokens_txt2, max_len)
         tokens, len_txt1, len_txt2 = self._pack(tokens_txt1, tokens_txt2)
 
-        token_id = self.convert_tokens_to_ids(tokens)
-        token_type_id = [0] * len_txt1 + [1] * len_txt2
-        mask = [1] * (len_txt1 + len_txt2)
+        token_ids = self.convert_tokens_to_ids(tokens)
+        token_type_ids = [0] * len_txt1 + [1] * len_txt2
+        masks = [1] * (len_txt1 + len_txt2)
 
         if max_len is not None:
             pad_len = max_len - len_txt1 - len_txt2
-            token_id += [self._pad_index] * pad_len
-            token_type_id += [0] * pad_len
-            mask += [0] * pad_len
+            token_ids += [self._pad_index] * pad_len
+            token_type_ids += [0] * pad_len
+            masks += [0] * pad_len
 
-        return token_id, token_type_id, mask
+        return token_ids, token_type_ids, masks
 
     def batch_encode(self, seqs, max_len, convert_fn=None):
         """

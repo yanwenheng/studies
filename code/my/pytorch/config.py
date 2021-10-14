@@ -15,10 +15,12 @@ import doctest
 
 from argparse import Namespace
 from typing import Union, Dict
+from dataclasses import dataclass
 
 import torch
 
-from my.python import ConfigDict, get_time_string
+from my.python.custom import ConfigDict
+from my.python.utils import get_time_string
 
 DEFAULT_NO_DECAY_PARAMS = ('bias', 'LayerNorm.weight', 'layer_norm.weight', 'ln.weight')
 DEFAULT_SAVE_DIR = os.path.join(os.environ['HOME'], 'out/models')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 """
-Time: 2021-10-13 4:21 下午
+Time: 2021-10-14 3:54 下午
 
 Author: huayang
 
@@ -15,17 +15,29 @@ import doctest
 
 from typing import *
 from collections import defaultdict
-from typing import Iterable
+from typing import Iterable, Dict
 
+import numpy as np
 import torch
-from torch.utils.data import DataLoader, TensorDataset
+from torch import Tensor
+from torch.utils.data import DataLoader, TensorDataset, Dataset
 
-from my.pytorch.data_utils.DictTensorDataset import DictTensorDataset
-from my.pytorch.train.config import default_device
+from my.pytorch.config import default_device
 
 __all__ = [
-    'ToyDataLoader'
+    'ToyDataLoader',
+    'DictTensorDataset'
 ]
+
+
+def _test():
+    """"""
+    doctest.testmod()
+
+
+if __name__ == '__main__':
+    """"""
+    _test()
 
 
 class ToyDataLoader(DataLoader):
@@ -67,11 +79,43 @@ class ToyDataLoader(DataLoader):
         super(ToyDataLoader, self).__init__(dataset, batch_size=batch_size, shuffle=shuffle, **kwargs)
 
 
-def _test():
-    """"""
-    doctest.testmod()
+class DictTensorDataset(Dataset[Dict[str, Tensor]]):
+    """@Pytorch Utils
+    字典形式的 Dataset
 
+    使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
 
-if __name__ == '__main__':
-    """"""
-    _test()
+    Examples:
+        >>> x = y = torch.as_tensor([1,2,3,4,5])
+        >>> ds = DictTensorDataset(x=x, y=y)
+        >>> len(ds)
+        5
+        >>> dl = DataLoader(ds, batch_size=3)
+        >>> for batch in dl: print(batch)
+        {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
+        {'x': tensor([4, 5]), 'y': tensor([4, 5])}
+        >>> len(dl)
+        2
+
+    References:
+        - torch.utils.data.TensorDataset
+        - huggingface/datasets.arrow_dataset.Dataset
+    """
+
+    tensors_dict: Dict[str, Tensor]
+
+    def __init__(self, **tensors_dict: Tensor) -> None:
+        """
+        Args:
+            **tensors_dict:
+        """
+        assert len(np.unique([tensor.shape[0] for tensor in tensors_dict.values()])) == 1, \
+            "Size mismatch between tensors"
+        self.tensors_dict = tensors_dict
+
+    def __getitem__(self, index) -> Dict[str, Tensor]:
+        """"""
+        return {name: tensor[index] for name, tensor in self.tensors_dict.items()}
+
+    def __len__(self):
+        return next(iter(self.tensors_dict.values())).shape[0]
