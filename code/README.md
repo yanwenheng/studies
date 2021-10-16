@@ -550,7 +550,7 @@ Examples:
 ## Pytorch Utils
 
 ### `ToyDataLoader`: 一个简单的 DataLoader
-> [source](my/pytorch/train/data_utils.py#L38)
+> [source](my/pytorch/train/data_utils.py#L39)
 
 <details><summary><b> Intro & Example </b></summary>
 
@@ -579,7 +579,7 @@ Examples:
 
 
 ### `DictTensorDataset`: 字典形式的 Dataset
-> [source](my/pytorch/train/data_utils.py#L77)
+> [source](my/pytorch/train/data_utils.py#L93)
 
 <details><summary><b> Intro & Example </b></summary>
 
@@ -609,7 +609,7 @@ References:
 
 
 ### `Trainer`: 一个简单的 Pytorch Trainer
-> [source](my/pytorch/train/trainer.py#L47)
+> [source](my/pytorch/train/trainer.py#L48)
 
 <details><summary><b> Intro & Example </b></summary>
 
