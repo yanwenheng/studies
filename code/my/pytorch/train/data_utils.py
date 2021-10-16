@@ -13,7 +13,7 @@ import doctest
 import os
 from collections import defaultdict
 
-from typing import Iterable, Dict, Union, List, Optional
+from typing import *
 
 import numpy as np
 import torch
@@ -24,6 +24,7 @@ from torch.utils.data import DataLoader, TensorDataset, Dataset
 from my.nlp import tokenizer as _tokenizer
 from my.python import get_logger, get_attr, set_default, set_attr
 
+from my.pytorch.utils import apply_to
 from my.pytorch.train.config_utils import TrainConfig, default_device, ARGS_TYPE, DEFAULT_ARGS
 
 __all__ = [
@@ -72,6 +73,21 @@ class ToyDataLoader(DataLoader):
 
         # sampler = RandomSampler(dataset) if shuffle else None
         super(ToyDataLoader, self).__init__(dataset, batch_size=batch_size, shuffle=shuffle, **kwargs)
+
+
+# class DataLoaderDeviceWrapper(DataLoader):
+#     """"""
+#     device: str
+#     data_loader: DataLoader
+#
+#     def __call__(self, data_loader, device):
+#         """"""
+#         self.data_loader = data_loader
+#         self.device = device
+#
+#     def __iter__(self):
+#         for batch in self.data_loader:
+#             yield apply_to(batch, self.device)
 
 
 class DictTensorDataset(Dataset[Dict[str, Tensor]]):
@@ -583,7 +599,7 @@ def _test():
         assert b[0][1].numpy().tolist()[-5:] == [1266, 776, 102, 0, 0]  # [北，京，SEP，0，0]
         logger.info(f'-- {log_n} End --\n')
 
-    _test_bert_data_loader_helper()
+    # _test_bert_data_loader_helper()
 
 
 if __name__ == '__main__':

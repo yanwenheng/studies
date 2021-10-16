@@ -32,6 +32,7 @@ from my.pytorch.train.config_utils import DEFAULT_ARGS, ARGS_TYPE
 from my.pytorch.train.callback import Callback, ProgressbarCallback, ModelSaveCallback
 from my.pytorch.train.optimizer import get_opt_by_name
 from my.pytorch.train.scheduler import get_linear_schedule_with_warmup
+# from my.pytorch.train.accelerator import SimpleAccelerator
 
 logger = get_logger()
 
@@ -90,14 +91,12 @@ class Trainer:
 
         if accelerate_available and accelerator is None:
             accelerator = Accelerator()
-        self._accelerator = accelerator
-
-        if self._accelerator is not None:
-            device = self._accelerator.device
-            set_attr(args, 'device', device)
+            device = accelerator.device
+            set_attr(args, 'device', device.type)
         else:
             device = set_default(args, 'device', DEFAULT_ARGS.device)
-
+            # accelerator = SimpleAccelerator(device)
+        self._accelerator = accelerator
         self.device = device
 
         # 设置参数默认值
@@ -185,8 +184,11 @@ class Trainer:
         self.optimizer = self._init_optimizer(self.params)
         self.scheduler = self._init_scheduler(self.optimizer)
 
+        # self.model, self.data_train, self.optimizer = self._accelerator.prepare(
+        #     self.model, self.data_train, self.optimizer
+        # )
+
         if self._accelerator is not None:
-            args.device = self._accelerator.device.type
             self.model, self.data_train, self.optimizer = self._accelerator.prepare(
                 self.model, self.data_train, self.optimizer
             )
@@ -282,6 +284,7 @@ class Trainer:
 
     def _loss_backward(self, loss):
         """"""
+        # self._accelerator.backward(loss)
         if self._accelerator is not None:
             self._accelerator.backward(loss)
         else:

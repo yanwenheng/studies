@@ -28,6 +28,40 @@ from my.pytorch.backend.tensor_op import l2_normalize
 logger = get_logger(__name__)
 
 
+def apply_to(obj, sth):
+    """
+
+    Examples:
+        >>> t = torch.as_tensor([1,2,3])
+        >>> t.dtype
+        torch.int64
+        >>> t = apply_to(t, float)
+        >>> t.dtype
+        torch.float64
+        >>> ts = [torch.as_tensor([1,2,3]), torch.as_tensor([4,5,6])]
+        >>> ts = apply_to(ts, float)
+        >>> [t.dtype for t in ts]
+        [torch.float64, torch.float64]
+        >>> ts = {'a': torch.as_tensor([1]), 'b': [torch.as_tensor([2]), {'c': torch.as_tensor([3])}]}
+        >>> ts = apply_to(ts, float)
+        >>> [ts['a'].dtype, ts['b'][0].dtype, ts['b'][1]['c'].dtype]
+        [torch.float64, torch.float64, torch.float64]
+
+    """
+    if hasattr(obj, "to"):
+        return obj.to(sth)
+    elif isinstance(obj, (List, Tuple)):
+        return type(obj)(apply_to(o, sth) for o in obj)
+    elif isinstance(obj, Mapping):
+        new_obj = [(k, apply_to(v, sth)) for k, v in obj.items()]
+        return type(obj)(new_obj)  # noqa
+    else:
+        raise TypeError(
+            f"Can't apply {apply_to.__name__} on object of type {type(obj)}, "
+            f"only of nested list/tuple/dicts of objects "
+        )
+
+
 def cosine_similarity_dense(x1, x2):
     """ cosine 距离（全连接）
         即 x1 中每个向量与 x2 中每个向量计算 cosine 距离，相当于计算一个 attention 矩阵
