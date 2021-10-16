@@ -54,7 +54,7 @@ My Code Lab
 
 - [`ToyDataLoader`: 一个简单的 DataLoader](#toydataloader-一个简单的-dataloader)
 - [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
-- [`Trainer`: ](#trainer)
+- [`Trainer`: 一个简单的 Pytorch Trainer](#trainer-一个简单的-pytorch-trainer)
 
 </details>
 
@@ -608,13 +608,12 @@ References:
 </details>
 
 
-### `Trainer`: 
+### `Trainer`: 一个简单的 Pytorch Trainer
 > [source](my/pytorch/train/trainer.py#L47)
 
 <details><summary><b> Intro & Example </b></summary>
 
 ```python
-
 一个简单的 Pytorch Trainer
 
 Examples:

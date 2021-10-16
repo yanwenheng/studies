@@ -183,7 +183,7 @@ My Code Lab
 
 - [`ToyDataLoader`: 一个简单的 DataLoader](code/README.md#toydataloader-一个简单的-dataloader)
 - [`DictTensorDataset`: 字典形式的 Dataset](code/README.md#dicttensordataset-字典形式的-dataset)
-- [`Trainer`: ](code/README.md#trainer)
+- [`Trainer`: 一个简单的 Pytorch Trainer](code/README.md#trainer-一个简单的-pytorch-trainer)
 
 </details>
 
