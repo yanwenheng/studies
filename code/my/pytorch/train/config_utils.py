@@ -95,7 +95,6 @@ class TrainConfig(ConfigDict):  # 父类基于 dict
     def __init__(self, **config_items):
         """"""
         # data
-        self.num_gpu: int = 1
         self.batch_size: int = 32
         self.shuffle = True
         self.val_percent = 0.2  # 从训练集中划分验证集的比例（如果没有提供验证集）
@@ -108,13 +107,17 @@ class TrainConfig(ConfigDict):  # 父类基于 dict
         # train
         self.learning_rate: float = 5e-5
         self.weight_decay: float = 0.01
-        self.gpu_batch_size: int = max_gpu_batch_size()
-        if self.batch_size > self.gpu_batch_size:
-            self.num_gradient_accumulation: int = self.batch_size // self.gpu_batch_size  # 梯度累计，模拟更大的 batch_size
+        self.num_gpu: int = 1
+        self.gpu_batch_size: int = 16
+        self.total_gpu_batch_size = self.gpu_batch_size * self.num_gpu
+        if self.batch_size > self.total_gpu_batch_size:
+            num_gradient_accumulation: int = self.batch_size // self.total_gpu_batch_size
         else:
-            self.num_gradient_accumulation = 1
+            num_gradient_accumulation = 1
+        self.num_gradient_accumulation = num_gradient_accumulation
         self.num_train_epochs: int = 3
         self.num_train_steps: int = -1
+        self.val_per_step: int = -1
         self.num_warmup_steps: int = 0
         self.global_step: list = [0]  # int 类型为不可变类型，故使用列表引用类型
         self.optimizer_name = 'AdamW'

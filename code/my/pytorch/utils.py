@@ -11,6 +11,7 @@ Subject: Utils for Pytorch
 import os
 import doctest
 
+from typing import *
 from collections import OrderedDict
 
 import torch

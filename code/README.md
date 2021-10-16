@@ -52,8 +52,9 @@ My Code Lab
 
 <details><summary><b> Pytorch Utils <a href="#pytorch-utils">¶</a></b></summary>
 
-- [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
 - [`ToyDataLoader`: 一个简单的 DataLoader](#toydataloader-一个简单的-dataloader)
+- [`DictTensorDataset`: 字典形式的 Dataset](#dicttensordataset-字典形式的-dataset)
+- [`Trainer`: ](#trainer)
 
 </details>
 
@@ -136,7 +137,7 @@ Examples:
 
 
 ### `split`: 将数据按比例切分
-> [source](my/nlp/data_utils.py#L54)
+> [source](my/nlp/data_utils.py#L61)
 
 <details><summary><b> Intro & Example </b></summary>
 
@@ -548,36 +549,8 @@ Examples:
 
 ## Pytorch Utils
 
-### `DictTensorDataset`: 字典形式的 Dataset
-> [source](my/pytorch/data_utils/DictTensorDataset.py#L31)
-
-<details><summary><b> Intro & Example </b></summary>
-
-```python
-字典形式的 Dataset
-
-使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
-
-Examples:
-    >>> x = y = torch.as_tensor([1,2,3,4,5])
-    >>> ds = DictTensorDataset(x=x, y=y)
-    >>> len(ds)
-    5
-    >>> dl = DataLoader(ds, batch_size=3)
-    >>> for batch in dl: print(batch)
-    {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
-    {'x': tensor([4, 5]), 'y': tensor([4, 5])}
-
-References:
-    - torch.utils.data.TensorDataset
-    - huggingface/datasets.arrow_dataset.Dataset
-```
-
-</details>
-
-
 ### `ToyDataLoader`: 一个简单的 DataLoader
-> [source](my/pytorch/data_utils/ToyDataLoader.py#L31)
+> [source](my/pytorch/train/data_utils.py#L38)
 
 <details><summary><b> Intro & Example </b></summary>
 
@@ -600,6 +573,52 @@ Examples:
     ...     print(batch)
     {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
     {'x': tensor([4, 5]), 'y': tensor([4, 5])}
+```
+
+</details>
+
+
+### `DictTensorDataset`: 字典形式的 Dataset
+> [source](my/pytorch/train/data_utils.py#L77)
+
+<details><summary><b> Intro & Example </b></summary>
+
+```python
+字典形式的 Dataset
+
+使用本类生成 DataLoader 时，可以返回 dict 类型的 batch
+
+Examples:
+    >>> x = y = torch.as_tensor([1,2,3,4,5])
+    >>> ds = DictTensorDataset(x=x, y=y)
+    >>> len(ds)
+    5
+    >>> dl = DataLoader(ds, batch_size=3)
+    >>> for batch in dl: print(batch)
+    {'x': tensor([1, 2, 3]), 'y': tensor([1, 2, 3])}
+    {'x': tensor([4, 5]), 'y': tensor([4, 5])}
+    >>> len(dl)
+    2
+
+References:
+    - torch.utils.data.TensorDataset
+    - huggingface/datasets.arrow_dataset.Dataset
+```
+
+</details>
+
+
+### `Trainer`: 
+> [source](my/pytorch/train/trainer.py#L47)
+
+<details><summary><b> Intro & Example </b></summary>
+
+```python
+
+一个简单的 Pytorch Trainer
+
+Examples:
+    >>> # 参考 code/examples/pytorch/train_ner_bert_crf.py
 ```
 
 </details>

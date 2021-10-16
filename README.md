@@ -181,8 +181,9 @@ My Code Lab
 
 <details><summary><b> Pytorch Utils <a href="code/README.md#pytorch-utils">¶</a></b></summary>
 
-- [`DictTensorDataset`: 字典形式的 Dataset](code/README.md#dicttensordataset-字典形式的-dataset)
 - [`ToyDataLoader`: 一个简单的 DataLoader](code/README.md#toydataloader-一个简单的-dataloader)
+- [`DictTensorDataset`: 字典形式的 Dataset](code/README.md#dicttensordataset-字典形式的-dataset)
+- [`Trainer`: ](code/README.md#trainer)
 
 </details>
 
