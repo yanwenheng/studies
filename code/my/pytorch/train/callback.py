@@ -22,7 +22,6 @@ import torch
 from my.pytorch import train
 from my.python.utils import get_print_json, get_logger
 
-
 logger = get_logger(__name__)
 
 
@@ -37,28 +36,40 @@ class Callback(abc.ABC):
     def __call__(self, trainer):
         self.__init__(trainer)
 
-    def on_train_start(self):
+    def on_before_train(self):
         """"""
 
-    def on_train_end(self):
+    def on_after_train(self):
         """"""
 
-    def on_train_epoch_start(self):
+    def on_before_train_epoch(self):
         """"""
 
-    def on_train_epoch_end(self):
+    def on_after_train_epoch(self):
         """"""
 
-    def on_train_batch_start(self):
+    def on_before_train_batch(self):
         """"""
 
-    def on_train_batch_end(self):
+    def on_after_train_batch(self):
         """"""
 
-    def on_update_gradient_start(self):
+    def on_before_optimizer_step(self):
         """"""
 
-    def on_update_gradient_end(self):
+    def on_after_optimizer_step(self):
+        """"""
+
+    def on_before_eval(self):
+        """"""
+
+    def on_after_eval(self):
+        """"""
+
+    def on_before_test(self):
+        """"""
+
+    def on_after_test(self):
         """"""
 
 
@@ -71,22 +82,23 @@ class ProgressbarCallback(Callback):
         self._w_epoch = len(str(trainer.num_train_epochs))  # epoch 显示宽度
         self._w_step = len(str(trainer.num_train_steps))  # step 显示宽度
 
-    def on_train_batch_end(self):
+    def on_after_train_batch(self):
         """"""
         self._set_progressbar_postfix()
 
-    def on_train_epoch_start(self):
+    def on_before_train_epoch(self):
         """"""
+        self._set_progressbar_postfix()
         self._set_progressbar_description()
 
-    def on_update_gradient_end(self):
+    def on_after_optimizer_step(self):
         """"""
         self._set_progressbar_description()
 
     def _set_progressbar_postfix(self):  # noqa
         """ 在进度条中添加其他信息 """
         trainer = self.trainer
-        trainer.current_batches.set_postfix(loss=trainer.current_batch_loss.item())
+        trainer.current_batches.set_postfix(loss=trainer.loss_item)
 
     def _set_progressbar_description(self):
         """ 更新进度条描述
@@ -105,7 +117,7 @@ class ModelSaveCallback(Callback):
     def __init__(self, trainer):
         super().__init__(trainer)
 
-    def on_train_end(self):
+    def on_after_train(self):
         """"""
         self._save_model()
 

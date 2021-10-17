@@ -609,7 +609,7 @@ References:
 
 
 ### `Trainer`: 一个简单的 Pytorch Trainer
-> [source](my/pytorch/train/trainer.py#L48)
+> [source](my/pytorch/train/trainer.py#L49)
 
 <details><summary><b> Intro & Example </b></summary>
 

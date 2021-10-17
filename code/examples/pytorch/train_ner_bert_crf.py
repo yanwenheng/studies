@@ -34,7 +34,7 @@ def encode_batch(model: nn.Module, batch):
 class ExampleCallback(Callback):
     """"""
 
-    def on_update_gradient_end(self):
+    def on_after_optimizer_step(self):
         T = self.trainer
 
         if not T.global_step % 5 == 0:
@@ -121,7 +121,7 @@ class ExampleCallback(Callback):
 def _test():
     """"""
     args = TrainConfig(src_train=r'data/train_data_100.txt', batch_size=8, val_percent=0, max_len=24)
-    # args.num_gradient_accumulation = 1
+    args.num_gradient_accumulation = 2
     # args.num_train_steps = 20
 
     data = NerBertDatasets(args)
@@ -137,7 +137,7 @@ def _test():
                       forward_wrap=encode_batch,
                       callbacks=[ExampleCallback])
     # trainer._encode_batch = encode_batch
-    trainer.training()
+    trainer.train()
     # train(model, data, args_dt)
     # train(model, data, args_ns)
 
