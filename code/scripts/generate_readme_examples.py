@@ -77,6 +77,8 @@ tag_map = [  # 文件名: tag名
 
 tag_dt = {k: v for v, k in tag_map}
 
+# TODO: 对 `My Code Lab` 下的条目也添加上面的展示标签，和内部标签
+
 
 def hn_line(line, lv=2):
     """"""
@@ -511,6 +513,7 @@ def pipeline():
                  file_out=args.repo_readme_path,
                  sep='\n---\n\n')
     readme = open(args.repo_readme_path, encoding='utf8').read()
+    # TODO: 对比所有存在修改的文档，而不是仅对比主文档
     if readme_old != readme:
         print('DIFF')
     else:
